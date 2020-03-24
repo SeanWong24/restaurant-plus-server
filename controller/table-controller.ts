@@ -31,7 +31,7 @@ export class TableController {
     @QueryParam("occupied") occupied: number,
     @QueryParam("time") time: string
   ) {
-      return Content(await this.tableLogic.open(id, occupied, time) || "");
+    return Content(await this.tableLogic.open(id, occupied, time));
   }
 
   @Put("/reserve")
@@ -40,7 +40,7 @@ export class TableController {
     @QueryParam("occupied") occupied: number,
     @QueryParam("time") time: string
   ) {
-      return Content(await this.tableLogic.reserve(id, occupied, time) || "");
+    return Content(await this.tableLogic.reserve(id, occupied, time));
   }
 
   @Put("/modify")
@@ -57,13 +57,18 @@ export class TableController {
       if (capacity) {
         changeDefinition["capacity"] = capacity;
       }
-      return Content(await this.tableLogic.modify(id, changeDefinition) || "");
+      return Content(await this.tableLogic.modify(id, changeDefinition));
     } else {
       return Content("");
     }
   }
 
-  @Put("/modifyOccupied")
+  @Put("/toggle-availability")
+  async toggleAvailability(@QueryParam("id") id: string) {
+    return await this.tableLogic.toggleAvailability(id);
+  }
+
+  @Put("/modify-occupied")
   async modifyOccupied(
     @QueryParam("id") id: string,
     @QueryParam("occupied") occupied: number
@@ -73,7 +78,7 @@ export class TableController {
       if (occupied) {
         changeDefinition["occupied"] = occupied;
       }
-      return Content(await this.tableLogic.modify(id, changeDefinition) || "");
+      return Content(await this.tableLogic.modify(id, changeDefinition));
     } else {
       return Content("");
     }
@@ -81,24 +86,16 @@ export class TableController {
 
   @Put("/close")
   async close(@QueryParam("id") id: string, @QueryParam("time") time: string) {
-    // TODO implement logic
-    return Content("");
+    return Content(await this.tableLogic.close(id, time));
   }
 
   @Put("/free")
-  async free(@QueryParam("id") id: string, @QueryParam("time") time: string) {
-    // TODO implement logic
-    return Content("");
-  }
-
-  @Put("/disable")
-  async disable(@QueryParam("id") id: string, @QueryParam("time") time: string) {
-    // TODO implement logic
-    return Content("");
+  async free(@QueryParam("id") id: string) {
+    return Content(await this.tableLogic.free(id));
   }
 
   @Delete("")
   async delete(@QueryParam("id") id: string) {
-    return Content(await this.tableLogic.delete(id) || "");
+    return Content(await this.tableLogic.delete(id));
   }
 }

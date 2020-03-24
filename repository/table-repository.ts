@@ -11,7 +11,7 @@ export class TableRepository {
     return this.repository.database?.collection(this.CollectionName);
   }
 
-  constructor(private repository: Repository) { }
+  constructor(private repository: Repository) {}
 
   async addSingle(table: Table) {
     return await this.collection?.insertOne(table);
@@ -37,7 +37,7 @@ export class TableRepository {
 
   async delete(id: string) {
     return await this.collection?.deleteOne(
-      { _id: ObjectId(id)}
+      { _id: ObjectId(id) }
     );
   }
 
@@ -45,5 +45,4 @@ export class TableRepository {
     table.id = (table as any)._id.$oid;
     return table;
   }
-
 }
