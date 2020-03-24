@@ -11,7 +11,7 @@ export class TableRepository {
     return this.repository.database?.collection(this.CollectionName);
   }
 
-  constructor(private repository: Repository) {}
+  constructor(private repository: Repository) { }
 
   async addSingle(table: Table) {
     return await this.collection?.insertOne(table);
@@ -28,8 +28,22 @@ export class TableRepository {
     return tableList?.map(table => this.getTableInstanceWithId(table));
   }
 
+  async modify(id: string, changeDefinition: any) {
+    return await this.collection?.updateOne(
+      { _id: ObjectId(id) },
+      { $set: changeDefinition }
+    );
+  }
+
+  async delete(id: string) {
+    return await this.collection?.deleteOne(
+      { _id: ObjectId(id)}
+    );
+  }
+
   private getTableInstanceWithId(table: Table) {
     table.id = (table as any)._id.$oid;
     return table;
   }
+
 }

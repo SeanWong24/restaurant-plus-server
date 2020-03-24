@@ -31,8 +31,7 @@ export class TableController {
     @QueryParam("occupied") occupied: number,
     @QueryParam("time") time: string
   ) {
-    // TODO implement logic
-    return Content("");
+      return Content(await this.tableLogic.open(id, occupied, time) || "");
   }
 
   @Put("/reserve")
@@ -41,19 +40,43 @@ export class TableController {
     @QueryParam("occupied") occupied: number,
     @QueryParam("time") time: string
   ) {
-    // TODO implement logic
-    return Content("");
+      return Content(await this.tableLogic.reserve(id, occupied, time) || "");
   }
 
   @Put("/modify")
   async modify(
     @QueryParam("id") id: string,
     @QueryParam("name") name: string,
-    @QueryParam("occupied") occupied: number,
-    @QueryParam("capacity") capacity: string
+    @QueryParam("capacity") capacity: number
   ) {
-    // TODO implement logic
-    return Content("");
+    if (id) {
+      const changeDefinition = {} as any;
+      if (name) {
+        changeDefinition["name"] = name;
+      }
+      if (capacity) {
+        changeDefinition["capacity"] = capacity;
+      }
+      return Content(await this.tableLogic.modify(id, changeDefinition) || "");
+    } else {
+      return Content("");
+    }
+  }
+
+  @Put("/modifyOccupied")
+  async modifyOccupied(
+    @QueryParam("id") id: string,
+    @QueryParam("occupied") occupied: number
+  ) {
+    if (id) {
+      const changeDefinition = {} as any;
+      if (occupied) {
+        changeDefinition["occupied"] = occupied;
+      }
+      return Content(await this.tableLogic.modify(id, changeDefinition) || "");
+    } else {
+      return Content("");
+    }
   }
 
   @Put("/close")
@@ -76,7 +99,6 @@ export class TableController {
 
   @Delete("")
   async delete(@QueryParam("id") id: string) {
-    // TODO implement logic
-    return Content("");
+    return Content(await this.tableLogic.delete(id) || "");
   }
 }

@@ -1,6 +1,9 @@
 export class Table {
   static readonly Status = {
-    Available: "Available",
+    Free: "Free",
+    Using: "Using",
+    Reserved: "Reserved",
+    Dirty: "Dirty",
     Unavailable: "Unavailable"
   };
 
