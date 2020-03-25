@@ -65,7 +65,7 @@ export class TableController {
 
   @Put("/toggle-availability")
   async toggleAvailability(@QueryParam("id") id: string) {
-    return await this.tableLogic.toggleAvailability(id);
+    return Content(await this.tableLogic.toggleAvailability(id));
   }
 
   @Put("/modify-occupied")

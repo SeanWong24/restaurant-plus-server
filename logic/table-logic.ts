@@ -75,7 +75,7 @@ export class TableLogic {
 
   async delete(id: string) {
     if (id) {
-      return await this.tableRepository.delete(id) || "";
+      return (await this.tableRepository.delete(id))?.toString() || "";
     }
     return "";
   }
