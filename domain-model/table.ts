@@ -7,7 +7,7 @@ export class Table {
     Unavailable: "Unavailable"
   };
 
-  id: string | undefined;
+  id?: string;
 
   constructor(
     public name: string,
