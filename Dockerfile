@@ -1,4 +1,4 @@
-FROM maxmcd/deno:slim-v0.36.0
+FROM maxmcd/deno:slim
 
 COPY . .
 
