@@ -6,6 +6,8 @@ import {
 } from "https://deno.land/x/alosaur/src/mod.ts";
 import { TableController } from "./controller/table-controller.ts";
 import { Repository } from "./repository/repository.ts";
+import { UserController } from "./controller/user-controller.ts";
+import { MenuController } from "./controller/menu-controller.ts";
 
 container.register<Repository>(
   Repository,
@@ -19,7 +21,11 @@ container.register<Repository>(
 
 // Declare module
 @Area({
-  controllers: [TableController]
+  controllers: [
+    UserController,
+    TableController,
+    MenuController
+  ]
 })
 export class HomeArea {
 }

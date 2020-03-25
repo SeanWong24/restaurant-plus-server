@@ -1,7 +1,7 @@
 export class MenuCategory {
-    id?: string;
+  id?: string;
 
-    constructor(
-        public name: string
-    ) { }
+  constructor(
+    public name: string
+  ) {}
 }
