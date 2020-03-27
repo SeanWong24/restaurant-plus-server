@@ -8,6 +8,8 @@ import { TableController } from "./controller/table-controller.ts";
 import { Repository } from "./repository/repository.ts";
 import { UserController } from "./controller/user-controller.ts";
 import { MenuController } from "./controller/menu-controller.ts";
+import { BillController } from "./controller/bill-controller.ts";
+import { PaymentController } from "./controller/payment-controller.ts";
 
 container.register<Repository>(
   Repository,
@@ -24,7 +26,9 @@ container.register<Repository>(
   controllers: [
     UserController,
     TableController,
-    MenuController
+    MenuController,
+    BillController,
+    PaymentController
   ]
 })
 export class HomeArea {
