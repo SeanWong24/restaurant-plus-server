@@ -11,7 +11,7 @@ export class MenuItem {
     public shortName: string,
     public unitPrice: number,
     public status: string = MenuItem.Status.Unavailable,
-    public category: string = "Other",
+    public categoryId: string = "Other",
     public gstRate: number = 0,
     public pstRate: number = 0,
     public lctRate: number = 0
