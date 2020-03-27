@@ -4,7 +4,8 @@ import {
   Body,
   Post,
   QueryParam,
-  Get
+  Get,
+  Put
 } from "https://deno.land/x/alosaur/src/mod.ts";
 import { Injectable } from "https://deno.land/x/alosaur/src/mod.ts";
 
@@ -12,6 +13,12 @@ import { Injectable } from "https://deno.land/x/alosaur/src/mod.ts";
 @Controller("/user")
 export class UserController {
   constructor() { }
+
+  @Get("")
+  async get(@QueryParam("id") id: string, @QueryParam("token") token: string) {
+    // TODO implement the logic and return the user object or user list
+    return Content("");
+  }
 
   @Post("/login")
   async login(@Body() loginInfo: { type: string, message: string }) {
@@ -31,9 +38,25 @@ export class UserController {
     return Content("");
   }
 
-  @Get("")
-  async get(@QueryParam("id") id: string) {
-    // TODO implement the logic and return the user object
+  @Get("/role")
+  async getRole(@QueryParam("id") id: string, @QueryParam("token") token: string) {
+    // TODO implement the logic and return the role object or role list
+    return Content("");
+  }
+
+  @Post("/role/add")
+  async addRole(@QueryParam("name") name: string, @QueryParam("token") token: string) {
+    // TODO implement the logic
+    return Content("");
+  }
+
+  @Put("/role/modify")
+  async modifyRole(
+    @QueryParam("id") id: string,
+    @QueryParam("name") name: string,
+    @QueryParam("token") token: string
+  ) {
+    // TODO implement the logic
     return Content("");
   }
 }

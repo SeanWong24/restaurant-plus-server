@@ -6,7 +6,7 @@ export class Bill {
 
   id?: string;
   endTime?: string;
-  
+
   billItemIdList: string[] = [];
   paymentIdList: string[] = [];
 
@@ -14,5 +14,5 @@ export class Bill {
     public tableId: string,
     public startTime: string,
     public status: string = Bill.Status.Open
-  ) { }
+  ) {}
 }
