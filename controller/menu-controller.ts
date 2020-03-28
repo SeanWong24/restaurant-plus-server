@@ -53,7 +53,7 @@ export class MenuController {
         return Content(await this.menuLogic.addMenuItem(name, shortName, unitPrice, status, categoryId, gstRate, pstRate, lctRate));
     }
 
-    @Post("/item/modify")
+    @Put("/item/modify")
     async modifyItem(
         @QueryParam("id") id: string,
         @QueryParam("name") name: string,
