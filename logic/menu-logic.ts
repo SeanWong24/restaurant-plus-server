@@ -21,7 +21,8 @@ export class MenuLogic {
     categoryId: string,
     gstRate: number,
     pstRate: number,
-    lctRate: number
+    lctRate: number,
+    imageUrl: string
   ) {
     const newMenuItem = new MenuItem(
       name,
@@ -31,7 +32,8 @@ export class MenuLogic {
       categoryId,
       gstRate,
       pstRate,
-      lctRate
+      lctRate,
+      imageUrl
     );
     return await this.menuItemRepository.addSingle(newMenuItem);
   }

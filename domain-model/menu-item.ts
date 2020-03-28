@@ -14,6 +14,7 @@ export class MenuItem {
     public categoryId: string = "Other",
     public gstRate: number = 0,
     public pstRate: number = 0,
-    public lctRate: number = 0
-  ) {}
+    public lctRate: number = 0,
+    public imageUrl: string = ""
+  ) { }
 }

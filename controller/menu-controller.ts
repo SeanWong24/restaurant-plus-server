@@ -48,9 +48,10 @@ export class MenuController {
         @QueryParam("categoryId") categoryId: string,
         @QueryParam("gstRate") gstRate: number,
         @QueryParam("pstRate") pstRate: number,
-        @QueryParam("lctRate") lctRate: number
+        @QueryParam("lctRate") lctRate: number,
+        @QueryParam("imageUrl") imageUrl: string
     ) {
-        return Content(await this.menuLogic.addMenuItem(name, shortName, unitPrice, status, categoryId, gstRate, pstRate, lctRate));
+        return Content(await this.menuLogic.addMenuItem(name, shortName, unitPrice, status, categoryId, gstRate, pstRate, lctRate, imageUrl));
     }
 
     @Put("/item/modify")
@@ -63,7 +64,8 @@ export class MenuController {
         @QueryParam("categoryId") categoryId: string,
         @QueryParam("gstRate") gstRate: number,
         @QueryParam("pstRate") pstRate: number,
-        @QueryParam("lctRate") lctRate: number
+        @QueryParam("lctRate") lctRate: number,
+        @QueryParam("imageUrl") imageUrl: string
     ) {
         const changeDefinition = {} as any;
         if (id) {
@@ -90,6 +92,9 @@ export class MenuController {
             }
             if (lctRate) {
                 changeDefinition["lctRate"] = lctRate;
+            }
+            if (imageUrl) {
+                changeDefinition["imageUrl"] = (imageUrl === "(null)") ? "" : imageUrl;
             }
         }
         return Content(await this.menuLogic.modifyMenuItem(id, changeDefinition));
