@@ -10,6 +10,7 @@ import { UserController } from "./controller/user-controller.ts";
 import { MenuController } from "./controller/menu-controller.ts";
 import { BillController } from "./controller/bill-controller.ts";
 import { PaymentController } from "./controller/payment-controller.ts";
+import { AnouncementController } from "./controller/anouncement-controller.ts";
 
 container.register<Repository>(
   Repository,
@@ -25,6 +26,7 @@ container.register<Repository>(
 @Area({
   controllers: [
     UserController,
+    AnouncementController,
     TableController,
     MenuController,
     BillController,
