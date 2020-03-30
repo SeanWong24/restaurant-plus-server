@@ -44,14 +44,14 @@ export class MenuController {
         @QueryParam("name") name: string,
         @QueryParam("shortName") shortName: string,
         @QueryParam("unitPrice") unitPrice: number,
-        @QueryParam("status") status: string,
         @QueryParam("categoryId") categoryId: string,
+        @QueryParam("status") status: string,
         @QueryParam("gstRate") gstRate: number,
         @QueryParam("pstRate") pstRate: number,
         @QueryParam("lctRate") lctRate: number,
         @QueryParam("imageUrl") imageUrl: string
     ) {
-        return Content(await this.menuLogic.addMenuItem(name, shortName, unitPrice, status, categoryId, gstRate, pstRate, lctRate, imageUrl));
+        return Content(await this.menuLogic.addMenuItem(name, shortName, unitPrice, categoryId, status, gstRate, pstRate, lctRate, imageUrl));
     }
 
     @Put("/item/modify")

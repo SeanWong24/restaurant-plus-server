@@ -17,19 +17,19 @@ export class MenuLogic {
     name: string,
     shortName: string,
     unitPrice: number,
-    status: string,
     categoryId: string,
-    gstRate: number,
-    pstRate: number,
-    lctRate: number,
-    imageUrl: string
+    status?: string,
+    gstRate?: number,
+    pstRate?: number,
+    lctRate?: number,
+    imageUrl?: string
   ) {
     const newMenuItem = new MenuItem(
       name,
       shortName,
       unitPrice,
-      status,
       categoryId,
+      status,
       gstRate,
       pstRate,
       lctRate,
