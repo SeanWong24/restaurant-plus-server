@@ -3,6 +3,8 @@ export class BillItem {
 
   constructor(
     public menuItemId: string,
-    public quantity: number
+    public billId: string,
+    public quantity: number,
+    public paymentId: string
   ) {}
 }

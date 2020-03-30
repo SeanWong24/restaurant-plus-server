@@ -5,7 +5,6 @@ export class Payment {
     time: string,
     cashPayAmount: number,
     cardPayAmount: number,
-    changeGiven: number,
-    billItemIdList: string[] = []
+    changeGiven: number
   ) {}
 }

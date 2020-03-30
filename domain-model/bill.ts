@@ -7,12 +7,11 @@ export class Bill {
   id?: string;
   endTime?: string;
 
-  billItemIdList: string[] = [];
-  paymentIdList: string[] = [];
-
   constructor(
     public tableId: string,
     public startTime: string,
-    public status: string = Bill.Status.Open
+    public status: string = Bill.Status.Open,
+    public discountAmount: number = 0,
+    public discountPercentage: number = 0
   ) {}
 }
