@@ -1,6 +1,6 @@
 import { Injectable } from "https://deno.land/x/alosaur/src/mod.ts";
 import { ObjectId } from "https://deno.land/x/mongo@v0.4.0/ts/types.ts";
-import { Repository } from "./repository.ts";
+import { RepoConnection } from "./repoConnection.ts";
 import { MenuItem } from "../domain-model/menu-item.ts";
 
 @Injectable()
@@ -11,7 +11,7 @@ export class MenuItemRepository {
     return this.repository.database?.collection(this.CollectionName);
   }
 
-  constructor(private repository: Repository) {}
+  constructor(private repository: RepoConnection) {}
 
   async addSingle(menuItem: MenuItem) {
     return await this.collection?.insertOne(menuItem);

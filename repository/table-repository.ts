@@ -1,8 +1,7 @@
 import { Injectable } from "https://deno.land/x/alosaur/src/mod.ts";
 import { ObjectId } from "https://deno.land/x/mongo@v0.4.0/ts/types.ts";
-import { Repository } from "./repository.ts";
+import { RepoConnection } from "./repoConnection.ts";
 import { Table } from "../domain-model/table.ts";
-
 @Injectable()
 export class TableRepository {
   readonly CollectionName = "tables";
@@ -11,7 +10,7 @@ export class TableRepository {
     return this.repository.database?.collection(this.CollectionName);
   }
 
-  constructor(private repository: Repository) {}
+  constructor(private repository: RepoConnection) {}
 
   async addSingle(table: Table) {
     return await this.collection?.insertOne(table);

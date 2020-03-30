@@ -5,17 +5,17 @@ import {
   CorsBuilder
 } from "https://deno.land/x/alosaur/src/mod.ts";
 import { TableController } from "./controller/table-controller.ts";
-import { Repository } from "./repository/repository.ts";
+import { RepoConnection } from "./repository/repoConnection.ts";
 import { UserController } from "./controller/user-controller.ts";
 import { MenuController } from "./controller/menu-controller.ts";
 import { BillController } from "./controller/bill-controller.ts";
 import { PaymentController } from "./controller/payment-controller.ts";
 import { AnouncementController } from "./controller/anouncement-controller.ts";
 
-container.register<Repository>(
-  Repository,
+container.register<RepoConnection>(
+  RepoConnection,
   {
-    useValue: new Repository(
+    useValue: new RepoConnection(
       "mongodb+srv://ros:ros123456@cluster0-atpei.azure.mongodb.net",
       "test"
     )
