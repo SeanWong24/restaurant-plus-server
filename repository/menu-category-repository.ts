@@ -5,7 +5,7 @@ import { MenuCategory } from "../domain-model/menu-category.ts";
 
 @Injectable()
 export class MenuCategoryRepository {
-  readonly CollectionName = "menu-Categories";
+  readonly CollectionName = "menu-categories";
 
   get collection() {
     return this.repository.database?.collection(this.CollectionName);
