@@ -2,9 +2,9 @@ export class BillItem {
   id?: string;
 
   constructor(
-    public menuItemId: string,
     public billId: string,
+    public menuItemId: string,
     public quantity: number,
-    public paymentId: string
+    public paymentId: string = ""
   ) {}
 }

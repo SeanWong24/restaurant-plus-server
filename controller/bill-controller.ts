@@ -9,32 +9,59 @@ import {
     Body
 } from "https://deno.land/x/alosaur/src/mod.ts";
 import { Injectable } from "https://deno.land/x/alosaur/src/mod.ts";
+import { BillLogic } from "../logic/bill-logic.ts";
 
 @Injectable()
 @Controller("/bill")
 export class BillController {
-    constructor() { }
+    constructor(private billLogic: BillLogic) { }
 
     @Get("")
-    async get(
+    async getBill(
         @QueryParam("id") id: string,
         @QueryParam("tableId") tableId: string,
-        @QueryParam("status") status: string,
+        @QueryParam("status") status: string
     ) {
-        // TODO implement the logic and return the bill or bill list
-        return Content("");
+        const filter = {} as any;
+        if (tableId) {
+            filter["tableId"] = tableId;
+        }
+        if (status) {
+            filter["status"] = status;
+        }
+        return Content(await this.billLogic.getBill(id, filter));
     }
 
     @Post("/add")
-    async add(@QueryParam("tableId") tableId: string) {
-        // TODO implement the logic
-        return Content("");
+    async addBill(
+        @QueryParam("tableId") tableId: string, 
+        @QueryParam("startTime") startTime: string
+    ) {
+        return Content(await this.billLogic.addBill(tableId, startTime));
     }
 
     @Put("/modify")
-    async modify(@QueryParam("id") id: string, @QueryParam("tableId") tableId: string) {
-        // TODO implement the logic
-        return Content("");
+    async modifyBill(
+        @QueryParam("id") id: string,
+        @QueryParam("tableId") tableId: string,
+        @QueryParam("discountAmount") discountAmount: number,
+        @QueryParam("discountPercentage") discountPercentage: number
+    ) {
+        if (id) {
+            const changeDefinition = {} as any;
+            if (tableId) {
+                changeDefinition["tableId"] = tableId;
+            }
+            if (discountAmount) {
+                changeDefinition["discountAmount"] = discountAmount;
+            }
+            if (discountPercentage) {
+                changeDefinition["discountPercentage"] = discountPercentage;
+            }
+            return Content(await this.billLogic.modifyBill(id, changeDefinition));
+        } else {
+            return Content("");
+        }
     }
 
 
@@ -44,8 +71,14 @@ export class BillController {
         @QueryParam("billId") billId: string,
         @QueryParam("hasPaid") hasPaid: boolean
     ) {
-        // TODO implement the logic and return the bill item or bill item list
-        return Content("");
+        const filter = {} as any;
+        if (billId) {
+            filter["billId"] = billId;
+        }
+        if (hasPaid) {
+            filter["hasPaid"] = hasPaid;
+        }
+        return Content(await this.billLogic.getBillItem(id, filter));
     }
 
     @Post("/item/add")
@@ -54,8 +87,7 @@ export class BillController {
         @QueryParam("menuItemId") menuItemId: string,
         @QueryParam("quantity") quantity: number
     ) {
-        // TODO implement the logic
-        return Content("");
+        return Content(await this.billLogic.addBillItem(billId, menuItemId, quantity));
     }
 
     @Put("/item/modify")
@@ -63,7 +95,13 @@ export class BillController {
         @QueryParam("id") id: string,
         @QueryParam("quantity") quantity: number
     ) {
-        // TODO implement the logic
+        if (id) {
+            const changeDefinition = {} as any;
+            if (quantity) {
+                changeDefinition["quantity"] = quantity;
+            }
+            return await this.billLogic.modifyBillItem(id, changeDefinition);
+        }
         return Content("");
     }
 
@@ -71,23 +109,29 @@ export class BillController {
     async deleteItem(
         @QueryParam("id") id: string
     ) {
-        // TODO implement the logic
-        return Content("");
+        if (id) {
+            return Content(await this.billLogic.deleteBillItem(id));
+        } else {
+            return Content("");
+        }
     }
 
     @Put("/item/split")
     async splitItem(
-        @QueryParam("id") id: string,
         @QueryParam("quantity") quantity: number,
         @Body() billItemIdList: string[]
     ) {
-        // TODO implement the logic and return the split bill item list
+        if (quantity && billItemIdList) {
+            return Content(await this.billLogic.splitBillItem(billItemIdList, quantity));
+        }
         return Content("");
     }
 
     @Put("/item/combine")
     async combineItem(@Body() billItemIdList: string[]) {
-        // TODO implement the logic and return the combined bill item list
+        if (billItemIdList) {
+            return Content(await this.billLogic.combineBillItems(billItemIdList));
+        }
         return Content("");
     }
 }

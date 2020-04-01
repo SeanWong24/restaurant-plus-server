@@ -1,7 +1,7 @@
 export class Bill {
   static readonly Status = {
     Open: "Open",
-    Closed: "Open"
+    Closed: "Closed"
   };
 
   id?: string;

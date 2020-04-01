@@ -1,13 +1,13 @@
 import { Injectable } from "https://deno.land/x/alosaur/src/mod.ts";
 import { ObjectId } from "https://deno.land/x/mongo@v0.4.0/ts/types.ts";
 import { RepoConnection } from "./repoConnection.ts";
-import { Table } from "../domain-model/table.ts";
 import { Repository } from "./repository.ts";
+import { BillItem } from "../domain-model/bill-item.ts";
 
 @Injectable()
-export class TableRepository extends Repository<Table> {
+export class BillItemRepository extends Repository<BillItem> {
   constructor(private repoConnection: RepoConnection) {
-    super(repoConnection, "tables");
+    super(repoConnection, "bill-items");
   }
 
   async delete(id: string) {

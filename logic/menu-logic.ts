@@ -42,7 +42,7 @@ export class MenuLogic {
     if (id) {
       return await this.menuItemRepository.getSingle(id);
     } else {
-      return await this.menuItemRepository.getAll();
+      return await this.menuItemRepository.getMultiple();
     }
   }
 
@@ -65,7 +65,7 @@ export class MenuLogic {
     if (id) {
       return await this.menuCategoryRepository.getSingle(id);
     } else {
-      return await this.menuCategoryRepository.getAll();
+      return await this.menuCategoryRepository.getMultiple();
     }
   }
 
