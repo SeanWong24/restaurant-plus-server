@@ -95,9 +95,7 @@ export class TableLogic {
           status: Bill.Status.Open
         };
         const bill = await this.billLogic.getBill(undefined, filter);
-        console.log(bill);
         const targetBillId = bill[0].id;
-        console.log(targetBillId);
         this.billLogic.closeBill(targetBillId, time);
         return await this.tableRepository.modify(id, tableChangeDefinition) || "";
       }
