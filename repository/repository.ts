@@ -1,4 +1,4 @@
-import { ObjectId } from "https://deno.land/x/mongo@v0.4.0/ts/types.ts";
+import { ObjectId } from "https://deno.land/x/mongo/ts/types.ts";
 import { RepoConnection } from "./repoConnection.ts";
 
 export abstract class Repository<T> {

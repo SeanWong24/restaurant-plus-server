@@ -1,4 +1,4 @@
-import * as mongo from "https://deno.land/x/mongo@v0.4.0/mod.ts";
+import * as mongo from "https://deno.land/x/mongo/mod.ts";
 
 export class RepoConnection {
   client: mongo.MongoClient | undefined;
