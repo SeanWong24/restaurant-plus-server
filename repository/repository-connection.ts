@@ -1,6 +1,6 @@
 import * as mongo from "https://deno.land/x/mongo/mod.ts";
 
-export class RepoConnection {
+export class RepositoryConnection {
   client: mongo.MongoClient | undefined;
   database: mongo.Database | undefined;
 

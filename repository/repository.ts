@@ -1,10 +1,10 @@
 import { ObjectId } from "https://deno.land/x/mongo/ts/types.ts";
-import { RepoConnection } from "./repoConnection.ts";
+import { RepositoryConnection } from "./repository-connection.ts";
 
 export abstract class Repository<T> {
   readonly CollectionName: string;
 
-  constructor(private repoConnect: RepoConnection, collectionName: string) {
+  constructor(private repoConnect: RepositoryConnection, collectionName: string) {
     this.CollectionName = collectionName;
   }
 

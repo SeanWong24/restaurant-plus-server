@@ -1,11 +1,11 @@
 import { Injectable } from "https://deno.land/x/alosaur/src/mod.ts";
-import { RepoConnection } from "./repoConnection.ts";
+import { RepositoryConnection } from "./repository-connection.ts";
 import { MenuCategory } from "../domain-model/menu-category.ts";
 import { Repository } from "./repository.ts";
 
 @Injectable()
 export class MenuCategoryRepository extends Repository<MenuCategory> {
-  constructor(private repoConnection: RepoConnection) {
+  constructor(private repoConnection: RepositoryConnection) {
     super(repoConnection, "menu-categories");
   }
 }

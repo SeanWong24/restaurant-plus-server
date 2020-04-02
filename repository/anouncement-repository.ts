@@ -1,13 +1,13 @@
 import { Injectable } from "https://deno.land/x/alosaur/src/mod.ts";
 import { ObjectId } from "https://deno.land/x/mongo/ts/types.ts";
-import { RepoConnection } from "./repoConnection.ts";
+import { RepositoryConnection } from "./repository-connection.ts";
 import { Anouncement } from "../domain-model/anouncement.ts";
 import { Repository } from "./repository.ts";
 
 @Injectable()
 export class AnouncementRepository extends Repository<Anouncement>{
 
-    constructor(private repoConnection: RepoConnection) {
+    constructor(private repoConnection: RepositoryConnection) {
         super(repoConnection, "anouncements");
     }
 
