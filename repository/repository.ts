@@ -34,6 +34,13 @@ export abstract class Repository<T> {
     );
   }
 
+  async modifyMany(idList: string[], changeDefinition: any) {
+    return await this.collection?.updateMany(
+      { _id: {$in: idList.map(id => ObjectId(id))}},
+      { $set: changeDefinition }
+    )
+  }
+
   protected getObjectInstanceWithId(object: any) {
     object.id = object._id.$oid;
     return object;

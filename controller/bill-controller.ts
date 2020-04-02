@@ -34,7 +34,7 @@ export class BillController {
 
     @Post("/add")
     async addBill(
-        @QueryParam("tableId") tableId: string, 
+        @QueryParam("tableId") tableId: string,
         @QueryParam("startTime") startTime: string
     ) {
         return Content(await this.billLogic.addBill(tableId, startTime));
@@ -85,9 +85,10 @@ export class BillController {
     async addItem(
         @QueryParam("billId") billId: string,
         @QueryParam("menuItemId") menuItemId: string,
-        @QueryParam("quantity") quantity: number
+        @QueryParam("quantity") quantity: number,
+        @QueryParam("groupId") groupId: number
     ) {
-        return Content(await this.billLogic.addBillItem(billId, menuItemId, quantity));
+        return Content(await this.billLogic.addBillItem(billId, menuItemId, quantity, groupId));
     }
 
     @Put("/item/modify")
@@ -100,7 +101,18 @@ export class BillController {
             if (quantity) {
                 changeDefinition["quantity"] = quantity;
             }
-            return await this.billLogic.modifyBillItem(id, changeDefinition);
+            return Content(await this.billLogic.modifyBillItem(id, changeDefinition));
+        }
+        return Content("");
+    }
+
+    @Put("/item/group")
+    async groupItem(
+        @QueryParam("groupId") groupId: number,
+        @Body() billItemIdList: string[]
+    ) {
+        if (billItemIdList) {
+            return Content(await this.billLogic.groupBillItem(billItemIdList, groupId));
         }
         return Content("");
     }

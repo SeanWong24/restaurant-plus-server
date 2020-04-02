@@ -3,7 +3,6 @@ import { BillRepository } from "../repository/bill-repository.ts";
 import { BillItemRepository } from "../repository/bill-item-repository.ts";
 import { Bill } from "../domain-model/bill.ts";
 import { BillItem } from "../domain-model/bill-item.ts";
-
 @Injectable()
 export class BillLogic {
     constructor(
@@ -49,17 +48,19 @@ export class BillLogic {
         }
     }
 
-    async addBillItem(billId: string, menuItemId: string, quantity: number) {
+    async addBillItem(billId: string, menuItemId: string, quantity: number, groupId?: number) {
         if (billId && menuItemId && quantity) {
-            const newBillItem = new BillItem(billId, menuItemId, quantity);
-            return await this.billItemRepository.addSingle(newBillItem);
+            if (groupId) {
+                const newBillItem = new BillItem(billId, menuItemId, quantity, groupId);
+                return await this.billItemRepository.addSingle(newBillItem);
+            }
         }
         return "";
     }
 
     async modifyBillItem(id: string, changeDefinition: any) {
         if (id) {
-            return await this.billItemRepository.modify(id, changeDefinition);
+            return await this.billItemRepository.modify(id, changeDefinition) || "";
         }
         return "";
     }
@@ -69,6 +70,17 @@ export class BillLogic {
             return (await this.billItemRepository.delete(id))?.toString() || "";
         }
         return "";
+    }
+
+    async groupBillItem(billItemIdList: string[], groupId: number) {
+        if (groupId <= 0) {
+            const maxGroupId = await this.billItemRepository.findMaxGroupId(billItemIdList);
+            groupId = +maxGroupId + 1;
+        }
+        const changeDefinition = {
+            groupId: groupId
+        };
+        return await this.billItemRepository.modifyMany(billItemIdList, changeDefinition) || "";
     }
 
     async splitBillItem(billItemIdList: string[], quantity: number) {

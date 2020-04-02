@@ -15,4 +15,30 @@ export class BillItemRepository extends Repository<BillItem> {
       { _id: ObjectId(id) },
     );
   }
+
+  async findMaxGroupId(billItemIdList: string[]) {
+    const maxQuery = (await this.collection?.aggregate(
+      [
+        {
+          $group: {
+            _id: null,
+            max: {
+              $max: "$groupId"
+            }
+          }
+        },
+        {
+          $project: {
+            _id: 0,
+            max: 1
+          }
+        }
+      ]
+    ));
+    if (maxQuery) {
+      return maxQuery[0].max;
+    } else {
+      return 1;
+    }
+  }
 }
