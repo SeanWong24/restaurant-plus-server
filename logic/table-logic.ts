@@ -6,7 +6,7 @@ import { Bill } from "../domain-model/bill.ts";
 
 @Injectable()
 export class TableLogic {
-  constructor(private tableRepository: TableRepository, private billLogic: BillLogic) {}
+  constructor(private tableRepository: TableRepository, private billLogic: BillLogic) { }
 
   async add(name: string, capacity: number) {
     const newTable = new Table(name, capacity);
@@ -24,13 +24,14 @@ export class TableLogic {
   async open(id: string, occupied: number) {
     const time = new Date().toISOString();
     if (id && occupied) {
-      if ((await this.get(id) as Table).status === Table.Status.Free) {
+      const table = await this.get(id) as Table;
+      if (table.status === Table.Status.Free || table.status === Table.Status.Reserved) {
         const tableChangeDefinition = {
           occupied,
-          time,
+          startTime: time,
           status: Table.Status.Using
         };
-        
+
         this.billLogic.addBill(id);
         return await this.tableRepository.modify(id, tableChangeDefinition) || "";
       }
@@ -44,7 +45,7 @@ export class TableLogic {
       if ((await this.get(id) as Table).status === Table.Status.Free) {
         const changeDefinition = {
           occupied,
-          time,
+          startTime: time,
           status: Table.Status.Reserved
         };
         return await this.tableRepository.modify(id, changeDefinition) || "";
@@ -62,18 +63,14 @@ export class TableLogic {
 
   async toggleAvailability(id: string) {
     const table = await this.get(id) as Table;
-    if (table.status === Table.Status.Free) {
-      return await this.tableRepository.modify(
-        id,
-        { status: Table.Status.Unavailable }
-      ) || "";
-    } else if (table.status === Table.Status.Unavailable) {
-      return await this.tableRepository.modify(
-        id,
-        { status: Table.Status.Free }
-      ) || "";
+    switch (table.status) {
+      case Table.Status.Free:
+        return await this.disable(id);
+      case Table.Status.Unavailable:
+        return await this.free(id);
+      default:
+        return "";
     }
-    return "";
   }
 
   async delete(id: string) {
@@ -86,12 +83,12 @@ export class TableLogic {
   async close(id: string) {
     if (id) {
       if ((await this.get(id) as Table).status === Table.Status.Using) {
-        const tableChangeDefinition = { 
+        const tableChangeDefinition = {
           status: Table.Status.Dirty,
           occupied: 0,
           time: ""
         };
-        
+
         const filter = {
           tableId: id,
           status: Bill.Status.Open
@@ -107,8 +104,36 @@ export class TableLogic {
 
   async free(id: string) {
     if (id) {
-      if ((await this.get(id) as Table).status === Table.Status.Dirty) {
-        const changeDefinition = { status: Table.Status.Free };
+      const table = await this.get(id) as Table;
+      if (
+        table.status === Table.Status.Dirty ||
+        table.status === Table.Status.Reserved ||
+        table.status === Table.Status.Unavailable
+      ) {
+        const changeDefinition = {
+          status: Table.Status.Free,
+          occupied: 0,
+          startTime: ""
+        };
+        return await this.tableRepository.modify(id, changeDefinition) || "";
+      }
+    }
+    return "";
+  }
+
+  async disable(id: string) {
+    if (id) {
+      const table = await this.get(id) as Table;
+      if (
+        table.status === Table.Status.Dirty ||
+        table.status === Table.Status.Reserved ||
+        table.status === Table.Status.Free
+      ) {
+        const changeDefinition = {
+          status: Table.Status.Unavailable,
+          occupied: 0,
+          startTime: ""
+        };
         return await this.tableRepository.modify(id, changeDefinition) || "";
       }
     }

@@ -92,6 +92,11 @@ export class TableController {
     return Content(await this.tableLogic.free(id));
   }
 
+  @Put("/disable")
+  async disable(@QueryParam("id") id: string) {
+    return Content(await this.tableLogic.disable(id));
+  }
+
   @Delete("")
   async delete(@QueryParam("id") id: string) {
     return Content(await this.tableLogic.delete(id));
