@@ -7,19 +7,19 @@ import {
   Get
 } from "https://deno.land/x/alosaur/src/mod.ts";
 import { Injectable } from "https://deno.land/x/alosaur/src/mod.ts";
+import { PaymentLogic } from "../logic/payment-logic.ts";
 
 @Injectable()
 @Controller("/payment")
 export class PaymentController {
-  constructor() { }
+  constructor(private paymentLogic: PaymentLogic) { }
 
   @Get("")
   async get(
     @QueryParam("id") id: string,
     @QueryParam("billId") billId: string
   ) {
-    // TODO implement the logic and return the payment or payment list
-    return Content("");
+    return Content(await this.paymentLogic.get(id, billId));
   }
 
   @Post("/pay")
@@ -29,9 +29,8 @@ export class PaymentController {
     @QueryParam("cashPayAmount") cashPayAmount: number,
     @QueryParam("cardPayAmount") cardPayAmount: number,
     @QueryParam("changeGiven") changeGiven: number,
-    @QueryParam("billItemIdList") billItemIdList: string[]
+    @Body() billItemIdList: string[]
   ) {
-    // TODO implement the logic
-    return Content("");
+    return Content(await this.paymentLogic.pay(billId, time, cashPayAmount, cardPayAmount, changeGiven, billItemIdList));
   }
 }

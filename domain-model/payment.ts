@@ -2,9 +2,10 @@ export class Payment {
   id?: string;
 
   constructor(
-    time: string,
-    cashPayAmount: number,
-    cardPayAmount: number,
-    changeGiven: number
+    public billId: string,
+    public time: string,
+    public cashPayAmount: number,
+    public cardPayAmount: number,
+    public changeGiven: number
   ) {}
 }
