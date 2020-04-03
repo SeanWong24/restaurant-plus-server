@@ -10,7 +10,8 @@ export class BillLogic {
         private billItemRepository: BillItemRepository
     ) { }
 
-    async addBill(tableId: string, startTime: string) {
+    async addBill(tableId: string) {
+        const startTime = new Date().toISOString();
         const newBill = new Bill(tableId, startTime);
         return await this.billRepository.addSingle(newBill);
     }
@@ -30,7 +31,8 @@ export class BillLogic {
         return "";
     }
 
-    async closeBill(id: string, endTime: string) {
+    async closeBill(id: string) {
+        const endTime = new Date().toISOString();
         if (id) {
             const changeDefinition = {
                 status: Bill.Status.Closed,

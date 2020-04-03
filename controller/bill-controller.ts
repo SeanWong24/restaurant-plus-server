@@ -34,10 +34,9 @@ export class BillController {
 
     @Post("/add")
     async addBill(
-        @QueryParam("tableId") tableId: string,
-        @QueryParam("startTime") startTime: string
+        @QueryParam("tableId") tableId: string
     ) {
-        return Content(await this.billLogic.addBill(tableId, startTime));
+        return Content(await this.billLogic.addBill(tableId));
     }
 
     @Put("/modify")

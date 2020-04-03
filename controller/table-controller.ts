@@ -28,19 +28,17 @@ export class TableController {
   @Put("/open")
   async open(
     @QueryParam("id") id: string,
-    @QueryParam("occupied") occupied: number,
-    @QueryParam("time") time: string
+    @QueryParam("occupied") occupied: number
   ) {
-    return Content(await this.tableLogic.open(id, occupied, time));
+    return Content(await this.tableLogic.open(id, occupied));
   }
 
   @Put("/reserve")
   async reserve(
     @QueryParam("id") id: string,
-    @QueryParam("occupied") occupied: number,
-    @QueryParam("time") time: string
+    @QueryParam("occupied") occupied: number
   ) {
-    return Content(await this.tableLogic.reserve(id, occupied, time));
+    return Content(await this.tableLogic.reserve(id, occupied));
   }
 
   @Put("/modify")
@@ -85,8 +83,8 @@ export class TableController {
   }
 
   @Put("/close")
-  async close(@QueryParam("id") id: string, @QueryParam("time") time: string) {
-    return Content(await this.tableLogic.close(id, time));
+  async close(@QueryParam("id") id: string) {
+    return Content(await this.tableLogic.close(id));
   }
 
   @Put("/free")

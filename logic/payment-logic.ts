@@ -21,7 +21,8 @@ export class PaymentLogic {
         }
     }
 
-    async pay(billId: string, time: string, cashPayAmount: number, cardPayAmount: number, changeGiven: number, billItemIdList: string[]) {
+    async pay(billId: string, cashPayAmount: number, cardPayAmount: number, changeGiven: number, billItemIdList: string[]) {
+        const time = new Date().toISOString();
         const newPayment = new Payment(billId, time, cashPayAmount, cardPayAmount, changeGiven);
         const result = await this.paymentRepository.addSingle(newPayment) as any;
         const paymentId = result["$oid"];

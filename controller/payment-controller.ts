@@ -25,12 +25,11 @@ export class PaymentController {
   @Post("/pay")
   async pay(
     @QueryParam("billId") billId: string,
-    @QueryParam("time") time: string,
     @QueryParam("cashPayAmount") cashPayAmount: number,
     @QueryParam("cardPayAmount") cardPayAmount: number,
     @QueryParam("changeGiven") changeGiven: number,
     @Body() billItemIdList: string[]
   ) {
-    return Content(await this.paymentLogic.pay(billId, time, cashPayAmount, cardPayAmount, changeGiven, billItemIdList));
+    return Content(await this.paymentLogic.pay(billId, cashPayAmount, cardPayAmount, changeGiven, billItemIdList));
   }
 }

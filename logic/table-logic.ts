@@ -21,8 +21,9 @@ export class TableLogic {
     }
   }
 
-  async open(id: string, occupied: number, time: string) {
-    if (id && occupied && time) {
+  async open(id: string, occupied: number) {
+    const time = new Date().toISOString();
+    if (id && occupied) {
       if ((await this.get(id) as Table).status === Table.Status.Free) {
         const tableChangeDefinition = {
           occupied,
@@ -30,15 +31,16 @@ export class TableLogic {
           status: Table.Status.Using
         };
         
-        this.billLogic.addBill(id, time);
+        this.billLogic.addBill(id);
         return await this.tableRepository.modify(id, tableChangeDefinition) || "";
       }
     }
     return "";
   }
 
-  async reserve(id: string, occupied: number, time: string) {
-    if (id && occupied && time) {
+  async reserve(id: string, occupied: number) {
+    const time = new Date().toISOString();
+    if (id && occupied) {
       if ((await this.get(id) as Table).status === Table.Status.Free) {
         const changeDefinition = {
           occupied,
@@ -81,7 +83,7 @@ export class TableLogic {
     return "";
   }
 
-  async close(id: string, time: string) {
+  async close(id: string) {
     if (id) {
       if ((await this.get(id) as Table).status === Table.Status.Using) {
         const tableChangeDefinition = { 
@@ -96,7 +98,7 @@ export class TableLogic {
         };
         const bill = await this.billLogic.getBill(undefined, filter);
         const targetBillId = bill[0].id;
-        this.billLogic.closeBill(targetBillId, time);
+        this.billLogic.closeBill(targetBillId);
         return await this.tableRepository.modify(id, tableChangeDefinition) || "";
       }
     }

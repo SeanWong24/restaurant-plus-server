@@ -15,11 +15,13 @@ export class AnouncementLogic {
     }
 
     async add(anouncement: Anouncement) {
+        anouncement.timeCreated = new Date().toISOString();
         return await this.anouncementRepository.addSingle(anouncement);
     }
 
     async modify(id: string, changeDefinition: any) {
         if (id) {
+            delete changeDefinition.timeCreated;
             return await this.anouncementRepository.modify(id, changeDefinition) || "";
         }
         return "";
