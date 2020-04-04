@@ -63,6 +63,13 @@ export class BillController {
         }
     }
 
+    @Put("/close")
+    async closeBill(
+        @QueryParam("id") id: string
+    ) {
+        return Content(await this.billLogic.closeBill(id) || "");
+    }
+
 
     @Get("/item")
     async getItem(

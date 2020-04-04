@@ -83,11 +83,6 @@ export class TableLogic {
   async close(id: string) {
     if (id) {
       if ((await this.get(id) as Table).status === Table.Status.Using) {
-        const tableChangeDefinition = {
-          status: Table.Status.Dirty,
-          occupied: 0,
-          time: ""
-        };
 
         const filter = {
           tableId: id,
@@ -95,8 +90,15 @@ export class TableLogic {
         };
         const bill = await this.billLogic.getBill(undefined, filter);
         const targetBillId = bill[0].id;
-        this.billLogic.closeBill(targetBillId);
-        return await this.tableRepository.modify(id, tableChangeDefinition) || "";
+        const closeBillResult = await this.billLogic.closeBill(targetBillId);
+        if (closeBillResult != "") {
+          const tableChangeDefinition = {
+            status: Table.Status.Dirty,
+            occupied: 0,
+            time: ""
+          };
+          return await this.tableRepository.modify(id, tableChangeDefinition) || "";
+        }
       }
     }
     return "";

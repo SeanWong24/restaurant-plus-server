@@ -34,15 +34,19 @@ export class BillLogic {
     async closeBill(id: string) {
         const endTime = new Date().toISOString();
         if (id) {
-            const changeDefinition = {
-                status: Bill.Status.Closed,
-                endTime: endTime
-            };
-            return await this.billRepository.modify(id, changeDefinition);
+            const result = await this.getBillItem(undefined, id, "false");
+            if (Object.keys(result).length == 0) {
+                const changeDefinition = {
+                    status: Bill.Status.Closed,
+                    endTime: endTime
+                };
+                return await this.billRepository.modify(id, changeDefinition);
+            }
         }
+        return "";
     }
 
-    async getBillItem(id: string, billId?: string, hasPaid?: string) {
+    async getBillItem(id?: string, billId?: string, hasPaid?: string) {
         if (id) {
             return await this.billItemRepository.getSingle(id);
         } else {
