@@ -42,10 +42,19 @@ export class BillLogic {
         }
     }
 
-    async getBillItem(id: string, filter?: any) {
+    async getBillItem(id: string, billId?: string, hasPaid?: string) {
         if (id) {
             return await this.billItemRepository.getSingle(id);
         } else {
+            const filter = {} as any;
+            if (billId) {
+                filter["billId"] = billId;
+            }
+            if (hasPaid == "True") {
+                filter["paymentId"] = {$ne: ""};
+            } else {
+                filter["paymentId"] = "";
+            }
             return await this.billItemRepository.getMultiple(filter);
         }
     }

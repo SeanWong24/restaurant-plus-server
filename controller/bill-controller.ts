@@ -70,14 +70,7 @@ export class BillController {
         @QueryParam("billId") billId: string,
         @QueryParam("hasPaid") hasPaid: boolean
     ) {
-        const filter = {} as any;
-        if (billId) {
-            filter["billId"] = billId;
-        }
-        if (hasPaid) {
-            filter["hasPaid"] = hasPaid;
-        }
-        return Content(await this.billLogic.getBillItem(id, filter));
+        return Content(await this.billLogic.getBillItem(id, billId, hasPaid));
     }
 
     @Post("/item/add")
