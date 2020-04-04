@@ -127,7 +127,7 @@ export class BillLogic {
                 if (menuItemId != oldBillItem.menuItemId) {
                     return "";
                 }
-                totalQuantity += oldBillItem.quantity;
+                totalQuantity += +oldBillItem.quantity;
             }
             if (billId != "" && menuItemId != "" && totalQuantity > 0) {
                 const finalBillItem = new BillItem(billId, menuItemId, totalQuantity);
