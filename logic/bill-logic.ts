@@ -50,10 +50,12 @@ export class BillLogic {
             if (billId) {
                 filter["billId"] = billId;
             }
-            if (hasPaid == "True") {
-                filter["paymentId"] = {$ne: ""};
-            } else {
-                filter["paymentId"] = "";
+            if (hasPaid) {
+                if (JSON.parse(hasPaid.toLowerCase())) {
+                    filter["paymentId"] = {$ne: ""};
+                } else {
+                    filter["paymentId"] = "";
+                }
             }
             return await this.billItemRepository.getMultiple(filter);
         }
