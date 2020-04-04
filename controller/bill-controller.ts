@@ -68,7 +68,7 @@ export class BillController {
     async getItem(
         @QueryParam("id") id: string,
         @QueryParam("billId") billId: string,
-        @QueryParam("hasPaid") hasPaid: boolean
+        @QueryParam("hasPaid") hasPaid: string
     ) {
         return Content(await this.billLogic.getBillItem(id, billId, hasPaid));
     }
