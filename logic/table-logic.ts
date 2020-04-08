@@ -75,7 +75,10 @@ export class TableLogic {
 
   async delete(id: string) {
     if (id) {
-      return (await this.tableRepository.delete(id))?.toString() || "";
+      const respone = await this.billLogic.getBill(undefined, id) as Bill;
+      if (Object.keys(respone).length == 0) {
+          return (await this.tableRepository.delete(id))?.toString() || "";
+      }
     }
     return "";
   }
@@ -83,12 +86,7 @@ export class TableLogic {
   async close(id: string) {
     if (id) {
       if ((await this.get(id) as Table).status === Table.Status.Using) {
-
-        const filter = {
-          tableId: id,
-          status: Bill.Status.Open
-        };
-        const bill = await this.billLogic.getBill(undefined, filter);
+        const bill = await this.billLogic.getBill(undefined, id, Bill.Status.Open);
         const targetBillId = bill[0].id;
         const closeBillResult = await this.billLogic.closeBill(targetBillId);
         if (closeBillResult != "") {

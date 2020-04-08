@@ -22,14 +22,7 @@ export class BillController {
         @QueryParam("tableId") tableId: string,
         @QueryParam("status") status: string
     ) {
-        const filter = {} as any;
-        if (tableId) {
-            filter["tableId"] = tableId;
-        }
-        if (status) {
-            filter["status"] = status;
-        }
-        return Content(await this.billLogic.getBill(id, filter));
+        return Content(await this.billLogic.getBill(id, tableId, status));
     }
 
     @Post("/add")

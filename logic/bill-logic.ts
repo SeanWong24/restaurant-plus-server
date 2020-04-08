@@ -16,10 +16,17 @@ export class BillLogic {
         return await this.billRepository.addSingle(newBill);
     }
 
-    async getBill(id?: string, filter?: any) {
+    async getBill(id?: string, tableId?: string, status?: string) {
         if (id) {
             return await this.billRepository.getSingle(id);
         } else {
+            const filter = {} as any;
+            if (tableId) {
+                filter["tableId"] = tableId;
+            }
+            if (status) {
+                filter["status"] = status;
+            }
             return await this.billRepository.getMultiple(filter);
         }
     }
@@ -56,7 +63,7 @@ export class BillLogic {
             }
             if (hasPaid) {
                 if (JSON.parse(hasPaid.toLowerCase())) {
-                    filter["paymentId"] = {$ne: ""};
+                    filter["paymentId"] = { $ne: "" };
                 } else {
                     filter["paymentId"] = "";
                 }
