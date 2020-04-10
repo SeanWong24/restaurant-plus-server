@@ -84,4 +84,12 @@ export class UserLogic {
         }
         return "";
     }
+
+    async getRoleSelf(token: string) {
+        const user = this.getSelf(token);
+        if (user) {
+            return await this.roleRepository.getSingle((await user).roleId);
+        }
+        return "";
+    }
 }

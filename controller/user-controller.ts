@@ -54,6 +54,11 @@ export class UserController {
     return Content(await this.userLogic.getRole(id, authorizationToken));
   }
 
+  @Get("/role/self")
+  async getRoleSelf(@Cookie("token") token: string) {
+    return Content(await this.userLogic.getRoleSelf(token));
+  }
+
   @Post("/role/add")
   async addRole(@QueryParam("name") name: string, @QueryParam("token") token: string) {
     // TODO implement the logic
