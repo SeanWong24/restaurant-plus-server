@@ -5,37 +5,41 @@ import {
   Post,
   QueryParam,
   Get,
-  Put
+  Put,
+  Res,
+  Response,
+  Cookie
 } from "https://deno.land/x/alosaur/src/mod.ts";
 import { Injectable } from "https://deno.land/x/alosaur/src/mod.ts";
-
-@Injectable()
+import { UserLogic } from "../logic/user-logic.ts";
+import { setCookie, delCookie } from "https://deno.land/std@v0.38.0/http/cookie.ts"; @Injectable()
 @Controller("/user")
 export class UserController {
-  constructor() { }
+  constructor(private userLogic: UserLogic) { }
 
   @Get("")
-  async get(@QueryParam("id") id: string, @QueryParam("token") token: string) {
-    // TODO implement the logic and return the user object or user list
-    return Content("");
+  async get(@QueryParam("id") id: string, @Cookie("token") authorizationToken: string) {
+    return Content(await this.userLogic.get(id, authorizationToken));
   }
 
   @Post("/login")
-  async login(@Body() loginInfo: { type: string, message: string }) {
-    // TODO implement the logic and return the token
-    return Content("");
+  async login(@Body() loginInfo: { type: string, message: string }, @Res() response: Response) {
+    const token = await this.userLogic.login(loginInfo?.type, loginInfo?.message);
+    if (token) {
+      setCookie(response, { name: "token", value: token });
+    }
+    return response;
   }
 
   @Post("/logout")
-  async logout(@QueryParam("token") token: string) {
-    // TODO implement the logic
-    return Content("");
+  async logout(@Cookie("token") token: string, @Res() response: Response) {
+    delCookie(response, "token");
+    return response;
   }
 
   @Post("/add")
-  async add(@QueryParam("name") name: string, @QueryParam("token") token: string) {
-    // TODO implement the logic and return the id of the new user
-    return Content("");
+  async add(@QueryParam("name") name: string, @QueryParam("roleName") roleName: string, @Cookie("token") authorizationToken: string) {
+    return Content(await this.userLogic.add(name, roleName, authorizationToken));
   }
 
   @Get("/role")
