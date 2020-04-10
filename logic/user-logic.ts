@@ -8,17 +8,22 @@ import { Role } from "../domain-model/role.ts";
 export class UserLogic {
     constructor(private roleRepository: RoleRepository, private userRepository: UserRepository) { }
 
-    async get(id: string, authorizationToken: string) {
-        const authorizationUser = (await this.userRepository.getMultiple({ token: authorizationToken || "(null)" }))[0] as User;
+    async authorization(token: string, AccessItem: string) {
+        const authorizationUser = (await this.userRepository.getMultiple({ token: token || "(null)" }))[0] as User;
         if (authorizationUser) {
             const roleId = authorizationUser.roleId;
             const role = await this.roleRepository.getSingle(roleId) as Role;
-            if (role.accessList.find(access => access === Role.AccessItem.User_Read)) {
-                if (id) {
-                    return await this.userRepository.getSingle(id);
-                } else {
-                    return await this.userRepository.getMultiple();
-                }
+            return !!role.accessList.find(access => access === AccessItem);
+        }
+        return false;
+    }
+
+    async get(id: string, authorizationToken: string) {
+        if (await this.authorization(authorizationToken, Role.AccessItem.User_Read)) {
+            if (id) {
+                return await this.userRepository.getSingle(id);
+            } else {
+                return await this.userRepository.getMultiple();
             }
         }
         return "";
@@ -48,29 +53,22 @@ export class UserLogic {
         if (token) {
             const user = (await this.userRepository.getMultiple({ token }))[0] as User;
             if (user) {
-                this.userRepository.modify(user.id as string, { token: "" });
+                return await this.userRepository.modify(user.id as string, { token: "" });
             }
         }
         return "";
     }
 
     async add(name: string, roleName: string, authorizationToken: string) {
-        if (name && roleName && authorizationToken) {
-            const authorizationUser = (await this.userRepository.getMultiple({ token: authorizationToken || "(null)" }))[0] as User;
-            if (authorizationUser) {
-                const roleId = authorizationUser.roleId;
-                const role = await this.roleRepository.getSingle(roleId) as Role;
-                if (role.accessList.find(access => access === Role.AccessItem.User_Write)) {
-                    const newUserRole = (await this.roleRepository.getMultiple({ name: roleName }))[0] as Role;
-                    if (newUserRole?.id) {
-                        let accessCode;
-                        do {
-                            accessCode = Math.round(Math.random() * 100000).toString();
-                        } while ((await this.userRepository.getMultiple({ accessCode })).length > 0);
-                        const user = new User(name, newUserRole.id, accessCode);
-                        await this.userRepository.addSingle(user);
-                    }
-                }
+        if (await this.authorization(authorizationToken, Role.AccessItem.User_Write)) {
+            const newUserRole = (await this.roleRepository.getMultiple({ name: roleName }))[0] as Role;
+            if (newUserRole?.id) {
+                let accessCode;
+                do {
+                    accessCode = Math.round(Math.random() * 100000).toString();
+                } while ((await this.userRepository.getMultiple({ accessCode })).length > 0);
+                const user = new User(name, newUserRole.id, accessCode);
+                return await this.userRepository.addSingle(user);
             }
         }
         return "";
