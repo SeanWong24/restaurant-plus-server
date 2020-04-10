@@ -73,4 +73,15 @@ export class UserLogic {
         }
         return "";
     }
+
+    async getRole(id: string, authorizationToken: string) {
+        if (await this.authorization(authorizationToken, Role.AccessItem.Role_Read)) {
+            if (id) {
+                return await this.roleRepository.getSingle(id);
+            } else {
+                return await this.roleRepository.getMultiple();
+            }
+        }
+        return "";
+    }
 }

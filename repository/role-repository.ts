@@ -11,7 +11,8 @@ export class RoleRepository extends Repository<Role> {
       "Administrator",
       [
         Role.AccessItem.User_Read,
-        Role.AccessItem.User_Write
+        Role.AccessItem.User_Write,
+        Role.AccessItem.Role_Read
       ],
       true
     ),
@@ -19,7 +20,8 @@ export class RoleRepository extends Repository<Role> {
       "Manager",
       [
         Role.AccessItem.User_Read,
-        Role.AccessItem.User_Write
+        Role.AccessItem.User_Write,
+        Role.AccessItem.Role_Read
       ],
       true
     ),
@@ -48,9 +50,11 @@ export class RoleRepository extends Repository<Role> {
   addDefaultRolesIfNotExsiting() {
     setTimeout(async () => {
       for (const defaultRole of this.defaultRoleList) {
-        const role = await this.collection?.findOne({ name: defaultRole.name }) as Role;
-        if (!role) {
-          await this.collection?.insertOne(defaultRole);
+        const role = (await this.getMultiple({ name: defaultRole.name }) || [])[0] as Role;
+        if (role) {
+          await this.modify(role.id as string, defaultRole);
+        } else {
+          await this.addSingle(defaultRole);
         }
       }
     }, 0);
