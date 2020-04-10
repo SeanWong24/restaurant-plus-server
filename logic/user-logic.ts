@@ -24,6 +24,10 @@ export class UserLogic {
         return "";
     }
 
+    async getSelf(token: string) {
+        return (await this.userRepository.getMultiple({ token: token || "(null)" }))[0] as User;
+    }
+
     async login(loginType: string, loginMessage: string) {
         if (loginType && loginMessage) {
             switch (loginType) {

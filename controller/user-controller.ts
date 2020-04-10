@@ -12,7 +12,9 @@ import {
 } from "https://deno.land/x/alosaur/src/mod.ts";
 import { Injectable } from "https://deno.land/x/alosaur/src/mod.ts";
 import { UserLogic } from "../logic/user-logic.ts";
-import { setCookie, delCookie } from "https://deno.land/std@v0.38.0/http/cookie.ts"; @Injectable()
+import { setCookie, delCookie } from "https://deno.land/std@v0.38.0/http/cookie.ts";
+
+@Injectable()
 @Controller("/user")
 export class UserController {
   constructor(private userLogic: UserLogic) { }
@@ -20,6 +22,11 @@ export class UserController {
   @Get("")
   async get(@QueryParam("id") id: string, @Cookie("token") authorizationToken: string) {
     return Content(await this.userLogic.get(id, authorizationToken));
+  }
+
+  @Get("/self")
+  async getSelf(@Cookie("token") token: string) {
+    return Content(await this.userLogic.getSelf(token));
   }
 
   @Post("/login")
