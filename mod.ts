@@ -3,7 +3,7 @@ import {
   Area,
   container,
   CorsBuilder
-} from "https://deno.land/x/alosaur/src/mod.ts";
+} from "https://raw.githubusercontent.com/SeanWong24/alosaur/cors-builder/src/mod.ts";
 import { TableController } from "./controller/table-controller.ts";
 import { RepositoryConnection } from "./repository/repository-connection.ts";
 import { UserController } from "./controller/user-controller.ts";
@@ -43,9 +43,10 @@ const app = new App({
 
 app.useCors(
   new CorsBuilder()
-    .WithOrigins("*")
+    .AllowAnyOrigin()
     .AllowAnyMethod()
-    .AllowAnyHeaders()
+    .AllowAnyHeader()
+    .AllowCredentials()
 );
 
 const port = Deno.args[0];

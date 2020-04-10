@@ -7,8 +7,8 @@ import {
     Put,
     Delete,
     Body
-} from "https://deno.land/x/alosaur/src/mod.ts";
-import { Injectable } from "https://deno.land/x/alosaur/src/mod.ts";
+} from "https://raw.githubusercontent.com/SeanWong24/alosaur/cors-builder/src/mod.ts";
+import { Injectable } from "https://raw.githubusercontent.com/SeanWong24/alosaur/cors-builder/src/mod.ts";
 import { BillLogic } from "../logic/bill-logic.ts";
 
 @Injectable()

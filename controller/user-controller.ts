@@ -9,8 +9,8 @@ import {
   Res,
   Response,
   Cookie
-} from "https://deno.land/x/alosaur/src/mod.ts";
-import { Injectable } from "https://deno.land/x/alosaur/src/mod.ts";
+} from "https://raw.githubusercontent.com/SeanWong24/alosaur/cors-builder/src/mod.ts";
+import { Injectable } from "https://raw.githubusercontent.com/SeanWong24/alosaur/cors-builder/src/mod.ts";
 import { UserLogic } from "../logic/user-logic.ts";
 import { setCookie, delCookie } from "https://deno.land/std@v0.38.0/http/cookie.ts";
 
