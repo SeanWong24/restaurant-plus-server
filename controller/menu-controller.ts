@@ -5,8 +5,8 @@ import {
     Get,
     Post,
     Put
-} from "https://raw.githubusercontent.com/SeanWong24/alosaur/cors-builder/src/mod.ts";
-import { Injectable } from "https://raw.githubusercontent.com/SeanWong24/alosaur/cors-builder/src/mod.ts";
+} from "https://deno.land/x/alosaur/src/mod.ts";
+import { Injectable } from "https://deno.land/x/alosaur/src/mod.ts";
 import { MenuLogic } from "../logic/menu-logic.ts";
 
 @Injectable()

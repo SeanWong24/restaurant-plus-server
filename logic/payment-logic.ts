@@ -1,4 +1,4 @@
-import { Injectable } from "https://raw.githubusercontent.com/SeanWong24/alosaur/cors-builder/src/mod.ts";
+import { Injectable } from "https://deno.land/x/alosaur/src/mod.ts";
 import { BillLogic } from "./bill-logic.ts";
 import { PaymentRepository } from "../repository/payment-repository.ts";
 import { Payment } from "../domain-model/payment.ts";
