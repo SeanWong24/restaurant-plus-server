@@ -43,9 +43,10 @@ const app = new App({
 
 app.useCors(
   new CorsBuilder()
-    .WithOrigins("*")
+    .AllowAnyOrigin()
     .AllowAnyMethod()
-    .AllowAnyHeaders()
+    .AllowAnyHeader()
+    .AllowCredentials()
 );
 
 const port = Deno.args[0];
