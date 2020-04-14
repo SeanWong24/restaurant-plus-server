@@ -31,8 +31,15 @@ export class BillLogic {
         }
     }
 
-    async modifyBill(id: string, changeDefinition: any) {
+    async modifyBill(id: string, tableId?: string, discountId?: string) {
         if (id) {
+            const changeDefinition = {} as any;
+            if (tableId) {
+                changeDefinition["tableId"] = tableId;
+            }
+            if (discountId) {
+                changeDefinition["discountId"] = discountId;
+            }
             return await this.billRepository.modify(id, changeDefinition) || "";
         }
         return "";
@@ -82,8 +89,15 @@ export class BillLogic {
         return "";
     }
 
-    async modifyBillItem(id: string, changeDefinition: any) {
+    async modifyBillItem(id: string, quantity?: number, discountId?: string) {
         if (id) {
+            const changeDefinition = {} as any;
+            if (quantity) {
+                changeDefinition["quantity"] = quantity;
+            }
+            if (discountId) {
+                changeDefinition["discountId"] = discountId;
+            }
             return await this.billItemRepository.modify(id, changeDefinition) || "";
         }
         return "";

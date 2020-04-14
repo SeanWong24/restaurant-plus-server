@@ -1,11 +1,11 @@
 import { Injectable } from "https://deno.land/x/alosaur/src/mod.ts";
-import { BillLogic } from "./bill-logic.ts";
 import { PaymentRepository } from "../repository/payment-repository.ts";
 import { Payment } from "../domain-model/payment.ts";
+import { BillItemRepository } from "../repository/bill-item-repository.ts";
 
 @Injectable()
 export class PaymentLogic {
-    constructor(private paymentRepository: PaymentRepository, private billLogic: BillLogic) { }
+    constructor(private paymentRepository: PaymentRepository, private billItemRepository: BillItemRepository) { }
 
     async get(id?: string, billId?: string) {
         if (id) {
@@ -31,7 +31,7 @@ export class PaymentLogic {
             const changeDefinition = {
                 paymentId: paymentId
             }
-            this.billLogic.modifyBillItem(billItemId, changeDefinition);
+            this.billItemRepository.modify(billItemId, changeDefinition);
         }
 
         return result;

@@ -1,5 +1,6 @@
 export class BillItem {
   id?: string;
+  discountId?: string;
 
   constructor(
     public billId: string,

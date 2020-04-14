@@ -10,11 +10,12 @@ import {
 } from "https://deno.land/x/alosaur/src/mod.ts";
 import { Injectable } from "https://deno.land/x/alosaur/src/mod.ts";
 import { BillLogic } from "../logic/bill-logic.ts";
+import { DiscountLogic } from "../logic/discount-logic.ts";
 
 @Injectable()
 @Controller("/bill")
 export class BillController {
-    constructor(private billLogic: BillLogic) { }
+    constructor(private billLogic: BillLogic, private discountLogic: DiscountLogic) { }
 
     @Get("")
     async getBill(
@@ -39,21 +40,15 @@ export class BillController {
         @QueryParam("discountAmount") discountAmount: number,
         @QueryParam("discountPercentage") discountPercentage: number
     ) {
-        if (id) {
-            const changeDefinition = {} as any;
-            if (tableId) {
-                changeDefinition["tableId"] = tableId;
-            }
-            if (discountAmount) {
-                changeDefinition["discountAmount"] = discountAmount;
-            }
-            if (discountPercentage) {
-                changeDefinition["discountPercentage"] = discountPercentage;
-            }
-            return Content(await this.billLogic.modifyBill(id, changeDefinition));
-        } else {
-            return Content("");
-        }
+        return Content(await this.billLogic.modifyBill(id, tableId));
+    }
+
+    @Put("/discount")
+    async addBillDiscount(
+        @QueryParam("id") id: string,
+        @QueryParam("discountId") discountId: string
+    ) {
+        return Content(await this.billLogic.modifyBill(id, undefined ,discountId));
     }
 
     @Put("/close")
@@ -88,14 +83,15 @@ export class BillController {
         @QueryParam("id") id: string,
         @QueryParam("quantity") quantity: number
     ) {
-        if (id) {
-            const changeDefinition = {} as any;
-            if (quantity) {
-                changeDefinition["quantity"] = quantity;
-            }
-            return Content(await this.billLogic.modifyBillItem(id, changeDefinition));
-        }
-        return Content("");
+        return Content(await this.billLogic.modifyBillItem(id, quantity));
+    }
+
+    @Put("/item/disount")
+    async addBillItemDiscount(
+        @QueryParam("id") id:string,
+        @QueryParam("discountId") discountId: string
+    ) {
+        return Content(await this.billLogic.modifyBillItem(id, undefined, discountId));
     }
 
     @Put("/item/group")
@@ -137,5 +133,28 @@ export class BillController {
             return Content(await this.billLogic.combineBillItems(billItemIdList));
         }
         return Content("");
+    }
+
+    @Get("/discount")
+    async getDiscount(@QueryParam("id") id: string) {
+        return Content(await this.discountLogic.get(id));
+    }
+
+    @Post("/discount/add")
+    async createDiscount(
+        @QueryParam("name") name: string,
+        @QueryParam("type") type: string,
+        @QueryParam("amount") amount: number) {
+            return Content(await this.discountLogic.add(name, type, amount));
+        }
+    
+    @Put("/discount/modify")
+    async modifyDiscount(
+        @QueryParam("id") id: string,
+        @QueryParam("name") name: string,
+        @QueryParam("type") type: string,
+        @QueryParam("amount") amount: number
+    ) {
+        return Content(await this.discountLogic.modify(id, name, type, amount));
     }
 }

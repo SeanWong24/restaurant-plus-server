@@ -6,12 +6,11 @@ export class Bill {
 
   id?: string;
   endTime?: string;
+  discountId?: string;
 
   constructor(
     public tableId: string,
     public startTime: string,
-    public status: string = Bill.Status.Open,
-    public discountAmount: number = 0,
-    public discountPercentage: number = 0
+    public status: string = Bill.Status.Open
   ) {}
 }
