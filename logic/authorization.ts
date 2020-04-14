@@ -19,7 +19,7 @@ export function authorize(accessItem: string, authorizationTokenIndex: number) {
             if (authorizationUser) {
                 const roleId = authorizationUser.roleId;
                 const role = await roleRepository.getSingle(roleId) as Role;
-                isAuthorized = !!role.accessList.find(access => access === accessItem);
+                isAuthorized = !!role.permissionList.find(access => access === accessItem);
             }
 
             if (isAuthorized) {

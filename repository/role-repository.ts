@@ -10,18 +10,18 @@ export class RoleRepository extends Repository<Role> {
     new Role(
       "Administrator",
       [
-        Role.AccessItem.User_Read,
-        Role.AccessItem.User_Write,
-        Role.AccessItem.Role_Read
+        Role.Permission.User_Read,
+        Role.Permission.User_Write,
+        Role.Permission.Role_Read
       ],
       true
     ),
     new Role(
       "Manager",
       [
-        Role.AccessItem.User_Read,
-        Role.AccessItem.User_Write,
-        Role.AccessItem.Role_Read
+        Role.Permission.User_Read,
+        Role.Permission.User_Write,
+        Role.Permission.Role_Read
       ],
       true
     ),

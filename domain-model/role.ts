@@ -1,5 +1,5 @@
 export class Role {
-  static readonly AccessItem = {
+  static readonly Permission = {
     User_Read: "user.read",
     User_Write: "user.write",
     Role_Read: "role.read"
@@ -9,7 +9,7 @@ export class Role {
 
   constructor(
     public name: string,
-    public accessList: string[],
+    public permissionList: string[],
     public isDefault: boolean = false,
   ) { }
 }
