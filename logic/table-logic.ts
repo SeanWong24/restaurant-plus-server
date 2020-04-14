@@ -31,7 +31,6 @@ export class TableLogic {
           startTime: time,
           status: Table.Status.Using
         };
-
         this.billLogic.addBill(id);
         return await this.tableRepository.modify(id, tableChangeDefinition) || "";
       }
@@ -49,6 +48,33 @@ export class TableLogic {
           status: Table.Status.Reserved
         };
         return await this.tableRepository.modify(id, changeDefinition) || "";
+      }
+    }
+    return "";
+  }
+
+  async transfer(id: string, transferId: string) {
+    if (id && transferId) {
+      const oldTable = await this.get(id) as Table;
+      const newTable = await this.get(transferId) as Table;
+
+      if (oldTable.status == Table.Status.Using && newTable.status == Table.Status.Free) {
+        const time = new Date().toISOString();
+        const newChangeDefinition = {
+          "status": Table.Status.Using,
+          occupied: oldTable.occupied,
+          startTime: time
+        }
+        this.modify(transferId, newChangeDefinition);
+        const oldBill = await this.billLogic.getBill(undefined, id, Bill.Status.Open);
+        await this.billLogic.modifyBill(oldBill[0].id, transferId);
+
+        const oldChangeDefinition = {
+          "status": Table.Status.Dirty,
+          occupied: 0,
+          startTime: ""
+        }
+        this.modify(id, oldChangeDefinition);
       }
     }
     return "";
@@ -93,7 +119,7 @@ export class TableLogic {
           const tableChangeDefinition = {
             status: Table.Status.Dirty,
             occupied: 0,
-            time: ""
+            startTime: ""
           };
           return await this.tableRepository.modify(id, tableChangeDefinition) || "";
         }

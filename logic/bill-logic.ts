@@ -31,7 +31,7 @@ export class BillLogic {
         }
     }
 
-    async modifyBill(id: string, tableId?: string, discountId?: string) {
+    async modifyBill(id?: string, tableId?: string, discountId?: string) {
         if (id) {
             const changeDefinition = {} as any;
             if (tableId) {

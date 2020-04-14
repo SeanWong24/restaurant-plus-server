@@ -41,6 +41,14 @@ export class TableController {
     return Content(await this.tableLogic.reserve(id, occupied));
   }
 
+  @Put("/transfer")
+  async transfer(
+    @QueryParam("id") id: string,
+    @QueryParam("transferId") transferId: string
+  ) {
+    return Content(this.tableLogic.transfer(id, transferId));
+  }
+
   @Put("/modify")
   async modify(
     @QueryParam("id") id: string,
