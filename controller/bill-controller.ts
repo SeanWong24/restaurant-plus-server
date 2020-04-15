@@ -30,7 +30,7 @@ export class BillController {
     }
 
     @Post("/add")
-    @authorize(Role.Permission.Bill_Write, 1)
+    @authorize([Role.Permission.Bill_Write], 1)
     async addBill(
         @QueryParam("tableId") tableId: string,
         @Cookie("token") authorizationToken: string
@@ -39,7 +39,7 @@ export class BillController {
     }
 
     @Put("/modify")
-    @authorize(Role.Permission.Bill_Write, 4)
+    @authorize([Role.Permission.Bill_Write], 4)
     async modifyBill(
         @QueryParam("id") id: string,
         @QueryParam("tableId") tableId: string,
@@ -51,17 +51,17 @@ export class BillController {
     }
 
     @Put("/discount")
-    @authorize(Role.Permission.Bill_Write, 2)
+    @authorize([Role.Permission.Bill_Write], 2)
     async addBillDiscount(
         @QueryParam("id") id: string,
         @QueryParam("discountId") discountId: string,
         @Cookie("token") authorizationToken: string
     ) {
-        return Content(await this.billLogic.modifyBill(id, undefined ,discountId));
+        return Content(await this.billLogic.modifyBill(id, undefined, discountId));
     }
 
     @Put("/close")
-    @authorize(Role.Permission.Bill_Write, 1)
+    @authorize([Role.Permission.Bill_Write], 1)
     async closeBill(
         @QueryParam("id") id: string,
         @Cookie("token") authorizationToken: string
@@ -70,9 +70,9 @@ export class BillController {
     }
 
     //For pickup or delivery bills, tableid = pickup/delivery
-    
+
     @Get("/item")
-    @authorize(Role.Permission.BillItem_Read, 3)
+    @authorize([Role.Permission.BillItem_Read], 3)
     async getItem(
         @QueryParam("id") id: string,
         @QueryParam("billId") billId: string,
@@ -83,7 +83,7 @@ export class BillController {
     }
 
     @Post("/item/add")
-    @authorize(Role.Permission.BillItem_Write, 4)
+    @authorize([Role.Permission.BillItem_Write], 4)
     async addItem(
         @QueryParam("billId") billId: string,
         @QueryParam("menuItemId") menuItemId: string,
@@ -95,7 +95,7 @@ export class BillController {
     }
 
     @Put("/item/modify")
-    @authorize(Role.Permission.BillItem_Write, 2)
+    @authorize([Role.Permission.BillItem_Write], 2)
     async modifyItem(
         @QueryParam("id") id: string,
         @QueryParam("quantity") quantity: number,
@@ -105,9 +105,9 @@ export class BillController {
     }
 
     @Put("/item/disount")
-    @authorize(Role.Permission.BillItem_Write, 2)
+    @authorize([Role.Permission.BillItem_Write], 2)
     async addBillItemDiscount(
-        @QueryParam("id") id:string,
+        @QueryParam("id") id: string,
         @QueryParam("discountId") discountId: string,
         @Cookie("token") authorizationToken: string
     ) {
@@ -115,7 +115,7 @@ export class BillController {
     }
 
     @Put("/item/group")
-    @authorize(Role.Permission.BillItem_Write, 1)
+    @authorize([Role.Permission.BillItem_Write], 1)
     async groupItem(
         @QueryParam("groupId") groupId: number,
         @Cookie("token") authorizationToken: string,
@@ -128,7 +128,7 @@ export class BillController {
     }
 
     @Delete("/item")
-    @authorize(Role.Permission.BillItem_Write, 1)
+    @authorize([Role.Permission.BillItem_Write], 1)
     async deleteItem(
         @QueryParam("id") id: string,
         @Cookie("token") authorizationToken: string
@@ -141,7 +141,7 @@ export class BillController {
     }
 
     @Put("/item/split")
-    @authorize(Role.Permission.BillItem_Write, 1)
+    @authorize([Role.Permission.BillItem_Write], 1)
     async splitItem(
         @QueryParam("quantity") quantity: number,
         @Cookie("token") authorizationToken: string,
@@ -154,11 +154,11 @@ export class BillController {
     }
 
     @Put("/item/combine")
-    @authorize(Role.Permission.BillItem_Write, 1)
+    @authorize([Role.Permission.BillItem_Write], 1)
     async combineItem(
         @Body() billItemIdList: string[],
         @Cookie("token") authorizationToken: string
-        ) {
+    ) {
         if (billItemIdList) {
             return Content(await this.billLogic.combineBillItems(billItemIdList));
         }
@@ -166,27 +166,27 @@ export class BillController {
     }
 
     @Get("/discount")
-    @authorize(Role.Permission.BillItem_Read, 1)
+    @authorize([Role.Permission.BillItem_Read], 1)
     async getDiscount(
         @QueryParam("id") id: string,
         @Cookie("token") authorizationToken: string
-        ) {
+    ) {
         return Content(await this.discountLogic.get(id));
     }
 
     @Post("/discount/add")
-    @authorize(Role.Permission.BillItem_Write, 3)
+    @authorize([Role.Permission.BillItem_Write], 3)
     async createDiscount(
         @QueryParam("name") name: string,
         @QueryParam("type") type: string,
         @QueryParam("amount") amount: number,
         @Cookie("token") authorizationToken: string
-        ) {
-            return Content(await this.discountLogic.add(name, type, amount));
-        }
-    
+    ) {
+        return Content(await this.discountLogic.add(name, type, amount));
+    }
+
     @Put("/discount/modify")
-    @authorize(Role.Permission.BillItem_Write, 4)
+    @authorize([Role.Permission.BillItem_Write], 4)
     async modifyDiscount(
         @QueryParam("id") id: string,
         @QueryParam("name") name: string,

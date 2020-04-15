@@ -6,7 +6,7 @@ import { User } from "../domain-model/user.ts";
 import { Role } from "../domain-model/role.ts";
 
 
-export function authorize(accessItem: string, authorizationTokenIndex: number) {
+export function authorize(permissionList: string[], authorizationTokenIndex: number) {
     return function (target: any, propertyKey: string, descriptor: PropertyDescriptor) {
         const originalFunction = descriptor.value;
 
@@ -19,7 +19,7 @@ export function authorize(accessItem: string, authorizationTokenIndex: number) {
             if (authorizationUser) {
                 const roleId = authorizationUser.roleId;
                 const role = await roleRepository.getSingle(roleId) as Role;
-                isAuthorized = !!role.permissionList.find(access => access === accessItem);
+                isAuthorized = permissionList.every(permission => role.permissionList.includes(permission));
             }
 
             if (isAuthorized) {

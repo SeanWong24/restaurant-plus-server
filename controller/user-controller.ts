@@ -22,7 +22,7 @@ export class UserController {
   constructor(private userLogic: UserLogic) { }
 
   @Get("")
-  @authorize(Role.Permission.User_Read, 1)
+  @authorize([Role.Permission.User_Read], 1)
   async get(@QueryParam("id") id: string, @Cookie("token") authorizationToken: string) {
     return Content(await this.userLogic.get(id));
   }
@@ -48,13 +48,13 @@ export class UserController {
   }
 
   @Post("/add")
-  @authorize(Role.Permission.User_Write, 2)
+  @authorize([Role.Permission.User_Write], 2)
   async add(@QueryParam("name") name: string, @QueryParam("roleName") roleName: string, @Cookie("token") authorizationToken: string) {
     return Content(await this.userLogic.add(name, roleName));
   }
 
   @Get("/role")
-  @authorize(Role.Permission.Role_Read, 1)
+  @authorize([Role.Permission.Role_Read], 1)
   async getRole(@QueryParam("id") id: string, @Cookie("token") authorizationToken: string) {
     return Content(await this.userLogic.getRole(id));
   }

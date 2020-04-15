@@ -26,13 +26,13 @@ export class AnouncementController {
     }
 
     @Post("/add")
-    @authorize(Role.Permission.Anouncement_Write, 1)
+    @authorize([Role.Permission.Anouncement_Write], 1)
     async add(@Body() anouncement: Anouncement, @Cookie("token") authorizationToken: string) {
         return Content(await this.anouncementLogic.add(anouncement));
     }
 
     @Put("/modify")
-    @authorize(Role.Permission.Anouncement_Write, 1)
+    @authorize([Role.Permission.Anouncement_Write], 1)
     async modify(@Body() anouncement: Anouncement, @Cookie("token") authorizationToken: string) {
         const id = anouncement.id as string;
         delete anouncement.id;
@@ -40,7 +40,7 @@ export class AnouncementController {
     }
 
     @Delete("")
-    @authorize(Role.Permission.Anouncement_Write, 1)
+    @authorize([Role.Permission.Anouncement_Write], 1)
     async delete(@QueryParam("id") id: string, @Cookie("token") authorizationToken: string) {
         return Content(await this.anouncementLogic.delete(id));
     }
