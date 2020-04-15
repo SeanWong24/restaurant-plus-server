@@ -12,7 +12,11 @@ export class RoleRepository extends Repository<Role> {
       [
         Role.Permission.User_Read,
         Role.Permission.User_Write,
-        Role.Permission.Role_Read
+        Role.Permission.Role_Read,
+        Role.Permission.Bill_Read,
+        Role.Permission.Bill_Write,
+        Role.Permission.BillItem_Read,
+        Role.Permission.BillItem_Write
       ],
       true
     ),
@@ -21,13 +25,22 @@ export class RoleRepository extends Repository<Role> {
       [
         Role.Permission.User_Read,
         Role.Permission.User_Write,
-        Role.Permission.Role_Read
+        Role.Permission.Role_Read,
+        Role.Permission.Bill_Read,
+        Role.Permission.Bill_Write,
+        Role.Permission.BillItem_Read,
+        Role.Permission.BillItem_Write
       ],
       true
     ),
     new Role(
       "Staff",
-      [],
+      [
+        Role.Permission.Bill_Read,
+        Role.Permission.Bill_Write,
+        Role.Permission.BillItem_Read,
+        Role.Permission.BillItem_Write
+      ],
       true
     ),
     new Role(
