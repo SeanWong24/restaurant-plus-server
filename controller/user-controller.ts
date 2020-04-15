@@ -13,7 +13,7 @@ import {
 import { Injectable } from "https://deno.land/x/alosaur/src/mod.ts";
 import { UserLogic } from "../logic/user-logic.ts";
 import { setCookie, delCookie } from "https://deno.land/std@v0.38.0/http/cookie.ts";
-import { authorize } from "../logic/authorization.ts";
+import { Authorize, AuthorizationToken } from "../logic/authorization.ts";
 import { Role } from "../domain-model/role.ts";
 
 @Injectable()
@@ -22,8 +22,11 @@ export class UserController {
   constructor(private userLogic: UserLogic) { }
 
   @Get("")
-  @authorize([Role.Permission.User_Read], 1)
-  async get(@QueryParam("id") id: string, @Cookie("token") authorizationToken: string) {
+  @Authorize()
+  async get(
+    @QueryParam("id") @Authorize([Role.Permission.User_Read]) id: string,
+    @Cookie("token") @AuthorizationToken authorizationToken: string
+  ) {
     return Content(await this.userLogic.get(id));
   }
 
@@ -48,14 +51,21 @@ export class UserController {
   }
 
   @Post("/add")
-  @authorize([Role.Permission.User_Write], 2)
-  async add(@QueryParam("name") name: string, @QueryParam("roleName") roleName: string, @Cookie("token") authorizationToken: string) {
+  @Authorize([Role.Permission.User_Write])
+  async add(
+    @QueryParam("name") name: string,
+    @QueryParam("roleName") roleName: string,
+    @Cookie("token") @AuthorizationToken authorizationToken: string
+  ) {
     return Content(await this.userLogic.add(name, roleName));
   }
 
   @Get("/role")
-  @authorize([Role.Permission.Role_Read], 1)
-  async getRole(@QueryParam("id") id: string, @Cookie("token") authorizationToken: string) {
+  @Authorize([Role.Permission.Role_Read])
+  async getRole(
+    @QueryParam("id") id: string,
+    @Cookie("token") @AuthorizationToken authorizationToken: string
+  ) {
     return Content(await this.userLogic.getRole(id));
   }
 

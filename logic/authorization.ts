@@ -6,27 +6,62 @@ import { User } from "../domain-model/user.ts";
 import { Role } from "../domain-model/role.ts";
 
 
-export function authorize(permissionList: string[], authorizationTokenIndex: number) {
-    return function (target: any, propertyKey: string, descriptor: PropertyDescriptor) {
-        const originalFunction = descriptor.value;
+declare type ParameterAuthorizationDefinition = {
+    index: number,
+    permissionList?: string[]
+};
 
-        descriptor.value = async function (...args: any[]) {
-            const userRepository = container.resolve(UserRepository);
-            const roleRepository = container.resolve(RoleRepository);
-            const authorizationToken = args[authorizationTokenIndex];
-            const authorizationUser = (await userRepository.getMultiple({ token: authorizationToken || "(null)" }))[0] as User;
-            let isAuthorized = false;
-            if (authorizationUser) {
-                const roleId = authorizationUser.roleId;
-                const role = await roleRepository.getSingle(roleId) as Role;
-                isAuthorized = permissionList.every(permission => role.permissionList.includes(permission));
+export function Authorize(permissionList?: string[]) {
+    return function (target: any, propertyKey: string, descriptor: PropertyDescriptor | number) {
+        if (typeof descriptor === "number") {
+            let parameterAuthorizationList = target["#parameterAuthorizationList_" + propertyKey] as ParameterAuthorizationDefinition[];
+            if (!parameterAuthorizationList) {
+                parameterAuthorizationList = [];
+                target["#parameterAuthorizationList_" + propertyKey] = parameterAuthorizationList;
             }
+            parameterAuthorizationList.push({
+                index: descriptor,
+                permissionList
+            });
+        } else {
+            const originalFunction = descriptor.value;
 
-            if (isAuthorized) {
-                return await originalFunction.apply(this, args);
-            } else {
-                throw new ForbiddenError('You do not have the permission to access this resource.');
+            descriptor.value = async function (...args: any[]) {
+                const authorizationTokenIndex = target["#authorizationTokenParameterIndex_" + propertyKey];
+                console.log(authorizationTokenIndex);
+                const userRepository = container.resolve(UserRepository);
+                const roleRepository = container.resolve(RoleRepository);
+                const authorizationToken = args[authorizationTokenIndex];
+                console.log(args)
+                const authorizationUser = (await userRepository.getMultiple({ token: authorizationToken || "(null)" }))[0] as User;
+                const parameterAuthorizationList = (target["#parameterAuthorizationList_" + propertyKey] || []) as ParameterAuthorizationDefinition[];
+                let isAuthorized = false;
+                let role: Role;
+                if (authorizationUser) {
+                    const roleId = authorizationUser.roleId;
+                    role = await roleRepository.getSingle(roleId) as Role;
+                } else {
+                    role = (await roleRepository.getMultiple({ name: "Guest" }))[0] as Role;
+                }
+                const isMethodAuthorized = !permissionList || permissionList.every(permission => role.permissionList.includes(permission));
+                const areParametersAuthorized = parameterAuthorizationList
+                    .every(definition => !args[definition.index] || !definition.permissionList || definition.permissionList
+                        .every(permission => role.permissionList.includes(permission)));
+                console.log(role)
+                console.log(isMethodAuthorized)
+                console.log(areParametersAuthorized)
+                isAuthorized = isMethodAuthorized && areParametersAuthorized;
+
+                if (isAuthorized) {
+                    return await originalFunction.apply(this, args);
+                } else {
+                    throw new ForbiddenError('You do not have the permission to access this resource.');
+                }
             }
         }
     };
+}
+
+export function AuthorizationToken(target: any, propertyKey: string, index: number) {
+    target["#authorizationTokenParameterIndex_" + propertyKey] = index;
 }
