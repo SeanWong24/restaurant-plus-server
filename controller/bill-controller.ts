@@ -58,7 +58,8 @@ export class BillController {
         return Content(await this.billLogic.closeBill(id) || "");
     }
 
-
+    //For pickup or delivery bills, tableid = pickup/delivery
+    
     @Get("/item")
     async getItem(
         @QueryParam("id") id: string,

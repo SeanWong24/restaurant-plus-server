@@ -1,6 +1,6 @@
 export class Discount {
     static readonly type = {
-        Amount: "cashAmount",
+        Amount: "amount",
         Percentage: "percentage"
       };
     id?: string;
@@ -8,6 +8,6 @@ export class Discount {
     constructor(
       public name: string,
       public type: string,
-      public amount: number
+      public value: number
     ) {}
   }
