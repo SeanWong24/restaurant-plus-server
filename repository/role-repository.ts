@@ -16,7 +16,8 @@ export class RoleRepository extends Repository<Role> {
         Role.Permission.Bill_Read,
         Role.Permission.Bill_Write,
         Role.Permission.BillItem_Read,
-        Role.Permission.BillItem_Write
+        Role.Permission.BillItem_Write,
+        Role.Permission.Anouncement_Write
       ],
       true
     ),
@@ -29,7 +30,8 @@ export class RoleRepository extends Repository<Role> {
         Role.Permission.Bill_Read,
         Role.Permission.Bill_Write,
         Role.Permission.BillItem_Read,
-        Role.Permission.BillItem_Write
+        Role.Permission.BillItem_Write,
+        Role.Permission.Anouncement_Write
       ],
       true
     ),
