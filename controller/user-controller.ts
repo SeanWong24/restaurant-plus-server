@@ -22,9 +22,9 @@ export class UserController {
   constructor(private userLogic: UserLogic) { }
 
   @Get("")
-  @Authorize()
+  @Authorize([Role.Permission.User_Read])
   async get(
-    @QueryParam("id") @Authorize([Role.Permission.User_Read]) id: string,
+    @QueryParam("id") id: string,
     @Cookie("token") @AuthorizationToken authorizationToken: string
   ) {
     return Content(await this.userLogic.get(id));
@@ -39,7 +39,7 @@ export class UserController {
   async login(@Body() loginInfo: { type: string, message: string }, @Res() response: Response) {
     const token = await this.userLogic.login(loginInfo?.type, loginInfo?.message);
     if (token) {
-      setCookie(response, { name: "token", value: token });
+      setCookie(response, { name: "token", value: token, path: "/" });
     }
     return response;
   }

@@ -28,11 +28,9 @@ export function Authorize(permissionList?: string[]) {
 
             descriptor.value = async function (...args: any[]) {
                 const authorizationTokenIndex = target["#authorizationTokenParameterIndex_" + propertyKey];
-                console.log(authorizationTokenIndex);
                 const userRepository = container.resolve(UserRepository);
                 const roleRepository = container.resolve(RoleRepository);
                 const authorizationToken = args[authorizationTokenIndex];
-                console.log(args)
                 const authorizationUser = (await userRepository.getMultiple({ token: authorizationToken || "(null)" }))[0] as User;
                 const parameterAuthorizationList = (target["#parameterAuthorizationList_" + propertyKey] || []) as ParameterAuthorizationDefinition[];
                 let isAuthorized = false;
@@ -47,9 +45,6 @@ export function Authorize(permissionList?: string[]) {
                 const areParametersAuthorized = parameterAuthorizationList
                     .every(definition => !args[definition.index] || !definition.permissionList || definition.permissionList
                         .every(permission => role.permissionList.includes(permission)));
-                console.log(role)
-                console.log(isMethodAuthorized)
-                console.log(areParametersAuthorized)
                 isAuthorized = isMethodAuthorized && areParametersAuthorized;
 
                 if (isAuthorized) {
