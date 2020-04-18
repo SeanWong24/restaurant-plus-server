@@ -14,6 +14,6 @@ export class Table {
     public capacity: number,
     public occupied: number = 0,
     public status: string = Table.Status.Unavailable,
-    public startTime?: string
+    public startTime?: Date
   ) {}
 }

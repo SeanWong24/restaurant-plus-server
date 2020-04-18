@@ -5,12 +5,12 @@ export class Bill {
   };
 
   id?: string;
-  endTime?: string;
+  endTime?: Date;
   discountId?: string;
 
   constructor(
     public tableId: string,
-    public startTime: string,
+    public startTime: Date,
     public status: string = Bill.Status.Open
   ) {}
 }
