@@ -58,23 +58,23 @@ export class TableLogic {
     if (id && transferId) {
       const oldTable = (await this.get(id))[0] as Table;
       const newTable = (await this.get(transferId))[0] as Table;
-
+      
       if (oldTable.status == Table.Status.Using && newTable.status == Table.Status.Free) {
         const newChangeDefinition = {
           "status": Table.Status.Using,
           occupied: oldTable.occupied,
           startTime: new Date()
         }
-        this.modify(transferId, newChangeDefinition);
-        const oldBill = await this.billLogic.getBill(undefined, id, Bill.Status.Open);
-        await this.billLogic.modifyBill(oldBill[0].id, transferId);
-
         const oldChangeDefinition = {
           "status": Table.Status.Dirty,
           occupied: 0,
           startTime: ""
         }
+        this.modify(transferId, newChangeDefinition);
         this.modify(id, oldChangeDefinition);
+        
+        const oldBill = await this.billLogic.getBill(undefined, id, Bill.Status.Open);
+        await this.billLogic.modifyBill(oldBill[0].id, transferId);
       }
     }
     return "";
