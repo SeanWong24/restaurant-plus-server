@@ -13,8 +13,15 @@ export class TableLogic {
     return await this.tableRepository.addSingle(newTable);
   }
 
-  async get(id?: string) {
-    return await this.tableRepository.find({ id }) || [];
+  async get(id?: string, status?: string) {
+    if (id) {
+      return await this.tableRepository.find({ id }) || [];
+    } else {
+      const filter = {
+        status
+      }
+      return await this.tableRepository.find(filter) || [];
+    }
   }
 
   async open(id: string, occupied: number) {

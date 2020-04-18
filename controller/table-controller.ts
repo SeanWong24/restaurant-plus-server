@@ -16,8 +16,8 @@ export class TableController {
   constructor(private tableLogic: TableLogic) { }
 
   @Get("")
-  async get(@QueryParam("id") id: string) {
-    return Content(await this.tableLogic.get(id));
+  async get(@QueryParam("id") id: string, @QueryParam("status") status: string) {
+    return Content(await this.tableLogic.get(id, status));
   }
 
   @Post("/add")
