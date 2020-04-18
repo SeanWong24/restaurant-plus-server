@@ -11,14 +11,14 @@ export class BillLogic {
     ) { }
 
     async addBill(tableId: string) {
-        const startTime = new Date().toISOString();
+        const startTime = new Date();
         const newBill = new Bill(tableId, startTime);
         return await this.billRepository.addSingle(newBill);
     }
 
-    async getBill(id?: string, tableId?: string, status?: string) {
+    async getBill(id?: string, tableId?: string, status?: string, timeFrom?: string, timeTo?: string) {
         if (id) {
-            return await this.billRepository.getSingle(id);
+            return await this.billRepository.find({ id }) || [];
         } else {
             const filter = {} as any;
             if (tableId) {
@@ -27,7 +27,13 @@ export class BillLogic {
             if (status) {
                 filter["status"] = status;
             }
-            return await this.billRepository.getMultiple(filter);
+            if (timeFrom) {
+                filter["timeFrom"] = timeFrom;
+            }
+            if (timeTo) {
+                filter["timeTo"] = timeTo;
+            }
+            return await this.billRepository.find(filter) || [];
         }
     }
 
@@ -49,7 +55,7 @@ export class BillLogic {
         const endTime = new Date().toISOString();
         if (id) {
             const result = await this.getBillItem(undefined, id, "false");
-            if (Object.keys(result).length == 0) {
+            if (result.length == 0) {
                 const changeDefinition = {
                     status: Bill.Status.Closed,
                     endTime: endTime
@@ -62,7 +68,7 @@ export class BillLogic {
 
     async getBillItem(id?: string, billId?: string, hasPaid?: string) {
         if (id) {
-            return await this.billItemRepository.getSingle(id);
+            return await this.billItemRepository.find({ id }) || [];
         } else {
             const filter = {} as any;
             if (billId) {
@@ -75,7 +81,7 @@ export class BillLogic {
                     filter["paymentId"] = "";
                 }
             }
-            return await this.billItemRepository.getMultiple(filter);
+            return await this.billItemRepository.find(filter) || [];
         }
     }
 
@@ -124,7 +130,7 @@ export class BillLogic {
     async splitBillItem(billItemIdList: string[], quantity: number) {
         if (billItemIdList && quantity > 0) {
             billItemIdList.forEach(async id => {
-                let oldBillItem = await this.getBillItem(id);
+                let oldBillItem = (await this.getBillItem(id))[0];
                 let newQuantity = oldBillItem.quantity as number / quantity;
                 for (let i = 0; i < quantity; i++) {
                     let newBillItem = new BillItem(oldBillItem.billId, oldBillItem.menuItemId, newQuantity);
@@ -138,13 +144,13 @@ export class BillLogic {
 
     async combineBillItems(billItemIdList: string[]) {
         if (billItemIdList) {
-            const firstBillItem = await this.getBillItem(billItemIdList[0]);
+            const firstBillItem = (await this.getBillItem(billItemIdList[0]))[0];
             let menuItemId: string = firstBillItem.menuItemId;
             let totalQuantity: number = 0;
             let billId: string = firstBillItem.billId;
 
             for (const id of billItemIdList) {
-                let oldBillItem = await this.billItemRepository.getSingle(id);
+                let oldBillItem = (await this.billItemRepository.find(id) || [])[0];
                 if (menuItemId != oldBillItem.menuItemId) {
                     return "";
                 }

@@ -24,9 +24,11 @@ export class BillController {
     async getBill(
         @QueryParam("id") id: string,
         @QueryParam("tableId") tableId: string,
-        @QueryParam("status") status: string
+        @QueryParam("status") status: string,
+        @QueryParam("timeFrom") timeFrom: string,
+        @QueryParam("timeTo") timeTo: string
     ) {
-        return Content(await this.billLogic.getBill(id, tableId, status));
+        return Content(await this.billLogic.getBill(id, tableId, status, timeFrom, timeTo));
     }
 
     @Post("/add")
@@ -43,8 +45,6 @@ export class BillController {
     async modifyBill(
         @QueryParam("id") id: string,
         @QueryParam("tableId") tableId: string,
-        @QueryParam("discountAmount") discountAmount: number,
-        @QueryParam("discountPercentage") discountPercentage: number,
         @Cookie("token") @AuthorizationToken authorizationToken: string
     ) {
         return Content(await this.billLogic.modifyBill(id, tableId));
