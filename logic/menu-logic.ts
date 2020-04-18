@@ -40,9 +40,9 @@ export class MenuLogic {
 
   async getMenuItem(id?: string) {
     if (id) {
-      return await this.menuItemRepository.getSingle(id);
+      return await this.menuItemRepository.find({ id }) || [];
     } else {
-      return await this.menuItemRepository.getMultiple();
+      return await this.menuItemRepository.find({}) || [];
     }
   }
 
@@ -63,9 +63,9 @@ export class MenuLogic {
 
   async getMenuCategory(id?: string) {
     if (id) {
-      return await this.menuCategoryRepository.getSingle(id);
+      return await this.menuCategoryRepository.find({ id }) || [];
     } else {
-      return await this.menuCategoryRepository.getMultiple();
+      return await this.menuCategoryRepository.find({}) || [];
     }
   }
 

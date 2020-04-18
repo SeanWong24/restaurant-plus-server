@@ -9,20 +9,20 @@ export class PaymentLogic {
 
     async get(id?: string, billId?: string) {
         if (id) {
-            return await this.paymentRepository.getSingle(id);
+            return await this.paymentRepository.find({ id }) || [];
         }
         else if (billId) {
             const filter = {
                 billId: billId
             }
-            return await this.paymentRepository.getMultiple(filter);
+            return await this.paymentRepository.find(filter) || [];
         } else {
-            return await this.paymentRepository.getMultiple();
+            return await this.paymentRepository.find({}) || [];
         }
     }
 
     async pay(billId: string, cashPayAmount: number, cardPayAmount: number, changeGiven: number, billItemIdList: string[]) {
-        const time = new Date().toISOString();
+        const time = new Date();
         const newPayment = new Payment(billId, time, cashPayAmount, cardPayAmount, changeGiven);
         const result = await this.paymentRepository.addSingle(newPayment) as any;
         const paymentId = result["$oid"];

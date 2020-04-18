@@ -14,21 +14,16 @@ export class TableLogic {
   }
 
   async get(id?: string) {
-    if (id) {
-      return await this.tableRepository.getSingle(id);
-    } else {
-      return await this.tableRepository.getMultiple();
-    }
+    return await this.tableRepository.find({ id }) || [];
   }
 
   async open(id: string, occupied: number) {
-    const time = new Date().toISOString();
     if (id && occupied) {
-      const table = await this.get(id) as Table;
+      const table = (await this.get(id))[0] as Table;
       if (table.status === Table.Status.Free || table.status === Table.Status.Reserved) {
         const tableChangeDefinition = {
           occupied,
-          startTime: time,
+          startTime: new Date(),
           status: Table.Status.Using
         };
         this.billLogic.addBill(id);
@@ -39,12 +34,11 @@ export class TableLogic {
   }
 
   async reserve(id: string, occupied: number) {
-    const time = new Date().toISOString();
     if (id && occupied) {
-      if ((await this.get(id) as Table).status === Table.Status.Free) {
+      if (( (await this.get(id))[0] as Table ).status === Table.Status.Free) {
         const changeDefinition = {
           occupied,
-          startTime: time,
+          startTime: new Date(),
           status: Table.Status.Reserved
         };
         return await this.tableRepository.modify(id, changeDefinition) || "";
@@ -55,15 +49,14 @@ export class TableLogic {
 
   async transfer(id: string, transferId: string) {
     if (id && transferId) {
-      const oldTable = await this.get(id) as Table;
-      const newTable = await this.get(transferId) as Table;
+      const oldTable = (await this.get(id))[0] as Table;
+      const newTable = (await this.get(transferId))[0] as Table;
 
       if (oldTable.status == Table.Status.Using && newTable.status == Table.Status.Free) {
-        const time = new Date().toISOString();
         const newChangeDefinition = {
           "status": Table.Status.Using,
           occupied: oldTable.occupied,
-          startTime: time
+          startTime: new Date()
         }
         this.modify(transferId, newChangeDefinition);
         const oldBill = await this.billLogic.getBill(undefined, id, Bill.Status.Open);
@@ -88,7 +81,7 @@ export class TableLogic {
   }
 
   async toggleAvailability(id: string) {
-    const table = await this.get(id) as Table;
+    const table = (await this.get(id))[0] as Table;
     switch (table.status) {
       case Table.Status.Free:
         return await this.disable(id);
@@ -101,9 +94,9 @@ export class TableLogic {
 
   async delete(id: string) {
     if (id) {
-      const respone = await this.billLogic.getBill(undefined, id) as Bill;
-      if (Object.keys(respone).length == 0) {
-          return (await this.tableRepository.delete(id))?.toString() || "";
+      const respone = await this.billLogic.getBill(undefined, id);
+      if (respone.length == 0) {
+        return (await this.tableRepository.delete(id))?.toString() || "";
       }
     }
     return "";
@@ -111,7 +104,7 @@ export class TableLogic {
 
   async close(id: string) {
     if (id) {
-      if ((await this.get(id) as Table).status === Table.Status.Using) {
+      if (( (await this.get(id))[0] as Table ).status === Table.Status.Using) {
         const bill = await this.billLogic.getBill(undefined, id, Bill.Status.Open);
         const targetBillId = bill[0].id;
         const closeBillResult = await this.billLogic.closeBill(targetBillId);
@@ -130,7 +123,7 @@ export class TableLogic {
 
   async free(id: string) {
     if (id) {
-      const table = await this.get(id) as Table;
+      const table = (await this.get(id))[0] as Table;
       if (
         table.status === Table.Status.Dirty ||
         table.status === Table.Status.Reserved ||
@@ -149,7 +142,7 @@ export class TableLogic {
 
   async disable(id: string) {
     if (id) {
-      const table = await this.get(id) as Table;
+      const table = (await this.get(id))[0] as Table;
       if (
         table.status === Table.Status.Dirty ||
         table.status === Table.Status.Reserved ||
