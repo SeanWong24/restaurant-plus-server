@@ -31,15 +31,15 @@ export function Authorize(permissionList?: string[]) {
                 const userRepository = container.resolve(UserRepository);
                 const roleRepository = container.resolve(RoleRepository);
                 const authorizationToken = args[authorizationTokenIndex];
-                const authorizationUser = (await userRepository.getMultiple({ token: authorizationToken || "(null)" }))[0] as User;
+                const authorizationUser = (await userRepository.find({ token: authorizationToken || "(null)" }))[0] as User;
                 const parameterAuthorizationList = (target["#parameterAuthorizationList_" + propertyKey] || []) as ParameterAuthorizationDefinition[];
                 let isAuthorized = false;
                 let role: Role;
                 if (authorizationUser) {
                     const roleId = authorizationUser.roleId;
-                    role = await roleRepository.getSingle(roleId) as Role;
+                    role = (await roleRepository.find({ roleId }))[0] as Role;
                 } else {
-                    role = (await roleRepository.getMultiple({ name: "Guest" }))[0] as Role;
+                    role = (await roleRepository.find({ name: "Guest" }))[0] as Role;
                 }
                 const isMethodAuthorized = !permissionList || permissionList.every(permission => role.permissionList.includes(permission));
                 const areParametersAuthorized = parameterAuthorizationList

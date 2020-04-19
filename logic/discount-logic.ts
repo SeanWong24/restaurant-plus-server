@@ -16,9 +16,9 @@ export class DiscountLogic {
 
   async get(id?: string) {
     if (id) {
-    return await this.discountRepository.find({ id }) || [];
+    return await this.discountRepository.find({ id });
     } else {
-    return await this.discountRepository.find({}) || [];
+    return await this.discountRepository.find({});
     }
   }
 

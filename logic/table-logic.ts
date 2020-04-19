@@ -15,12 +15,12 @@ export class TableLogic {
 
   async get(id?: string, status?: string) {
     if (id) {
-      return await this.tableRepository.find({ id }) || [];
+      return await this.tableRepository.find({ id });
     } else {
       const filter = {
         status
       }
-      return await this.tableRepository.find(filter) || [];
+      return await this.tableRepository.find(filter);
     }
   }
 

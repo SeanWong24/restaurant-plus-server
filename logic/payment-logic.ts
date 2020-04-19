@@ -9,15 +9,15 @@ export class PaymentLogic {
 
     async get(id?: string, billId?: string) {
         if (id) {
-            return await this.paymentRepository.find({ id }) || [];
+            return await this.paymentRepository.find({ id });
         }
         else if (billId) {
             const filter = {
                 billId: billId
             }
-            return await this.paymentRepository.find(filter) || [];
+            return await this.paymentRepository.find(filter);
         } else {
-            return await this.paymentRepository.find({}) || [];
+            return await this.paymentRepository.find({});
         }
     }
 

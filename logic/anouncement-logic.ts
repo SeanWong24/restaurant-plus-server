@@ -8,7 +8,7 @@ export class AnouncementLogic {
 
     async get(id?: string) {
         if (id) {
-            return await this.anouncementRepository.find({ id }) || [];
+            return await this.anouncementRepository.find({ id });
         } else {
             return await this.anouncementRepository.getAllIds() || [];
         }

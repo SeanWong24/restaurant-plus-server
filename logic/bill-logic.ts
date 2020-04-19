@@ -18,7 +18,7 @@ export class BillLogic {
 
     async getBill(id?: string, tableId?: string, status?: string, timeFrom?: string, timeTo?: string) {
         if (id) {
-            return await this.billRepository.find({ id }) || [];
+            return await this.billRepository.find({ id });
         } else {
             const filter = {} as any;
             if (tableId) {
@@ -33,7 +33,7 @@ export class BillLogic {
             if (timeTo) {
                 filter["timeTo"] = timeTo;
             }
-            return await this.billRepository.find(filter) || [];
+            return await this.billRepository.find(filter);
         }
     }
 
@@ -68,7 +68,7 @@ export class BillLogic {
 
     async getBillItem(id?: string, billId?: string, hasPaid?: string) {
         if (id) {
-            return await this.billItemRepository.find({ id }) || [];
+            return await this.billItemRepository.find({ id });
         } else {
             const filter = {} as any;
             if (billId) {
@@ -81,7 +81,7 @@ export class BillLogic {
                     filter["paymentId"] = "";
                 }
             }
-            return await this.billItemRepository.find(filter) || [];
+            return await this.billItemRepository.find(filter);
         }
     }
 
@@ -150,7 +150,7 @@ export class BillLogic {
             let billId: string = firstBillItem.billId;
 
             for (const id of billItemIdList) {
-                let oldBillItem = (await this.billItemRepository.find(id) || [])[0];
+                let oldBillItem = (await this.billItemRepository.find(id))[0];
                 if (menuItemId != oldBillItem.menuItemId) {
                     return "";
                 }

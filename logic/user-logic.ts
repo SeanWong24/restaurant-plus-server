@@ -10,21 +10,21 @@ export class UserLogic {
 
     async get(id: string) {
         if (id) {
-            return await this.userRepository.find({ id }) || [];
+            return await this.userRepository.find({ id });
         } else {
-            return await this.userRepository.find({}) || [];
+            return await this.userRepository.find({});
         }
     }
 
     async getSelf(token: string) {
-        return (await this.userRepository.find({ token: token || "(null)" }) || [])[0] as User;
+        return (await this.userRepository.find({ token: token || "(null)" }))[0] as User;
     }
 
     async login(loginType: string, loginMessage: string) {
         if (loginType && loginMessage) {
             switch (loginType) {
                 case "accessCode":
-                    const user = (await this.userRepository.find({ accessCode: loginMessage }) || [])[0] as User;
+                    const user = (await this.userRepository.find({ accessCode: loginMessage }))[0] as User;
                     if (user) {
                         // TODO use a generated token instead
                         user.token = user.id as string;
@@ -38,7 +38,7 @@ export class UserLogic {
 
     async logout(token: string) {
         if (token) {
-            const user = (await this.userRepository.find({ token }) || [])[0] as User;
+            const user = (await this.userRepository.find({ token }))[0] as User;
             if (user) {
                 return await this.userRepository.update(user.id as string, { token: "" });
             }
@@ -47,12 +47,12 @@ export class UserLogic {
     }
 
     async add(name: string, roleName: string) {
-        const newUserRole = (await this.roleRepository.find({ name: roleName }) || [])[0] as Role;
+        const newUserRole = (await this.roleRepository.find({ name: roleName }))[0] as Role;
         if (newUserRole?.id) {
             let accessCode;
             do {
                 accessCode = Math.round(Math.random() * 100000).toString();
-            } while ((await this.userRepository.find({ accessCode }) || []).length > 0);
+            } while ((await this.userRepository.find({ accessCode })).length > 0);
             const user = new User(name, newUserRole.id, accessCode);
             return await this.userRepository.addSingle(user);
         }
@@ -61,16 +61,16 @@ export class UserLogic {
 
     async getRole(id: string) {
         if (id) {
-            return await this.roleRepository.find({ id }) || [];
+            return await this.roleRepository.find({ id });
         } else {
-            return await this.roleRepository.find({}) || [];
+            return await this.roleRepository.find({});
         }
     }
 
     async getRoleSelf(token: string) {
         const user = this.getSelf(token);
         if (user) {
-            return await this.roleRepository.find({"id" : (await user).roleId }) || [];
+            return await this.roleRepository.find({"id" : (await user).roleId });
         }
         return "";
     }
