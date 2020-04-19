@@ -46,7 +46,7 @@ export class BillLogic {
             if (discountId) {
                 changeDefinition["discountId"] = discountId;
             }
-            return await this.billRepository.modify(id, changeDefinition) || "";
+            return await this.billRepository.update(id, changeDefinition) || "";
         }
         return "";
     }
@@ -60,7 +60,7 @@ export class BillLogic {
                     status: Bill.Status.Closed,
                     endTime: endTime
                 };
-                return await this.billRepository.modify(id, changeDefinition);
+                return await this.billRepository.update(id, changeDefinition);
             }
         }
         return "";
@@ -104,7 +104,7 @@ export class BillLogic {
             if (discountId) {
                 changeDefinition["discountId"] = discountId;
             }
-            return await this.billItemRepository.modify(id, changeDefinition) || "";
+            return await this.billItemRepository.update(id, changeDefinition) || "";
         }
         return "";
     }
@@ -124,7 +124,7 @@ export class BillLogic {
         const changeDefinition = {
             groupId: groupId
         };
-        return await this.billItemRepository.modifyMany(billItemIdList, changeDefinition) || "";
+        return await this.billItemRepository.update(billItemIdList, changeDefinition) || "";
     }
 
     async splitBillItem(billItemIdList: string[], quantity: number) {

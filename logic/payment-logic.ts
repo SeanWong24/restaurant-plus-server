@@ -31,7 +31,7 @@ export class PaymentLogic {
             const changeDefinition = {
                 paymentId: paymentId
             }
-            this.billItemRepository.modify(billItemId, changeDefinition);
+            this.billItemRepository.update(billItemId, changeDefinition);
         }
 
         return result;

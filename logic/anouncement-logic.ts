@@ -22,7 +22,7 @@ export class AnouncementLogic {
     async modify(id: string, changeDefinition: any) {
         if (id) {
             delete changeDefinition.timeCreated;
-            return await this.anouncementRepository.modify(id, changeDefinition) || "";
+            return await this.anouncementRepository.update(id, changeDefinition) || "";
         }
         return "";
     }

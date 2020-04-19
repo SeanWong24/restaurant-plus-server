@@ -34,7 +34,7 @@ export class TableLogic {
           status: Table.Status.Using
         };
         this.billLogic.addBill(id);
-        return await this.tableRepository.modify(id, tableChangeDefinition) || "";
+        return await this.tableRepository.update(id, tableChangeDefinition) || "";
       }
     }
     return "";
@@ -48,7 +48,7 @@ export class TableLogic {
           startTime: new Date(),
           status: Table.Status.Reserved
         };
-        return await this.tableRepository.modify(id, changeDefinition) || "";
+        return await this.tableRepository.update(id, changeDefinition) || "";
       }
     }
     return "";
@@ -82,7 +82,7 @@ export class TableLogic {
 
   async modify(id: string, changeDefinition: any) {
     if (id) {
-      return await this.tableRepository.modify(id, changeDefinition) || "";
+      return await this.tableRepository.update(id, changeDefinition) || "";
     }
     return "";
   }
@@ -121,7 +121,7 @@ export class TableLogic {
             occupied: 0,
             startTime: ""
           };
-          return await this.tableRepository.modify(id, tableChangeDefinition) || "";
+          return await this.tableRepository.update(id, tableChangeDefinition) || "";
         }
       }
     }
@@ -141,7 +141,7 @@ export class TableLogic {
           occupied: 0,
           startTime: ""
         };
-        return await this.tableRepository.modify(id, changeDefinition) || "";
+        return await this.tableRepository.update(id, changeDefinition) || "";
       }
     }
     return "";
@@ -160,7 +160,7 @@ export class TableLogic {
           occupied: 0,
           startTime: ""
         };
-        return await this.tableRepository.modify(id, changeDefinition) || "";
+        return await this.tableRepository.update(id, changeDefinition) || "";
       }
     }
     return "";

@@ -28,7 +28,7 @@ export class UserLogic {
                     if (user) {
                         // TODO use a generated token instead
                         user.token = user.id as string;
-                        this.userRepository.modify(user.id as string, { token: user.token });
+                        this.userRepository.update(user.id as string, { token: user.token });
                         return user.token;
                     }
             }
@@ -40,7 +40,7 @@ export class UserLogic {
         if (token) {
             const user = (await this.userRepository.find({ token }) || [])[0] as User;
             if (user) {
-                return await this.userRepository.modify(user.id as string, { token: "" });
+                return await this.userRepository.update(user.id as string, { token: "" });
             }
         }
         return "";

@@ -34,7 +34,7 @@ export class DiscountLogic {
         if (amount) {
             changeDefinition["amount"] = amount;
         }
-        return await this.discountRepository.modify(id, changeDefinition) || "";
+        return await this.discountRepository.update(id, changeDefinition) || "";
     }
     return "";
   }

@@ -1,5 +1,6 @@
 import { ObjectId } from "https://deno.land/x/mongo/ts/types.ts";
 import { RepositoryConnection } from "./repository-connection.ts";
+import { UpdateResult } from "https://deno.land/x/mongo/mod.ts";
 
 export declare type QueryOptions = {
   ignoredPropertyList: string[]
@@ -42,40 +43,34 @@ export abstract class Repository<T> {
       {
         $project: projection
       }
-    ]);
+    ]) || [];
   }
 
   async addSingle(object: T) {
     return await this.collection?.insertOne(object) as T;
   }
 
-  // async getSingle(id: string) {
-  //   return this.getObjectInstanceWithId(
-  //     await this.collection?.findOne({ _id: ObjectId(id) }) as T
-  //   );
-  // }
-
-  // async getMultiple(filter?: any) {
-  //   const objectList = await this.collection?.find(filter) as T[];
-  //   return objectList?.map((object) => this.getObjectInstanceWithId(object));
-  // }
-
-  async modify(id: string, changeDefinition: any) {
-    return await this.collection?.updateOne(
-      { _id: ObjectId(id) },
-      { $set: changeDefinition }
-    );
+  async update(id: string, changeDefinition: any): Promise<UpdateResult | undefined>;
+  async update(idList: string[], changeDefinition: any): Promise<UpdateResult | undefined>;
+  async update(idOrIdList: string | string[], changeDefinition: any) {
+    if (Array.isArray(idOrIdList)) {
+      return this.updateMultiple(idOrIdList, changeDefinition);
+    } else {
+      return this.updateSingle(idOrIdList, changeDefinition);
+    }
   }
 
-  async modifyMany(idList: string[], changeDefinition: any) {
-    return await this.collection?.updateMany(
-      { _id: { $in: idList.map(id => ObjectId(id)) } },
+  private async updateSingle(id: string, changeDefinition: any) {
+    return await this.collection?.updateOne(
+      { _id: ObjectId(id) },
       { $set: changeDefinition }
     )
   }
 
-  protected getObjectInstanceWithId(object: any) {
-    object.id = object._id.$oid;
-    return object;
+  private async updateMultiple(idList: string[], changeDefinition: any) {
+    return await this.collection?.updateMany(
+      { _id: { $in: idList.map(id => ObjectId(id)) } },
+      { $set: changeDefinition }
+    )
   }
 }

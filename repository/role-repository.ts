@@ -67,7 +67,7 @@ export class RoleRepository extends Repository<Role> {
       for (const defaultRole of this.defaultRoleList) {
         const role = (await this.find({ name: defaultRole.name }) || [])[0] as Role;
         if (role) {
-          await this.modify(role.id as string, defaultRole);
+          await this.update(role.id as string, defaultRole);
         } else {
           await this.addSingle(defaultRole);
         }

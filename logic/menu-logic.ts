@@ -51,7 +51,7 @@ export class MenuLogic {
       if ("unitPrice" in changeDefinition && this.isItemUsed(id)) {
         delete changeDefinition["unitPrice"];
       }
-      return await this.menuItemRepository.modify(id, changeDefinition) || "";
+      return await this.menuItemRepository.update(id, changeDefinition) || "";
     }
     return "";
   }
@@ -71,7 +71,7 @@ export class MenuLogic {
 
   async modifyMenuCategory(id: string, changeDefinition: any) {
     if (id) {
-      return await this.menuCategoryRepository.modify(id, changeDefinition) ||
+      return await this.menuCategoryRepository.update(id, changeDefinition) ||
         "";
     }
     return "";
