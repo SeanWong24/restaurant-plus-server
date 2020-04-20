@@ -109,9 +109,9 @@ export class BillLogic {
         return "";
     }
 
-    async deleteBillItem(id: string) {
-        if (id) {
-            return (await this.billItemRepository.delete(id))?.toString() || "";
+    async deleteBillItem(idList: string[]) {
+        if (idList) {
+            return (await this.billItemRepository.delete(idList))?.toString() || "";
         }
         return "";
     }
