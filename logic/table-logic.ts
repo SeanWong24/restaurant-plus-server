@@ -10,7 +10,7 @@ export class TableLogic {
 
   async add(name: string, capacity: number) {
     const newTable = new Table(name, capacity);
-    return await this.tableRepository.addSingle(newTable);
+    return await this.tableRepository.insert(newTable);
   }
 
   async get(id?: string, status?: string) {

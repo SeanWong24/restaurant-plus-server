@@ -9,7 +9,7 @@ export class DiscountLogic {
   async add(name: string, type: string, amount: number) {
     if (name && type && amount) {
         const newDiscount = new Discount(name, type, amount);
-        return await this.discountRepository.addSingle(newDiscount) || "";
+        return await this.discountRepository.insert(newDiscount) || "";
     }
     return "";
   }

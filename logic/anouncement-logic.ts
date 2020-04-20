@@ -16,7 +16,7 @@ export class AnouncementLogic {
 
     async add(anouncement: Anouncement) {
         anouncement.timeCreated = new Date().toISOString();
-        return await this.anouncementRepository.addSingle(anouncement);
+        return await this.anouncementRepository.insert(anouncement);
     }
 
     async modify(id: string, changeDefinition: any) {

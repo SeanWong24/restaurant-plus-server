@@ -13,7 +13,7 @@ export class BillLogic {
     async addBill(tableId: string) {
         const startTime = new Date();
         const newBill = new Bill(tableId, startTime);
-        return await this.billRepository.addSingle(newBill);
+        return await this.billRepository.insert(newBill);
     }
 
     async getBill(id?: string, tableId?: string, status?: string, timeFrom?: string, timeTo?: string) {
@@ -89,7 +89,7 @@ export class BillLogic {
         if (billId && menuItemId && quantity) {
             if (groupId) {
                 const newBillItem = new BillItem(billId, menuItemId, quantity, groupId);
-                return await this.billItemRepository.addSingle(newBillItem);
+                return await this.billItemRepository.insert(newBillItem);
             }
         }
         return "";
@@ -134,7 +134,7 @@ export class BillLogic {
                 let newQuantity = oldBillItem.quantity as number / quantity;
                 for (let i = 0; i < quantity; i++) {
                     let newBillItem = new BillItem(oldBillItem.billId, oldBillItem.menuItemId, newQuantity);
-                    this.billItemRepository.addSingle(newBillItem);
+                    this.billItemRepository.insert(newBillItem);
                 }
                 this.billItemRepository.delete(id);
             });
@@ -158,7 +158,7 @@ export class BillLogic {
             }
             if (billId != "" && menuItemId != "" && totalQuantity > 0) {
                 const finalBillItem = new BillItem(billId, menuItemId, totalQuantity);
-                this.billItemRepository.addSingle(finalBillItem);
+                this.billItemRepository.insert(finalBillItem);
             }
 
             billItemIdList.forEach(id => {

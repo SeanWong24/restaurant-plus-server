@@ -46,8 +46,20 @@ export abstract class Repository<T> {
     ]) || [];
   }
 
-  async addSingle(object: T) {
+  async insert(object: T): Promise<any | undefined>;
+  async insert(objectList: T[]): Promise<any | undefined>;
+  async insert(objectOrObjectList: T | T[]) {
+    if (Array.isArray(objectOrObjectList)) {
+      return this.insertMultiple(objectOrObjectList);
+    } else {
+      return this.insertSingle(objectOrObjectList);
+    }
+  }
+  private async insertSingle(object: T) {
     return await this.collection?.insertOne(object) as T;
+  }
+  async insertMultiple(objectList: T[]) {
+    return await this.collection?.insertMany(objectList) as T;
   }
 
   async update(id: string, changeDefinition: any): Promise<UpdateResult | undefined>;
@@ -59,14 +71,12 @@ export abstract class Repository<T> {
       return this.updateSingle(idOrIdList, changeDefinition);
     }
   }
-
   private async updateSingle(id: string, changeDefinition: any) {
     return await this.collection?.updateOne(
       { _id: ObjectId(id) },
       { $set: changeDefinition }
     );
   }
-
   private async updateMultiple(idList: string[], changeDefinition: any) {
     return await this.collection?.updateMany(
       { _id: { $in: idList.map(id => ObjectId(id)) } },
@@ -78,7 +88,7 @@ export abstract class Repository<T> {
   async delete(idList: string[]): Promise<number | undefined>;
   async delete(idOrIdList: string | string[]) {
     if (Array.isArray(idOrIdList)) {
-      return this.deleteMany(idOrIdList);
+      return this.deleteMultiple(idOrIdList);
     } else {
       return this.deleteOne(idOrIdList);
     }
@@ -88,7 +98,7 @@ export abstract class Repository<T> {
       { _id: ObjectId(id) },
     );
   }
-  private async deleteMany(idList: string[]) {
+  private async deleteMultiple(idList: string[]) {
     const objectIdList = [];
     for (const id of idList) {
       objectIdList.push(ObjectId(id));

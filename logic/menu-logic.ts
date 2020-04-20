@@ -35,7 +35,7 @@ export class MenuLogic {
       lctRate,
       imageUrl
     );
-    return await this.menuItemRepository.addSingle(newMenuItem);
+    return await this.menuItemRepository.insert(newMenuItem);
   }
 
   async getMenuItem(id?: string) {
@@ -58,7 +58,7 @@ export class MenuLogic {
 
   async addMenuCategory(name: string) {
     const newMenuCategory = new MenuCategory(name);
-    return await this.menuCategoryRepository.addSingle(newMenuCategory);
+    return await this.menuCategoryRepository.insert(newMenuCategory);
   }
 
   async getMenuCategory(id?: string) {

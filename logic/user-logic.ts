@@ -54,7 +54,7 @@ export class UserLogic {
                 accessCode = Math.round(Math.random() * 100000).toString();
             } while ((await this.userRepository.find({ accessCode })).length > 0);
             const user = new User(name, newUserRole.id, accessCode);
-            return await this.userRepository.addSingle(user);
+            return await this.userRepository.insert(user);
         }
         return "";
     }

@@ -69,7 +69,7 @@ export class RoleRepository extends Repository<Role> {
         if (role) {
           await this.update(role.id as string, defaultRole);
         } else {
-          await this.addSingle(defaultRole);
+          await this.insert(defaultRole);
         }
       }
     }, 0);
