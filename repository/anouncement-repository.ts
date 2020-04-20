@@ -19,10 +19,4 @@ export class AnouncementRepository extends Repository<Anouncement>{
         ) as string[];
         return menuCategoryIdList;
     }
-
-    async delete(id: string) {
-        return await this.collection?.deleteOne(
-            { _id: ObjectId(id) }
-        );
-    }
 }

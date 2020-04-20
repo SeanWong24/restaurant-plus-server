@@ -10,12 +10,6 @@ export class BillItemRepository extends Repository<BillItem> {
     super(repoConnection, "bill-items");
   }
 
-  async delete(id: string) {
-    return await this.collection?.deleteOne(
-      { _id: ObjectId(id) },
-    );
-  }
-
   async findMaxGroupId(billItemIdList: string[]) {
     const maxQuery = (await this.collection?.aggregate(
       [

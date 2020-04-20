@@ -9,10 +9,4 @@ export class TableRepository extends Repository<Table> {
   constructor(private repoConnection: RepositoryConnection) {
     super(repoConnection, "tables");
   }
-
-  async delete(id: string) {
-    return await this.collection?.deleteOne(
-      { _id: ObjectId(id) },
-    );
-  }
 }

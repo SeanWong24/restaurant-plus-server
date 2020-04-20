@@ -64,13 +64,35 @@ export abstract class Repository<T> {
     return await this.collection?.updateOne(
       { _id: ObjectId(id) },
       { $set: changeDefinition }
-    )
+    );
   }
 
   private async updateMultiple(idList: string[], changeDefinition: any) {
     return await this.collection?.updateMany(
       { _id: { $in: idList.map(id => ObjectId(id)) } },
       { $set: changeDefinition }
-    )
+    );
+  }
+
+  async delete(id: string): Promise<number | undefined>;
+  async delete(idList: string[]): Promise<number | undefined>;
+  async delete(idOrIdList: string | string[]) {
+    if (Array.isArray(idOrIdList)) {
+      return this.deleteMany(idOrIdList);
+    } else {
+      return this.deleteOne(idOrIdList);
+    }
+  }
+  private async deleteOne(id: string) {
+    return await this.collection?.deleteOne(
+      { _id: ObjectId(id) },
+    );
+  }
+  private async deleteMany(idList: string[]) {
+    const objectIdList = [];
+    for (const id of idList) {
+      objectIdList.push(ObjectId(id));
+    }
+    return await this.collection?.deleteMany({ _id: {$in: objectIdList}});
   }
 }
