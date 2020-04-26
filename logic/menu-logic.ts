@@ -39,12 +39,8 @@ export class MenuLogic {
     return await this.menuItemRepository.insert(newMenuItem) || "";
   }
 
-  async getMenuItem(id?: string) {
-    if (id) {
-      return await this.menuItemRepository.find({ id });
-    } else {
-      return await this.menuItemRepository.find({});
-    }
+  async getMenuItem(filter?: any) {
+    return await this.menuItemRepository.find(filter) || "";
   }
 
   async modifyItem(id: string, changeDefinition: any) {
@@ -63,12 +59,8 @@ export class MenuLogic {
     return await this.menuCategoryRepository.insert(newMenuCategory);
   }
 
-  async getMenuCategory(id?: string) {
-    if (id) {
-      return await this.menuCategoryRepository.find({ id });
-    } else {
-      return await this.menuCategoryRepository.find({});
-    }
+  async getMenuCategory(filter: any) {
+    return await this.menuCategoryRepository.find(filter);
   }
 
   async modifyCategory(id: string, changeDefinition: any) {

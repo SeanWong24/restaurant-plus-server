@@ -94,7 +94,22 @@ export class BillController {
         @QueryParam("hasPaid") hasPaid: string,
         @Cookie("token") @AuthorizationToken authorizationToken: string
     ) {
-        return Content(await this.billLogic.getBillItem(id, billId, hasPaid));
+        if (id) {
+            return Content(await this.billLogic.getBillItem({ id }));
+        } else {
+            const filter = {} as any;
+            if (billId) {
+                filter["billId"] = billId;
+            }
+            if (hasPaid) {
+                if (JSON.parse(hasPaid.toLowerCase())) {
+                    filter["paymentId"] = { $ne: "" };
+                } else {
+                    filter["paymentId"] = "";
+                }
+            }
+            return Content(await this.billLogic.getBillItem(filter));
+        }
     }
 
     @Post("/item/add")
@@ -118,7 +133,7 @@ export class BillController {
         @Cookie("token") @AuthorizationToken authorizationToken: string
     ) {
         const changeDefinition = {} as any;
-        if (quantity) {changeDefinition["quantity"] = quantity;}
+        if (quantity) { changeDefinition["quantity"] = quantity; }
         return Content(await this.billLogic.modifyItem(id, changeDefinition));
     }
 
@@ -189,7 +204,7 @@ export class BillController {
         @QueryParam("id") id: string,
         @Cookie("token") @AuthorizationToken authorizationToken: string
     ) {
-        return Content(await this.discountLogic.get(id));
+        return Content(await this.discountLogic.get({ id }));
     }
 
     @Post("/discount/add")

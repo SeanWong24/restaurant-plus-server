@@ -16,12 +16,8 @@ export class DiscountLogic {
     return await this.discountRepository.insert(newDiscount) || "";
   }
 
-  async get(id?: string) {
-    if (id) {
-    return await this.discountRepository.find({ id });
-    } else {
-    return await this.discountRepository.find({});
-    }
+  async get(filter?: any) {
+    return await this.discountRepository.find(filter) || "";
   }
 
   async modify(id: string, changeDefinition?: any) {

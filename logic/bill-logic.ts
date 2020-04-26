@@ -47,7 +47,11 @@ export class BillLogic {
     async closeBill(id: string) {
         const endTime = new Date().toISOString();
         if (id) {
-            const result = await this.getBillItem(undefined, id, "false");
+            const filter = {
+                billId: id,
+                paymentId: ""
+            }
+            const result = await this.getBillItem(filter);
             if (result.length == 0) {
                 const changeDefinition = {
                     status: Bill.Status.Closed,
@@ -59,23 +63,8 @@ export class BillLogic {
         return "";
     }
 
-    async getBillItem(id?: string, billId?: string, hasPaid?: string) {
-        if (id) {
-            return await this.billItemRepository.find({ id });
-        } else {
-            const filter = {} as any;
-            if (billId) {
-                filter["billId"] = billId;
-            }
-            if (hasPaid) {
-                if (JSON.parse(hasPaid.toLowerCase())) {
-                    filter["paymentId"] = { $ne: "" };
-                } else {
-                    filter["paymentId"] = "";
-                }
-            }
-            return await this.billItemRepository.find(filter);
-        }
+    async getBillItem(filter: any) {
+        return await this.billItemRepository.find(filter) || '';
     }
 
     async addBillItem(billId: string, menuItemId: string, quantity: number, groupId?: number) {

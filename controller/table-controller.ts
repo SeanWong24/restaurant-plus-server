@@ -17,7 +17,14 @@ export class TableController {
 
   @Get("")
   async get(@QueryParam("id") id: string, @QueryParam("status") status: string) {
-    return Content(await this.tableLogic.get(id, status));
+    if (id) {
+      return Content(await this.tableLogic.get({ id }));
+    } else {
+      const filter = {
+        status
+      };
+      return Content(await this.tableLogic.get(filter));
+    }
   }
 
   @Post("/add")

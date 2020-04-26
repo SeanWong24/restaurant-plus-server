@@ -17,15 +17,8 @@ export class TableLogic {
     return await this.tableRepository.insert(newTable) || '';
   }
 
-  async get(id?: string, status?: string) {
-    if (id) {
-      return await this.tableRepository.find({ id });
-    } else {
-      const filter = {
-        status
-      }
-      return await this.tableRepository.find(filter);
-    }
+  async get(filter: any) {
+    return await this.tableRepository.find(filter);
   }
 
   async open(id: string, occupied: number) {

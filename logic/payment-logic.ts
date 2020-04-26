@@ -7,18 +7,8 @@ import { BillItemRepository } from "../repository/bill-item-repository.ts";
 export class PaymentLogic {
     constructor(private paymentRepository: PaymentRepository, private billItemRepository: BillItemRepository) { }
 
-    async get(id?: string, billId?: string) {
-        if (id) {
-            return await this.paymentRepository.find({ id });
-        }
-        else if (billId) {
-            const filter = {
-                billId: billId
-            }
-            return await this.paymentRepository.find(filter);
-        } else {
-            return await this.paymentRepository.find({});
-        }
+    async get(filter: any) {
+        return await this.paymentRepository.find(filter);
     }
 
     async pay(billId: string, cashPayAmount: number, cardPayAmount: number, changeGiven: number, billItemIdList: string[]) {

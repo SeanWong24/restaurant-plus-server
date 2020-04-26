@@ -19,7 +19,14 @@ export class PaymentController {
     @QueryParam("id") id: string,
     @QueryParam("billId") billId: string
   ) {
-    return Content(await this.paymentLogic.get(id, billId));
+    if (id) {
+      return Content(await this.paymentLogic.get({ id }));
+    } else {
+      const filter = {
+        billId: billId
+      };
+      return Content(await this.paymentLogic.get(filter));
+    }
   }
 
   @Post("/pay")

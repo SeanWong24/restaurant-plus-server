@@ -16,7 +16,7 @@ export class MenuController {
 
     @Get("/category")
     async getCategory(@QueryParam("id") id: string) {
-        return Content(await this.menuLogic.getMenuCategory(id));
+        return Content(await this.menuLogic.getMenuCategory({ id }));
     }
 
     @Post("/category/add")
@@ -36,7 +36,7 @@ export class MenuController {
 
     @Get("/item")
     async getItem(@QueryParam("id") id: string) {
-        return Content(await this.menuLogic.getMenuItem(id));
+        return Content(await this.menuLogic.getMenuItem({ id }));
     }
 
     @Post("/item/add")
