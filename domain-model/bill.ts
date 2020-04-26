@@ -7,7 +7,7 @@ export class Bill {
   tableId: string = "";
   status: string = Bill.Status.Open;
   id?: string;
-  endTime?: Date;
+  endTime?: string;
   discountIdList?: string[];
-  startTime?: Date;
+  startTime?: string;
 }

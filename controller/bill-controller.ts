@@ -29,7 +29,17 @@ export class BillController {
         @QueryParam("timeFrom") timeFrom: string,
         @QueryParam("timeTo") timeTo: string
     ) {
-        return Content(await this.billLogic.getBill(id, tableId, status, timeFrom, timeTo));
+        if (id) {
+            return Content(await this.billLogic.getBill({ id }));
+        } else {
+            const filter = {
+                tableId,
+                status,
+                timeFrom,
+                timeTo
+            }
+            return Content(await this.billLogic.getBill(filter));
+        }
     }
 
     @Post("/add")

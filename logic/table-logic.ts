@@ -10,7 +10,7 @@ export class TableLogic {
 
   async add(name: string, capacity: number) {
     const partialTable: Partial<Table> = {
-      name, 
+      name,
       capacity
     };
     const newTable = Object.assign(new Table, partialTable);
@@ -34,7 +34,7 @@ export class TableLogic {
       if (table.status === Table.Status.Free || table.status === Table.Status.Reserved) {
         const tableChangeDefinition = {
           occupied,
-          startTime: new Date(),
+          startTime: new Date().toISOString(),
           status: Table.Status.Using
         };
         this.billLogic.addBill(id);
@@ -46,10 +46,10 @@ export class TableLogic {
 
   async reserve(id: string, occupied: number) {
     if (id && occupied) {
-      if (( (await this.get(id))[0] as Table ).status === Table.Status.Free) {
+      if (((await this.get(id))[0] as Table).status === Table.Status.Free) {
         const changeDefinition = {
           occupied,
-          startTime: new Date(),
+          startTime: new Date().toISOString(),
           status: Table.Status.Reserved
         };
         return await this.tableRepository.update(id, changeDefinition) || "";
@@ -62,12 +62,12 @@ export class TableLogic {
     if (id && transferId) {
       const oldTable = (await this.get(id))[0] as Table;
       const newTable = (await this.get(transferId))[0] as Table;
-      
+
       if (oldTable.status == Table.Status.Using && newTable.status == Table.Status.Free) {
         const newChangeDefinition = {
           "status": Table.Status.Using,
           occupied: oldTable.occupied,
-          startTime: new Date()
+          startTime: oldTable.startTime
         }
         const oldChangeDefinition = {
           "status": Table.Status.Dirty,
@@ -76,9 +76,13 @@ export class TableLogic {
         }
         this.modify(transferId, newChangeDefinition);
         this.modify(id, oldChangeDefinition);
-        
-        const oldBill = await this.billLogic.getBill(undefined, id, Bill.Status.Open);
-        await this.billLogic.modify(oldBill[0].id, {id: transferId});
+
+        const filter = {
+          tableId: id,
+          status: Bill.Status.Open
+        };
+        const oldBill = await this.billLogic.getBill(filter);
+        await this.billLogic.modify(oldBill[0].id, { id: transferId });
       }
     }
     return "";
@@ -105,7 +109,7 @@ export class TableLogic {
 
   async delete(id: string) {
     if (id) {
-      const respone = await this.billLogic.getBill(undefined, id);
+      const respone = await this.billLogic.getBill({ id });
       if (respone.length == 0) {
         return (await this.tableRepository.delete(id))?.toString() || "";
       }
@@ -115,8 +119,12 @@ export class TableLogic {
 
   async close(id: string) {
     if (id) {
-      if (( (await this.get(id))[0] as Table ).status === Table.Status.Using) {
-        const bill = await this.billLogic.getBill(undefined, id, Bill.Status.Open);
+      if (((await this.get(id))[0] as Table).status === Table.Status.Using) {
+        const filter = {
+          tableId: id,
+          status: Bill.Status.Open
+        };
+        const bill = await this.billLogic.getBill(filter);
         const targetBillId = bill[0].id;
         const closeBillResult = await this.billLogic.closeBill(targetBillId);
         if (closeBillResult != "") {

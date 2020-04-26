@@ -3,7 +3,7 @@ export class Payment {
 
   constructor(
     public billId: string,
-    public time: Date,
+    public time: string,
     public cashPayAmount: number,
     public cardPayAmount: number,
     public changeGiven: number

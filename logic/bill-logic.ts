@@ -12,7 +12,7 @@ export class BillLogic {
     ) { }
 
     async addBill(tableId: string) {
-        const startTime = new Date();
+        const startTime = new Date().toISOString();
         const partialBill: Partial<Bill> = {
             tableId,
             startTime
@@ -22,25 +22,8 @@ export class BillLogic {
         return await this.billRepository.insert(newBill);
     }
 
-    async getBill(id?: string, tableId?: string, status?: string, timeFrom?: string, timeTo?: string) {
-        if (id) {
-            return await this.billRepository.find({ id });
-        } else {
-            const filter = {} as any;
-            if (tableId) {
-                filter["tableId"] = tableId;
-            }
-            if (status) {
-                filter["status"] = status;
-            }
-            if (timeFrom) {
-                filter["timeFrom"] = timeFrom;
-            }
-            if (timeTo) {
-                filter["timeTo"] = timeTo;
-            }
-            return await this.billRepository.find(filter);
-        }
+    async getBill(filter?: any) {
+        return await this.billRepository.find(filter) || '';
     }
 
     async modify(id?: string, changeDefinition?: Partial<Bill>) {
