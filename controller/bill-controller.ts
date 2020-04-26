@@ -67,7 +67,7 @@ export class BillController {
 
     @Post("/discount")
     @Authorize([Role.Permission.Bill_Write])
-    async addBillDiscount(
+    async addDiscountToBill(
         @QueryParam("id") id: string,
         @QueryParam("discountId") discountId: string,
         @Cookie("token") @AuthorizationToken authorizationToken: string
@@ -124,7 +124,7 @@ export class BillController {
 
     @Put("/item/disount")
     // @Authorize([Role.Permission.BillItem_Write])
-    async addBillItemDiscount(
+    async addDiscountToBillItem(
         @QueryParam("id") id: string,
         @QueryParam("discountId") discountId: string,
         @Cookie("token") @AuthorizationToken authorizationToken: string
