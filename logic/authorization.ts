@@ -11,52 +11,60 @@ declare type ParameterAuthorizationDefinition = {
     permissionList?: string[]
 };
 
+export function AuthorizationToken(target: any, propertyKey: string, index: number) {
+    target["#authorizationTokenParameterIndex_" + propertyKey] = index;
+}
+
 export function Authorize(permissionList?: string[]) {
-    return function (target: any, propertyKey: string, descriptor: PropertyDescriptor | number) {
-        if (typeof descriptor === "number") {
-            let parameterAuthorizationList = target["#parameterAuthorizationList_" + propertyKey] as ParameterAuthorizationDefinition[];
-            if (!parameterAuthorizationList) {
-                parameterAuthorizationList = [];
-                target["#parameterAuthorizationList_" + propertyKey] = parameterAuthorizationList;
-            }
-            parameterAuthorizationList.push({
-                index: descriptor,
-                permissionList
-            });
+    return function (target: any, propertyKey: string, descriptorOrIndex: PropertyDescriptor | number) {
+        if (typeof descriptorOrIndex === "number") {
+            AuthorizeForParameter(target, propertyKey, descriptorOrIndex, permissionList);
         } else {
-            const originalFunction = descriptor.value;
-
-            descriptor.value = async function (...args: any[]) {
-                const authorizationTokenIndex = target["#authorizationTokenParameterIndex_" + propertyKey];
-                const userRepository = container.resolve(UserRepository);
-                const roleRepository = container.resolve(RoleRepository);
-                const authorizationToken = args[authorizationTokenIndex];
-                const authorizationUser = (await userRepository.find({ token: authorizationToken || "(null)" }))[0] as User;
-                const parameterAuthorizationList = (target["#parameterAuthorizationList_" + propertyKey] || []) as ParameterAuthorizationDefinition[];
-                let isAuthorized = false;
-                let role: Role;
-                if (authorizationUser) {
-                    const roleId = authorizationUser.roleId;
-                    role = (await roleRepository.find({ roleId }))[0] as Role;
-                } else {
-                    role = (await roleRepository.find({ name: "Guest" }))[0] as Role;
-                }
-                const isMethodAuthorized = !permissionList || permissionList.every(permission => role.permissionList.includes(permission));
-                const areParametersAuthorized = parameterAuthorizationList
-                    .every(definition => !args[definition.index] || !definition.permissionList || definition.permissionList
-                        .every(permission => role.permissionList.includes(permission)));
-                isAuthorized = isMethodAuthorized && areParametersAuthorized;
-
-                if (isAuthorized) {
-                    return await originalFunction.apply(this, args);
-                } else {
-                    throw new ForbiddenError('You do not have the permission to access this resource.');
-                }
-            }
+            authorizeForMethod(target, propertyKey, descriptorOrIndex, permissionList);
         }
     };
 }
 
-export function AuthorizationToken(target: any, propertyKey: string, index: number) {
-    target["#authorizationTokenParameterIndex_" + propertyKey] = index;
+function authorizeForMethod(target: any, propertyKey: string, descriptor: PropertyDescriptor, permissionList?: string[]) {
+    const originalFunction = descriptor.value;
+
+    descriptor.value = async function (...args: any[]) {
+        const authorizationTokenIndex = target["#authorizationTokenParameterIndex_" + propertyKey];
+        const userRepository = container.resolve(UserRepository);
+        const roleRepository = container.resolve(RoleRepository);
+        const authorizationToken = args[authorizationTokenIndex];
+        const authorizationUser = (await userRepository.find({ token: authorizationToken || "(null)" }))[0] as User;
+        const parameterAuthorizationList = (target["#parameterAuthorizationList_" + propertyKey] || []) as ParameterAuthorizationDefinition[];
+        let isAuthorized = false;
+        let role: Role;
+        if (authorizationUser) {
+            const roleId = authorizationUser.roleId;
+            role = (await roleRepository.find({ id: roleId }))[0] as Role;
+        } else {
+            role = (await roleRepository.find({ name: "Guest" }))[0] as Role;
+        }
+        const isMethodAuthorized = !permissionList || permissionList.every(permission => role.permissionList.includes(permission));
+        const areParametersAuthorized = parameterAuthorizationList
+            .every(definition => !args[definition.index] || !definition.permissionList || definition.permissionList
+                .every(permission => role.permissionList.includes(permission)));
+        isAuthorized = isMethodAuthorized && areParametersAuthorized;
+
+        if (isAuthorized) {
+            return await originalFunction.apply(this, args);
+        } else {
+            throw new ForbiddenError('You do not have the permission to access this resource.');
+        }
+    }
+}
+
+function AuthorizeForParameter(target: any, propertyKey: string, index: number, permissionList?: string[]) {
+    let parameterAuthorizationList = target["#parameterAuthorizationList_" + propertyKey] as ParameterAuthorizationDefinition[];
+    if (!parameterAuthorizationList) {
+        parameterAuthorizationList = [];
+        target["#parameterAuthorizationList_" + propertyKey] = parameterAuthorizationList;
+    }
+    parameterAuthorizationList.push({
+        index,
+        permissionList
+    });
 }
