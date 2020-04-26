@@ -24,7 +24,7 @@ export class MenuLogic {
     lctRate?: number,
     imageUrl?: string
   ) {
-    const newMenuItem = new MenuItem(
+    const partialMenuItem: Partial<MenuItem> = {
       name,
       shortName,
       unitPrice,
@@ -34,8 +34,9 @@ export class MenuLogic {
       pstRate,
       lctRate,
       imageUrl
-    );
-    return await this.menuItemRepository.insert(newMenuItem);
+    };
+    const newMenuItem = Object.assign(new MenuItem, partialMenuItem);
+    return await this.menuItemRepository.insert(newMenuItem) || "";
   }
 
   async getMenuItem(id?: string) {
@@ -57,7 +58,8 @@ export class MenuLogic {
   }
 
   async addMenuCategory(name: string) {
-    const newMenuCategory = new MenuCategory(name);
+    const partialMenuCategory: Partial<MenuCategory> = {name};
+    const newMenuCategory = Object.assign(new MenuCategory, partialMenuCategory);
     return await this.menuCategoryRepository.insert(newMenuCategory);
   }
 

@@ -9,8 +9,12 @@ export class TableLogic {
   constructor(private tableRepository: TableRepository, private billLogic: BillLogic) { }
 
   async add(name: string, capacity: number) {
-    const newTable = new Table(name, capacity);
-    return await this.tableRepository.insert(newTable);
+    const partialTable: Partial<Table> = {
+      name, 
+      capacity
+    };
+    const newTable = Object.assign(new Table, partialTable);
+    return await this.tableRepository.insert(newTable) || '';
   }
 
   async get(id?: string, status?: string) {

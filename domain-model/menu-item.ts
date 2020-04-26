@@ -5,16 +5,13 @@ export class MenuItem {
   };
 
   id?: string;
-
-  constructor(
-    public name: string,
-    public shortName: string,
-    public unitPrice: number,
-    public categoryId: string,
-    public status: string = MenuItem.Status.Unavailable,
-    public gstRate: number = 0,
-    public pstRate: number = 0,
-    public lctRate: number = 0,
-    public imageUrl: string = ""
-  ) { }
+  name: string = '';
+  shortName: string = '';
+  unitPrice: number = 1;
+  categoryId: string = '';
+  status: string = MenuItem.Status.Unavailable;
+  gstRate: number = 0;
+  pstRate: number = 0;
+  lctRate: number = 0;
+  imageUrl: string = "";
 }

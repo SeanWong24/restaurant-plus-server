@@ -8,12 +8,9 @@ export class Table {
   };
 
   id?: string;
-
-  constructor(
-    public name: string,
-    public capacity: number,
-    public occupied: number = 0,
-    public status: string = Table.Status.Unavailable,
-    public startTime?: Date
-  ) {}
+  name: string = '';
+  capacity: number = 2;
+  occupied: number = 0;
+  status: string = Table.Status.Unavailable;
+  startTime?: Date;
 }
