@@ -1,6 +1,6 @@
 export class BillItem {
   id?: string;
-  discountId?: string;
+  discountIdList?: string[];
 
   constructor(
     public billId: string,

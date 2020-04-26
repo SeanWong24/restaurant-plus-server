@@ -3,6 +3,7 @@ import { BillRepository } from "../repository/bill-repository.ts";
 import { BillItemRepository } from "../repository/bill-item-repository.ts";
 import { Bill } from "../domain-model/bill.ts";
 import { BillItem } from "../domain-model/bill-item.ts";
+
 @Injectable()
 export class BillLogic {
     constructor(
@@ -12,7 +13,12 @@ export class BillLogic {
 
     async addBill(tableId: string) {
         const startTime = new Date();
-        const newBill = new Bill(tableId, startTime);
+        const changeDefinition: Partial<Bill> = {
+            tableId,
+            startTime
+        };
+
+        const newBill = Object.assign(new Bill, changeDefinition);
         return await this.billRepository.insert(newBill);
     }
 
@@ -37,16 +43,20 @@ export class BillLogic {
         }
     }
 
-    async modifyBill(id?: string, tableId?: string, discountId?: string) {
+    async modify(id?: string, changeDefinition?: Partial<Bill>) {
         if (id) {
-            const changeDefinition = {} as any;
-            if (tableId) {
-                changeDefinition["tableId"] = tableId;
+            return await this.billItemRepository.update(id, changeDefinition) || "";
+        }
+        return "";
+    }
+
+    async addBillDiscount(id?: string, discountId?: string) {
+        if (id) {
+            const bill = (await this.getBill(id))[0] as Bill;
+            if (bill && discountId){
+                bill.discountIdList?.push(discountId);
+                this.modify(id ,{discountIdList: bill.discountIdList});
             }
-            if (discountId) {
-                changeDefinition["discountId"] = discountId;
-            }
-            return await this.billRepository.update(id, changeDefinition) || "";
         }
         return "";
     }
@@ -95,16 +105,20 @@ export class BillLogic {
         return "";
     }
 
-    async modifyBillItem(id: string, quantity?: number, discountId?: string) {
+    async modifyItem(id?: string, changeDefinition?: any) {
         if (id) {
-            const changeDefinition = {} as any;
-            if (quantity) {
-                changeDefinition["quantity"] = quantity;
-            }
-            if (discountId) {
-                changeDefinition["discountId"] = discountId;
-            }
             return await this.billItemRepository.update(id, changeDefinition) || "";
+        }
+        return "";
+    }
+
+    async addBillItemDiscount(id?: string, discountId?: string) {
+        if (id) {
+            const billItem = (await this.getBillItem(id))[0] as BillItem;
+            if (billItem && discountId){
+                billItem.discountIdList?.push(discountId);
+                this.modify(id ,{discountIdList: billItem.discountIdList});
+            }
         }
         return "";
     }

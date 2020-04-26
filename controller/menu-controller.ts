@@ -30,7 +30,7 @@ export class MenuController {
         if (name) {
             changeDefinition["name"] = name;
         }
-        return Content(await this.menuLogic.modifyMenuCategory(id, changeDefinition));
+        return Content(await this.menuLogic.modifyCategory(id, changeDefinition));
     }
 
 
@@ -97,6 +97,6 @@ export class MenuController {
                 changeDefinition["imageUrl"] = (imageUrl === "(null)") ? "" : imageUrl;
             }
         }
-        return Content(await this.menuLogic.modifyMenuItem(id, changeDefinition));
+        return Content(await this.menuLogic.modifyItem(id, changeDefinition));
     }
 }

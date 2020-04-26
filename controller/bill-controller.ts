@@ -14,6 +14,7 @@ import { BillLogic } from "../logic/bill-logic.ts";
 import { DiscountLogic } from "../logic/discount-logic.ts";
 import { Authorize, AuthorizationToken } from "../logic/authorization.ts";
 import { Role } from "../domain-model/role.ts";
+import { Bill } from "../domain-model/bill.ts";
 
 @Injectable()
 @Controller("/bill")
@@ -47,17 +48,21 @@ export class BillController {
         @QueryParam("tableId") tableId: string,
         @Cookie("token") @AuthorizationToken authorizationToken: string
     ) {
-        return Content(await this.billLogic.modifyBill(id, tableId));
+        const changeDefinition: Partial<Bill> = {};
+        if (tableId) {
+            changeDefinition.tableId = tableId;
+        }
+        return Content(await this.billLogic.modify(id, changeDefinition));
     }
 
-    @Put("/discount")
+    @Post("/discount")
     @Authorize([Role.Permission.Bill_Write])
     async addBillDiscount(
         @QueryParam("id") id: string,
         @QueryParam("discountId") discountId: string,
         @Cookie("token") @AuthorizationToken authorizationToken: string
     ) {
-        return Content(await this.billLogic.modifyBill(id, undefined, discountId));
+        return Content(await this.billLogic.addBillDiscount(id, discountId));
     }
 
     @Put("/close")
@@ -102,7 +107,9 @@ export class BillController {
         @QueryParam("quantity") quantity: number,
         @Cookie("token") @AuthorizationToken authorizationToken: string
     ) {
-        return Content(await this.billLogic.modifyBillItem(id, quantity));
+        const changeDefinition = {} as any;
+        if (quantity) {changeDefinition["quantity"] = quantity;}
+        return Content(await this.billLogic.modifyItem(id, changeDefinition));
     }
 
     @Put("/item/disount")
@@ -112,7 +119,7 @@ export class BillController {
         @QueryParam("discountId") discountId: string,
         @Cookie("token") @AuthorizationToken authorizationToken: string
     ) {
-        return Content(await this.billLogic.modifyBillItem(id, undefined, discountId));
+        return Content(await this.billLogic.addBillItemDiscount(id, discountId));
     }
 
     @Put("/item/group")
@@ -192,9 +199,19 @@ export class BillController {
         @QueryParam("id") id: string,
         @QueryParam("name") name: string,
         @QueryParam("type") type: string,
-        @QueryParam("amount") amount: number,
+        @QueryParam("value") value: number,
         @Cookie("token") @AuthorizationToken authorizationToken: string
     ) {
-        return Content(await this.discountLogic.modify(id, name, type, amount));
+        const changeDefinition = {} as any;
+        if (name) {
+            changeDefinition["name"] = name;
+        }
+        if (type) {
+            changeDefinition["type"] = type;
+        }
+        if (value) {
+            changeDefinition["value"] = value;
+        }
+        return Content(await this.discountLogic.modify(id, changeDefinition));
     }
 }

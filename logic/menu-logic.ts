@@ -46,7 +46,7 @@ export class MenuLogic {
     }
   }
 
-  async modifyMenuItem(id: string, changeDefinition: any) {
+  async modifyItem(id: string, changeDefinition: any) {
     if (id) {
       if ("unitPrice" in changeDefinition && this.isItemUsed(id)) {
         delete changeDefinition["unitPrice"];
@@ -69,7 +69,7 @@ export class MenuLogic {
     }
   }
 
-  async modifyMenuCategory(id: string, changeDefinition: any) {
+  async modifyCategory(id: string, changeDefinition: any) {
     if (id) {
       return await this.menuCategoryRepository.update(id, changeDefinition) ||
         "";

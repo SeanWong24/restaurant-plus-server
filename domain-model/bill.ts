@@ -4,13 +4,10 @@ export class Bill {
     Closed: "Closed"
   };
 
+  tableId: string = "";
+  status: string = Bill.Status.Open;
   id?: string;
   endTime?: Date;
-  discountId?: string;
-
-  constructor(
-    public tableId: string,
-    public startTime: Date,
-    public status: string = Bill.Status.Open
-  ) {}
+  discountIdList?: string[];
+  startTime?: Date;
 }

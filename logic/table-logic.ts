@@ -74,7 +74,7 @@ export class TableLogic {
         this.modify(id, oldChangeDefinition);
         
         const oldBill = await this.billLogic.getBill(undefined, id, Bill.Status.Open);
-        await this.billLogic.modifyBill(oldBill[0].id, transferId);
+        await this.billLogic.modify(oldBill[0].id, {id: transferId});
       }
     }
     return "";

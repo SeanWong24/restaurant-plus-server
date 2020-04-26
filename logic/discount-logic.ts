@@ -22,18 +22,8 @@ export class DiscountLogic {
     }
   }
 
-  async modify(id: string, name?: string, type?: string, amount?: number) {
+  async modify(id: string, changeDefinition?: any) {
     if (id) {
-        const changeDefinition = {} as any;
-        if (name) {
-            changeDefinition["name"] = name;
-        }
-        if (type) {
-            changeDefinition["type"] = type;
-        }
-        if (amount) {
-            changeDefinition["amount"] = amount;
-        }
         return await this.discountRepository.update(id, changeDefinition) || "";
     }
     return "";
