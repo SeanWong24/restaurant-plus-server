@@ -50,7 +50,7 @@ export class BillLogic {
         return "";
     }
 
-    async addBillDiscount(id?: string, discountId?: string) {
+    async addDiscountToBill(id?: string, discountId?: string) {
         if (id) {
             const bill = (await this.getBill(id))[0] as Bill;
             if (bill && discountId){
@@ -114,7 +114,7 @@ export class BillLogic {
         return "";
     }
 
-    async addBillItemDiscount(id?: string, discountId?: string) {
+    async addDiscountToBillItem(id?: string, discountId?: string) {
         if (id) {
             const billItem = (await this.getBillItem(id))[0] as BillItem;
             if (billItem && discountId){

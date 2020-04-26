@@ -62,7 +62,7 @@ export class BillController {
         @QueryParam("discountId") discountId: string,
         @Cookie("token") @AuthorizationToken authorizationToken: string
     ) {
-        return Content(await this.billLogic.addBillDiscount(id, discountId));
+        return Content(await this.billLogic.addDiscountToBill(id, discountId));
     }
 
     @Put("/close")
@@ -119,7 +119,7 @@ export class BillController {
         @QueryParam("discountId") discountId: string,
         @Cookie("token") @AuthorizationToken authorizationToken: string
     ) {
-        return Content(await this.billLogic.addBillItemDiscount(id, discountId));
+        return Content(await this.billLogic.addDiscountToBillItem(id, discountId));
     }
 
     @Put("/item/group")
