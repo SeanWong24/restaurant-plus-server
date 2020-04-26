@@ -2,11 +2,9 @@ export class BillItem {
   id?: string;
   discountIdList?: string[];
 
-  constructor(
-    public billId: string,
-    public menuItemId: string,
-    public quantity: number,
-    public groupId: number = 1,
-    public paymentId: string = ""
-  ) {}
+  billId: string = "";
+  menuItemId: string = "";
+  quantity: number = 1;
+  groupId: number = 1;
+  paymentId: string = "";
 }

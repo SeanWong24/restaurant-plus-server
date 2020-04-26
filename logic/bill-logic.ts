@@ -13,12 +13,12 @@ export class BillLogic {
 
     async addBill(tableId: string) {
         const startTime = new Date();
-        const changeDefinition: Partial<Bill> = {
+        const partialBill: Partial<Bill> = {
             tableId,
             startTime
         };
 
-        const newBill = Object.assign(new Bill, changeDefinition);
+        const newBill = Object.assign(new Bill, partialBill);
         return await this.billRepository.insert(newBill);
     }
 
@@ -96,13 +96,15 @@ export class BillLogic {
     }
 
     async addBillItem(billId: string, menuItemId: string, quantity: number, groupId?: number) {
-        if (billId && menuItemId && quantity) {
-            if (groupId) {
-                const newBillItem = new BillItem(billId, menuItemId, quantity, groupId);
-                return await this.billItemRepository.insert(newBillItem);
-            }
-        }
-        return "";
+        const partialBillItem: Partial<BillItem> = {
+            billId,
+            menuItemId,
+            quantity,
+            groupId
+        };
+        const newBillItem = Object.assign(new BillItem, partialBillItem);
+
+        return await this.billItemRepository.insert(newBillItem) || "";
     }
 
     async modifyItem(id?: string, changeDefinition?: any) {
@@ -147,8 +149,7 @@ export class BillLogic {
                 let oldBillItem = (await this.getBillItem(id))[0];
                 let newQuantity = oldBillItem.quantity as number / quantity;
                 for (let i = 0; i < quantity; i++) {
-                    let newBillItem = new BillItem(oldBillItem.billId, oldBillItem.menuItemId, newQuantity);
-                    this.billItemRepository.insert(newBillItem);
+                    this.addBillItem(oldBillItem.billId, oldBillItem.menuItemId, newQuantity);
                 }
                 this.billItemRepository.delete(id);
             });
@@ -171,8 +172,7 @@ export class BillLogic {
                 totalQuantity += +oldBillItem.quantity;
             }
             if (billId != "" && menuItemId != "" && totalQuantity > 0) {
-                const finalBillItem = new BillItem(billId, menuItemId, totalQuantity);
-                this.billItemRepository.insert(finalBillItem);
+                this.addBillItem(billId, menuItemId, totalQuantity);
             }
 
             billItemIdList.forEach(id => {

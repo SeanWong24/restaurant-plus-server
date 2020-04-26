@@ -6,12 +6,14 @@ import { Discount } from "../domain-model/discount.ts";
 export class DiscountLogic {
   constructor(private discountRepository: DiscountRepository) { }
 
-  async add(name: string, type: string, amount: number) {
-    if (name && type && amount) {
-        const newDiscount = new Discount(name, type, amount);
-        return await this.discountRepository.insert(newDiscount) || "";
-    }
-    return "";
+  async add(name: string, type: string, value: number) {
+    const partialDiscount: Partial<Discount> = {
+      name,
+      type,
+      value
+    };
+    const newDiscount = Object.assign(new Discount, partialDiscount);
+    return await this.discountRepository.insert(newDiscount) || "";
   }
 
   async get(id?: string) {
