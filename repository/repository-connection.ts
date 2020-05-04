@@ -1,4 +1,4 @@
-import { MongoClient, Database, init } from "https://deno.land/x/mongo/mod.ts";
+import { MongoClient, Database, init } from "../external-modules/mongo.ts";
 
 export class RepositoryConnection {
   client: MongoClient | undefined;

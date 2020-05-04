@@ -1,6 +1,6 @@
-import { ObjectId } from "https://deno.land/x/mongo/ts/types.ts";
+import { ObjectId } from "../external-modules/mongo-types.ts";
 import { RepositoryConnection } from "./repository-connection.ts";
-import { UpdateResult } from "https://deno.land/x/mongo/mod.ts";
+import { UpdateResult } from "../external-modules/mongo.ts";
 
 export declare type QueryOptions = {
   ignoredPropertyList: string[]
@@ -103,6 +103,6 @@ export abstract class Repository<T> {
     for (const id of idList) {
       objectIdList.push(ObjectId(id));
     }
-    return await this.collection?.deleteMany({ _id: {$in: objectIdList}});
+    return await this.collection?.deleteMany({ _id: { $in: objectIdList } });
   }
 }

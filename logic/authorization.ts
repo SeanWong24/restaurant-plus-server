@@ -1,7 +1,7 @@
-import { container } from "https://deno.land/x/alosaur/src/injection/index.ts";
+import { container } from "../external-modules/alosaur-injection.ts";
 import { UserRepository } from "../repository/user-repository.ts";
 import { RoleRepository } from "../repository/role-repository.ts";
-import { ForbiddenError } from "https://deno.land/x/alosaur/src/mod.ts";
+import { ForbiddenError } from "../external-modules/alosaur.ts";
 import { User } from "../domain-model/user.ts";
 import { Role } from "../domain-model/role.ts";
 

@@ -1,5 +1,4 @@
-import { Injectable } from "https://deno.land/x/alosaur/src/mod.ts";
-import { ObjectId } from "https://deno.land/x/mongo/ts/types.ts";
+import { Injectable } from "../external-modules/alosaur.ts";
 import { RepositoryConnection } from "./repository-connection.ts";
 import { Anouncement } from "../domain-model/anouncement.ts";
 import { Repository } from "./repository.ts";

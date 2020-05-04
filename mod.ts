@@ -3,7 +3,7 @@ import {
   Area,
   container,
   CorsBuilder
-} from "https://deno.land/x/alosaur/src/mod.ts";
+} from "./external-modules/alosaur.ts";
 import { TableController } from "./controller/table-controller.ts";
 import { RepositoryConnection } from "./repository/repository-connection.ts";
 import { UserController } from "./controller/user-controller.ts";

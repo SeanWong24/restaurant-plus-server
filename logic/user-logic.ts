@@ -1,4 +1,4 @@
-import { Injectable } from "https://deno.land/x/alosaur/src/mod.ts";
+import { Injectable } from "../external-modules/alosaur.ts";
 import { RoleRepository } from "../repository/role-repository.ts";
 import { UserRepository } from "../repository/user-repository.ts";
 import { User } from "../domain-model/user.ts";

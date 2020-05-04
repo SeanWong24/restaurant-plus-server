@@ -4,9 +4,9 @@ import {
   Body,
   Post,
   QueryParam,
-  Get
-} from "https://deno.land/x/alosaur/src/mod.ts";
-import { Injectable } from "https://deno.land/x/alosaur/src/mod.ts";
+  Get,
+  Injectable
+} from "../external-modules/alosaur.ts";
 import { PaymentLogic } from "../logic/payment-logic.ts";
 
 @Injectable()

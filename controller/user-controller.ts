@@ -8,11 +8,11 @@ import {
   Put,
   Res,
   Response,
-  Cookie
-} from "https://deno.land/x/alosaur/src/mod.ts";
-import { Injectable } from "https://deno.land/x/alosaur/src/mod.ts";
+  Cookie,
+  Injectable
+} from "../external-modules/alosaur.ts";
 import { UserLogic } from "../logic/user-logic.ts";
-import { setCookie, delCookie } from "https://deno.land/std@v0.38.0/http/cookie.ts";
+import { setCookie, delCookie } from "../external-modules/cookie.ts";
 import { Authorize, AuthorizationToken } from "../logic/authorization.ts";
 import { Role } from "../domain-model/role.ts";
 

@@ -5,9 +5,9 @@ import {
   Get,
   Post,
   Put,
-  Delete
-} from "https://deno.land/x/alosaur/src/mod.ts";
-import { Injectable } from "https://deno.land/x/alosaur/src/mod.ts";
+  Delete,
+  Injectable
+} from "../external-modules/alosaur.ts";
 import { TableLogic } from "../logic/table-logic.ts";
 
 @Injectable()

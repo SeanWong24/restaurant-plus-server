@@ -4,9 +4,9 @@ import {
     QueryParam,
     Get,
     Post,
-    Put
-} from "https://deno.land/x/alosaur/src/mod.ts";
-import { Injectable } from "https://deno.land/x/alosaur/src/mod.ts";
+    Put,
+    Injectable
+} from "../external-modules/alosaur.ts";
 import { MenuLogic } from "../logic/menu-logic.ts";
 
 @Injectable()

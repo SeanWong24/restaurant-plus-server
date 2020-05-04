@@ -1,4 +1,4 @@
-import { Injectable } from "https://deno.land/x/alosaur/src/mod.ts";
+import { Injectable } from "../external-modules/alosaur.ts";
 import { MenuItem } from "../domain-model/menu-item.ts";
 import { MenuItemRepository } from "../repository/menu-item-repository.ts";
 import {

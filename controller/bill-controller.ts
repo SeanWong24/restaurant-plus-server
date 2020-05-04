@@ -7,9 +7,9 @@ import {
     Put,
     Delete,
     Body,
-    Cookie
-} from "https://deno.land/x/alosaur/src/mod.ts";
-import { Injectable } from "https://deno.land/x/alosaur/src/mod.ts";
+    Cookie,
+    Injectable
+} from "../external-modules/alosaur.ts";
 import { BillLogic } from "../logic/bill-logic.ts";
 import { DiscountLogic } from "../logic/discount-logic.ts";
 import { Authorize, AuthorizationToken } from "../logic/authorization.ts";

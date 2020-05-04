@@ -1,4 +1,4 @@
-import { Injectable } from "https://deno.land/x/alosaur/src/mod.ts";
+import { Injectable } from "../external-modules/alosaur.ts";
 import { DiscountRepository } from "../repository/discount-repository.ts";
 import { Discount } from "../domain-model/discount.ts";
 
