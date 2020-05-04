@@ -65,14 +65,23 @@ export class BillController {
         return Content(await this.billLogic.modify(id, changeDefinition));
     }
 
-    @Post("/discount")
-    @Authorize([Role.Permission.Bill_Write])
+    @Put("/discount")
+    //@Authorize([Role.Permission.Bill_Write])
     async addDiscountToBill(
         @QueryParam("id") id: string,
         @QueryParam("discountId") discountId: string,
         @Cookie("token") @AuthorizationToken authorizationToken: string
     ) {
         return Content(await this.billLogic.addDiscountToBill(id, discountId));
+    }
+
+    @Put("/remove/discount")
+    async removeDiscountFromBill(
+        @QueryParam("id") id: string,
+        @QueryParam("discountId") discountId: string,
+        @Cookie("token") @AuthorizationToken authorizationToken: string
+    ) {
+        return Content(await this.billLogic.removeDiscountFromBill(id, discountId));
     }
 
     @Put("/close")
@@ -137,7 +146,7 @@ export class BillController {
         return Content(await this.billLogic.modifyItem(id, changeDefinition));
     }
 
-    @Put("/item/disount")
+    @Put("/item/discount")
     // @Authorize([Role.Permission.BillItem_Write])
     async addDiscountToBillItem(
         @QueryParam("id") id: string,
@@ -145,6 +154,15 @@ export class BillController {
         @Cookie("token") @AuthorizationToken authorizationToken: string
     ) {
         return Content(await this.billLogic.addDiscountToBillItem(id, discountId));
+    }
+
+    @Put("/item/remove/discount")
+    async removeDiscountFromBillItem(
+        @QueryParam("id") id: string,
+        @QueryParam("discountId") discountId: string,
+        @Cookie("token") @AuthorizationToken authorizationToken: string
+    ) {
+        return Content(await this.billLogic.removeDiscountFromBillItem(id, discountId))
     }
 
     @Put("/item/group")

@@ -28,17 +28,32 @@ export class BillLogic {
 
     async modify(id?: string, changeDefinition?: Partial<Bill>) {
         if (id) {
-            return await this.billItemRepository.update(id, changeDefinition) || "";
+            return await this.billRepository.update(id, changeDefinition) || "";
         }
         return "";
     }
 
     async addDiscountToBill(id?: string, discountId?: string) {
         if (id) {
-            const bill = (await this.getBill(id))[0] as Bill;
-            if (bill && discountId){
-                bill.discountIdList?.push(discountId);
-                this.modify(id ,{discountIdList: bill.discountIdList});
+            const bill = (await this.getBill({ id }))[0] as Bill;
+            if (bill && discountId) {
+                bill.discountIdList.push(discountId);
+                return await this.modify(id, { discountIdList: bill.discountIdList });
+            }
+        }
+        return "";
+    }
+
+    async removeDiscountFromBill(id?: string, discountId?: string) {
+        if (id) {
+            const bill = (await this.getBill({ id }))[0] as Bill;
+            if (bill && discountId) {
+                const index = bill.discountIdList.indexOf(discountId);
+                if (index !== undefined && index >= 0) {
+                    bill.discountIdList.splice(index, 1);
+                    console.log(bill.discountIdList)
+                }
+                return await this.modify(id, { discountIdList: bill.discountIdList });
             }
         }
         return "";
@@ -88,10 +103,24 @@ export class BillLogic {
 
     async addDiscountToBillItem(id?: string, discountId?: string) {
         if (id) {
-            const billItem = (await this.getBillItem(id))[0] as BillItem;
-            if (billItem && discountId){
-                billItem.discountIdList?.push(discountId);
-                this.modify(id ,{discountIdList: billItem.discountIdList});
+            const billItem = (await this.getBillItem({ id }))[0] as BillItem;
+            if (billItem && discountId) {
+                billItem.discountIdList.push(discountId);
+                return await this.modifyItem(id, { discountIdList: billItem.discountIdList });
+            }
+        }
+        return "";
+    }
+
+    async removeDiscountFromBillItem(id?: string, discountId?: string) {
+        if (id) {
+            const billItem = (await this.getBillItem({ id }))[0] as BillItem;
+            if (billItem && discountId) {
+                const index = billItem.discountIdList?.indexOf(discountId);
+                if (index !== undefined && index >= 0) {
+                    billItem.discountIdList?.splice(index, 1);
+                }
+                return await this.modifyItem(id, { discountIdList: billItem.discountIdList });
             }
         }
         return "";
