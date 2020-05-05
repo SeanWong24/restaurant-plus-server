@@ -33,27 +33,44 @@ export class BillLogic {
         return "";
     }
 
-    async addDiscountToBill(id?: string, discountId?: string) {
+    async addDiscountToBill(id: string, discountId: string, groupId?: number) {
         if (id) {
             const bill = (await this.getBill({ id }))[0] as Bill;
             if (bill && discountId) {
-                bill.discountIdList.push(discountId);
-                return await this.modify(id, { discountIdList: bill.discountIdList });
+                if (groupId) {
+                    const filter = {
+                        billId: id,
+                        groupId: groupId
+                    }
+                    const potentialItemList = await this.getBillItem(filter);
+                    if (potentialItemList.length == 0) {
+                        return "";
+                    } else {
+                        const discountList = bill.discountIdDict[groupId.toString()];
+                        if (discountList) {
+                            discountList.push(discountId);
+                        } else {
+                            bill.discountIdDict[groupId.toString()] = [discountId];
+                        }
+                    }
+                }
+                return await this.modify(id, { discountIdDict: bill.discountIdDict });
             }
         }
         return "";
     }
 
-    async removeDiscountFromBill(id?: string, discountId?: string) {
+    async removeDiscountFromBill(id: string, discountId: string, groupId?: number) {
         if (id) {
             const bill = (await this.getBill({ id }))[0] as Bill;
             if (bill && discountId) {
-                const index = bill.discountIdList.indexOf(discountId);
-                if (index !== undefined && index >= 0) {
-                    bill.discountIdList.splice(index, 1);
-                    console.log(bill.discountIdList)
+                if (groupId && groupId in bill.discountIdDict) {
+                    const index = bill.discountIdDict[groupId.toString()].indexOf(discountId);
+                    if (index !== undefined && index >= 0) {
+                        bill.discountIdDict[groupId.toString()].splice(index, 1);
+                    }
+                    return await this.modify(id, { discountIdDict: bill.discountIdDict });
                 }
-                return await this.modify(id, { discountIdList: bill.discountIdList });
             }
         }
         return "";

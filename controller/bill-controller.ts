@@ -70,18 +70,20 @@ export class BillController {
     async addDiscountToBill(
         @QueryParam("id") id: string,
         @QueryParam("discountId") discountId: string,
+        @QueryParam("groupId") groupId: number,
         @Cookie("token") @AuthorizationToken authorizationToken: string
     ) {
-        return Content(await this.billLogic.addDiscountToBill(id, discountId));
+        return Content(await this.billLogic.addDiscountToBill(id, discountId, groupId));
     }
 
     @Put("/remove/discount")
     async removeDiscountFromBill(
         @QueryParam("id") id: string,
         @QueryParam("discountId") discountId: string,
+        @QueryParam("groupId") groupId: number,
         @Cookie("token") @AuthorizationToken authorizationToken: string
     ) {
-        return Content(await this.billLogic.removeDiscountFromBill(id, discountId));
+        return Content(await this.billLogic.removeDiscountFromBill(id, discountId, groupId));
     }
 
     @Put("/close")
@@ -101,6 +103,7 @@ export class BillController {
         @QueryParam("id") id: string,
         @QueryParam("billId") billId: string,
         @QueryParam("hasPaid") hasPaid: string,
+        @QueryParam("groupId") groupId: number,
         @Cookie("token") @AuthorizationToken authorizationToken: string
     ) {
         if (id) {
@@ -116,6 +119,9 @@ export class BillController {
                 } else {
                     filter["paymentId"] = "";
                 }
+            }
+            if (groupId) {
+                filter["groupId"] = groupId;
             }
             return Content(await this.billLogic.getBillItem(filter));
         }

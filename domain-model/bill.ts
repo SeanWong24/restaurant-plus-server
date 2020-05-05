@@ -6,7 +6,7 @@ export class Bill {
 
   tableId: string = "";
   status: string = Bill.Status.Open;
-  discountIdList: string[] = [];
+  discountIdDict:{[groupId: string]: string[]} = {};
   id?: string;
   endTime?: string;
   startTime?: string;
