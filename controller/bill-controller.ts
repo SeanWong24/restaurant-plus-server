@@ -131,7 +131,7 @@ export class BillController {
         @Body() selectedMenuItemInfoList: Map<string, string>[],
         @Cookie("token") @AuthorizationToken authorizationToken: string
     ) {
-        return Content(await this.billLogic.addBillItem(billId, menuItemId, quantity, groupId));
+        return Content(await this.billLogic.addBillItem(billId, menuItemId, quantity, groupId, 1));
     }
 
     @Put("/item/modify")

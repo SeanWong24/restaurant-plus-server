@@ -82,12 +82,13 @@ export class BillLogic {
         return await this.billItemRepository.find(filter) || '';
     }
 
-    async addBillItem(billId: string, menuItemId: string, quantity: number, groupId?: number) {
+    async addBillItem(billId: string, menuItemId: string, quantity: number, groupId?: number, splitFraction?: number) {
         const partialBillItem: Partial<BillItem> = {
             billId,
             menuItemId,
             quantity,
-            groupId
+            groupId,
+            splitFraction
         };
         const newBillItem = Object.assign(new BillItem, partialBillItem);
 
@@ -147,10 +148,10 @@ export class BillLogic {
     async splitBillItem(billItemIdList: string[], quantity: number) {
         if (billItemIdList && quantity > 0) {
             billItemIdList.forEach(async id => {
-                let oldBillItem = (await this.getBillItem(id))[0];
+                let oldBillItem = (await this.getBillItem({ id }))[0] as BillItem;
                 let newQuantity = oldBillItem.quantity as number / quantity;
                 for (let i = 0; i < quantity; i++) {
-                    this.addBillItem(oldBillItem.billId, oldBillItem.menuItemId, newQuantity);
+                    this.addBillItem(oldBillItem.billId, oldBillItem.menuItemId, newQuantity, oldBillItem.groupId, oldBillItem.splitFraction / quantity);
                 }
                 this.billItemRepository.delete(id);
             });
@@ -160,20 +161,22 @@ export class BillLogic {
 
     async combineBillItems(billItemIdList: string[]) {
         if (billItemIdList) {
-            const firstBillItem = (await this.getBillItem(billItemIdList[0]))[0];
+            const firstBillItem = (await this.getBillItem({ id: billItemIdList[0] }))[0];
             let menuItemId: string = firstBillItem.menuItemId;
             let totalQuantity: number = 0;
             let billId: string = firstBillItem.billId;
+            let totalFraction: number = 0;
 
             for (const id of billItemIdList) {
-                let oldBillItem = (await this.billItemRepository.find(id))[0];
+                let oldBillItem = (await this.billItemRepository.find({ id }))[0];
                 if (menuItemId != oldBillItem.menuItemId) {
                     return "";
                 }
                 totalQuantity += +oldBillItem.quantity;
+                totalFraction += +oldBillItem.splitFraction;
             }
             if (billId != "" && menuItemId != "" && totalQuantity > 0) {
-                this.addBillItem(billId, menuItemId, totalQuantity);
+                this.addBillItem(billId, menuItemId, totalQuantity, firstBillItem.groupId, totalFraction);
             }
 
             billItemIdList.forEach(id => {
