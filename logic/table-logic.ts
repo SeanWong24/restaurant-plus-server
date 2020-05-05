@@ -23,7 +23,7 @@ export class TableLogic {
 
   async open(id: string, occupied: number) {
     if (id && occupied) {
-      const table = (await this.get(id))[0] as Table;
+      const table = (await this.get({ id }))[0] as Table;
       if (table.status === Table.Status.Free || table.status === Table.Status.Reserved) {
         const tableChangeDefinition = {
           occupied,
@@ -39,7 +39,7 @@ export class TableLogic {
 
   async reserve(id: string, occupied: number) {
     if (id && occupied) {
-      if (((await this.get(id))[0] as Table).status === Table.Status.Free) {
+      if (((await this.get({ id }))[0] as Table).status === Table.Status.Free) {
         const changeDefinition = {
           occupied,
           startTime: new Date().toISOString(),
@@ -53,7 +53,7 @@ export class TableLogic {
 
   async transfer(id: string, transferId: string) {
     if (id && transferId) {
-      const oldTable = (await this.get(id))[0] as Table;
+      const oldTable = (await this.get({ id }))[0] as Table;
       const newTable = (await this.get(transferId))[0] as Table;
 
       if (oldTable.status == Table.Status.Using && newTable.status == Table.Status.Free) {
@@ -89,7 +89,7 @@ export class TableLogic {
   }
 
   async toggleAvailability(id: string) {
-    const table = (await this.get(id))[0] as Table;
+    const table = (await this.get({ id }))[0] as Table;
     switch (table.status) {
       case Table.Status.Free:
         return await this.disable(id);
@@ -112,7 +112,7 @@ export class TableLogic {
 
   async close(id: string) {
     if (id) {
-      if (((await this.get(id))[0] as Table).status === Table.Status.Using) {
+      if (((await this.get({ id }))[0] as Table).status === Table.Status.Using) {
         const filter = {
           tableId: id,
           status: Bill.Status.Open
@@ -135,7 +135,7 @@ export class TableLogic {
 
   async free(id: string) {
     if (id) {
-      const table = (await this.get(id))[0] as Table;
+      const table = (await this.get({ id }))[0] as Table;
       if (
         table.status === Table.Status.Dirty ||
         table.status === Table.Status.Reserved ||
@@ -154,7 +154,7 @@ export class TableLogic {
 
   async disable(id: string) {
     if (id) {
-      const table = (await this.get(id))[0] as Table;
+      const table = (await this.get({ id }))[0] as Table;
       if (
         table.status === Table.Status.Dirty ||
         table.status === Table.Status.Reserved ||
