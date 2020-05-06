@@ -51,7 +51,7 @@ export class UserLogic {
         if (newUserRole?.id) {
             let accessCode;
             do {
-                accessCode = Math.round(Math.random() * 100000).toString();
+                accessCode = Math.round(Math.random() * 1000000).toString();
             } while ((await this.userRepository.find({ accessCode })).length > 0);
             const user = new User(name, newUserRole.id, accessCode);
             return await this.userRepository.insert(user);
