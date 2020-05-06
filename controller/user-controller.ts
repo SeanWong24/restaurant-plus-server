@@ -41,13 +41,14 @@ export class UserController {
     if (token) {
       setCookie(response, { name: "token", value: token, path: "/" });
     }
-    return response;
+    return "";
   }
 
   @Post("/logout")
   async logout(@Cookie("token") token: string, @Res() response: Response) {
-    delCookie(response, "token");
-    return response;
+    // delCookie(response, "token");
+    response.headers?.append("Set-Cookie", "token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT");
+    return "";
   }
 
   @Post("/add")
