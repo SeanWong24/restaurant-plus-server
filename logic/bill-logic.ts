@@ -33,6 +33,20 @@ export class BillLogic {
         return "";
     }
 
+    async addTogo(togoType: string) {
+        if (togoType) {
+            const startTime = new Date();
+            const togoId = togoType + '-' + startTime.getTime().toString();
+
+            const partialBill: Partial<Bill> = {
+                tableId: togoId,
+                startTime: startTime.toISOString()
+            }
+            const togoBill = Object.assign(new Bill, partialBill);
+            return await this.billRepository.insert(togoBill);
+        }
+    }
+
     async addDiscountToBill(id: string, discountId: string, groupId?: number) {
         if (id) {
             const bill = (await this.getBill({ id }))[0] as Bill;

@@ -27,6 +27,11 @@ export class TableController {
     }
   }
 
+  @Get("/togo")
+  async getTogo() {
+    return Content(await this.tableLogic.getTogo());
+  }
+
   @Post("/add")
   async add(@QueryParam("name") name: string, @QueryParam("capacity") capacity: number) {
     return Content(await this.tableLogic.add(name, capacity));
