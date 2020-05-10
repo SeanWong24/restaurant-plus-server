@@ -33,7 +33,7 @@ export class TableLogic {
         id: bill.tableId,
         capacity: 1,
         occupied: 1,
-        status: Table.Status.Using,
+        status: Table.Status.Togo,
         name: bill.tableId[0] === "p" ? "pickup" : "delivery",
         startTime: bill.startTime
       }

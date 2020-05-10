@@ -4,7 +4,8 @@ export class Table {
     Using: "Using",
     Reserved: "Reserved",
     Dirty: "Dirty",
-    Unavailable: "Unavailable"
+    Unavailable: "Unavailable",
+    Togo: "Togo"
   };
 
   id?: string;
