@@ -24,7 +24,8 @@ export class TableLogic {
   async getTogo() {
     const togoTableList = [];
     const filter = {
-      tableId: { $regex: '^[pd][-][0-9]{13}$' }
+      tableId: { $regex: '^[pd][-][0-9]{13}$' },
+      status: Bill.Status.Open
     }
     const togoBillList = await this.billLogic.getBill(filter) as Bill[];
 
@@ -132,21 +133,30 @@ export class TableLogic {
 
   async close(id: string) {
     if (id) {
-      if (((await this.get({ id }))[0] as Table).status === Table.Status.Using) {
+      if (/^[pd][-][0-9]{13}$/.test(id)) {
         const filter = {
           tableId: id,
           status: Bill.Status.Open
         };
         const bill = await this.billLogic.getBill(filter);
-        const targetBillId = bill[0].id;
-        const closeBillResult = await this.billLogic.closeBill(targetBillId);
-        if (closeBillResult != "") {
-          const tableChangeDefinition = {
-            status: Table.Status.Dirty,
-            occupied: 0,
-            startTime: ""
+        return await this.billLogic.closeBill(bill[0].id);
+      } else {
+        if (((await this.get({ id }))[0] as Table).status === Table.Status.Using) {
+          const filter = {
+            tableId: id,
+            status: Bill.Status.Open
           };
-          return await this.tableRepository.update(id, tableChangeDefinition) || "";
+          const bill = await this.billLogic.getBill(filter);
+          const targetBillId = bill[0].id;
+          const closeBillResult = await this.billLogic.closeBill(targetBillId);
+          if (closeBillResult != "") {
+            const tableChangeDefinition = {
+              status: Table.Status.Dirty,
+              occupied: 0,
+              startTime: ""
+            };
+            return await this.tableRepository.update(id, tableChangeDefinition) || "";
+          }
         }
       }
     }
