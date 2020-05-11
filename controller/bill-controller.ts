@@ -12,7 +12,7 @@ import {
 } from "../external-modules/alosaur.ts";
 import { BillLogic } from "../logic/bill-logic.ts";
 import { DiscountLogic } from "../logic/discount-logic.ts";
-import { Authorize, AuthorizationToken } from "../logic/authorization.ts";
+import { Authorize, AuthorizationToken } from "../utilities/authorization.ts";
 import { Role } from "../domain-model/role.ts";
 import { Bill } from "../domain-model/bill.ts";
 

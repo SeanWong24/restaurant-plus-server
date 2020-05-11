@@ -13,7 +13,7 @@ import {
 } from "../external-modules/alosaur.ts";
 import { UserLogic } from "../logic/user-logic.ts";
 import { setCookie, delCookie } from "../external-modules/cookie.ts";
-import { Authorize, AuthorizationToken } from "../logic/authorization.ts";
+import { Authorize, AuthorizationToken } from "../utilities/authorization.ts";
 import { Role } from "../domain-model/role.ts";
 
 @Injectable()

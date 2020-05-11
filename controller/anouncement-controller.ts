@@ -12,7 +12,7 @@ import {
 } from "../external-modules/alosaur.ts";
 import { Anouncement } from "../domain-model/anouncement.ts";
 import { AnouncementLogic } from "../logic/anouncement-logic.ts";
-import { Authorize, AuthorizationToken } from "../logic/authorization.ts";
+import { Authorize, AuthorizationToken } from "../utilities/authorization.ts";
 import { Role } from "../domain-model/role.ts";
 
 @Injectable()
