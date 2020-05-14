@@ -1,1 +1,1 @@
-export * from "https://deno.land/x/mongo/ts/types.ts";
+export * from "https://deno.land/x/mongo@v0.6.0/ts/types.ts";
