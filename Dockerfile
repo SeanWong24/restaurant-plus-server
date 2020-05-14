@@ -11,4 +11,4 @@ ENV PATH="$DENO_INSTALL/bin:$PATH"
 
 COPY . .
 
-CMD deno run -A --config ./tsconfig.json ./mod.ts $PORT
+CMD deno run -A --unstable --config ./tsconfig.json ./mod.ts $PORT
