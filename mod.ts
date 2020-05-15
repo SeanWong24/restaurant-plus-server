@@ -11,6 +11,7 @@ import { MenuController } from "./controller/menu-controller.ts";
 import { BillController } from "./controller/bill-controller.ts";
 import { PaymentController } from "./controller/payment-controller.ts";
 import { AnouncementController } from "./controller/anouncement-controller.ts";
+import { LogBuilder } from "./utilities/log-builder.ts";
 
 container.register<RepositoryConnection>(
   RepositoryConnection,
@@ -48,6 +49,8 @@ app.useCors(
     .AllowAnyHeader()
     .AllowCredentials()
 );
+
+app.use(/\//, new LogBuilder());
 
 const port = Deno.args[0];
 app.listen(port ? "0.0.0.0:" + port : undefined);
