@@ -1,5 +1,5 @@
 export class Log {
-    user?: string;
-    url?: string;
-    time: Date = new Date();
+  user?: string;
+  url?: string;
+  time: Date = new Date();
 }

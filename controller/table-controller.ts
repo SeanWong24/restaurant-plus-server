@@ -6,22 +6,25 @@ import {
   Post,
   Put,
   Delete,
-  Injectable
+  Injectable,
 } from "../external-modules/alosaur.ts";
 import { TableLogic } from "../logic/table-logic.ts";
 
 @Injectable()
 @Controller("/table")
 export class TableController {
-  constructor(private tableLogic: TableLogic) { }
+  constructor(private tableLogic: TableLogic) {}
 
   @Get("")
-  async get(@QueryParam("id") id: string, @QueryParam("status") status: string) {
+  async get(
+    @QueryParam("id") id: string,
+    @QueryParam("status") status: string,
+  ) {
     if (id) {
       return Content(await this.tableLogic.get({ id }));
     } else {
       const filter = {
-        status
+        status,
       };
       return Content(await this.tableLogic.get(filter));
     }
@@ -33,14 +36,17 @@ export class TableController {
   }
 
   @Post("/add")
-  async add(@QueryParam("name") name: string, @QueryParam("capacity") capacity: number) {
+  async add(
+    @QueryParam("name") name: string,
+    @QueryParam("capacity") capacity: number,
+  ) {
     return Content(await this.tableLogic.add(name, capacity));
   }
 
   @Put("/open")
   async open(
     @QueryParam("id") id: string,
-    @QueryParam("occupied") occupied: number
+    @QueryParam("occupied") occupied: number,
   ) {
     return Content(await this.tableLogic.open(id, occupied));
   }
@@ -48,7 +54,7 @@ export class TableController {
   @Put("/reserve")
   async reserve(
     @QueryParam("id") id: string,
-    @QueryParam("occupied") occupied: number
+    @QueryParam("occupied") occupied: number,
   ) {
     return Content(await this.tableLogic.reserve(id, occupied));
   }
@@ -56,7 +62,7 @@ export class TableController {
   @Put("/transfer")
   async transfer(
     @QueryParam("id") id: string,
-    @QueryParam("transferId") transferId: string
+    @QueryParam("transferId") transferId: string,
   ) {
     return Content(this.tableLogic.transfer(id, transferId));
   }
@@ -65,7 +71,7 @@ export class TableController {
   async modify(
     @QueryParam("id") id: string,
     @QueryParam("name") name: string,
-    @QueryParam("capacity") capacity: number
+    @QueryParam("capacity") capacity: number,
   ) {
     if (id) {
       const changeDefinition = {} as any;
@@ -89,7 +95,7 @@ export class TableController {
   @Put("/modify-occupied")
   async modifyOccupied(
     @QueryParam("id") id: string,
-    @QueryParam("occupied") occupied: number
+    @QueryParam("occupied") occupied: number,
   ) {
     if (id) {
       const changeDefinition = {} as any;

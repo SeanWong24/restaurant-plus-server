@@ -2,7 +2,7 @@ import {
   App,
   Area,
   container,
-  CorsBuilder
+  CorsBuilder,
 } from "./external-modules/alosaur.ts";
 import { TableController } from "./controller/table-controller.ts";
 import { RepositoryConnection } from "./repository/repository-connection.ts";
@@ -18,9 +18,9 @@ container.register<RepositoryConnection>(
   {
     useValue: new RepositoryConnection(
       "mongodb+srv://ros:ros123456@cluster0-atpei.azure.mongodb.net",
-      "test"
-    )
-  }
+      "test",
+    ),
+  },
 );
 
 // Declare module
@@ -31,15 +31,15 @@ container.register<RepositoryConnection>(
     TableController,
     MenuController,
     BillController,
-    PaymentController
-  ]
+    PaymentController,
+  ],
 })
 export class HomeArea {
 }
 
 // Create alosaur application
 const app = new App({
-  areas: [HomeArea]
+  areas: [HomeArea],
 });
 
 app.useCors(
@@ -47,7 +47,7 @@ app.useCors(
     .AllowAnyOrigin()
     .AllowAnyMethod()
     .AllowAnyHeader()
-    .AllowCredentials()
+    .AllowCredentials(),
 );
 
 app.use(/\//, new LogBuilder());

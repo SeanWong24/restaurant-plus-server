@@ -5,6 +5,6 @@ export class User {
   constructor(
     public name: string,
     public roleId: string,
-    public accessCode: string
-  ) { }
+    public accessCode: string,
+  ) {}
 }

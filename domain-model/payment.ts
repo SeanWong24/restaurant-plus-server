@@ -6,6 +6,6 @@ export class Payment {
     public time: string,
     public cashPayAmount: number,
     public cardPayAmount: number,
-    public changeGiven: number
+    public changeGiven: number,
   ) {}
 }

@@ -9,7 +9,7 @@ import {
   Res,
   Response,
   Cookie,
-  Injectable
+  Injectable,
 } from "../external-modules/alosaur.ts";
 import { UserLogic } from "../logic/user-logic.ts";
 import { setCookie, delCookie } from "../external-modules/cookie.ts";
@@ -19,13 +19,13 @@ import { Role } from "../domain-model/role.ts";
 @Injectable()
 @Controller("/user")
 export class UserController {
-  constructor(private userLogic: UserLogic) { }
+  constructor(private userLogic: UserLogic) {}
 
   @Get("")
   @Authorize([Role.Permission.User_Read])
   async get(
     @QueryParam("id") id: string,
-    @Cookie("token") @AuthorizationToken authorizationToken: string
+    @Cookie("token") @AuthorizationToken authorizationToken: string,
   ) {
     return Content(await this.userLogic.get(id));
   }
@@ -36,8 +36,14 @@ export class UserController {
   }
 
   @Post("/login")
-  async login(@Body() loginInfo: { type: string, message: string }, @Res() response: Response) {
-    const token = await this.userLogic.login(loginInfo?.type, loginInfo?.message);
+  async login(
+    @Body() loginInfo: { type: string; message: string },
+    @Res() response: Response,
+  ) {
+    const token = await this.userLogic.login(
+      loginInfo?.type,
+      loginInfo?.message,
+    );
     if (token) {
       setCookie(response, { name: "token", value: token, path: "/" });
     }
@@ -47,7 +53,10 @@ export class UserController {
   @Post("/logout")
   async logout(@Cookie("token") token: string, @Res() response: Response) {
     // delCookie(response, "token");
-    response.headers?.append("Set-Cookie", "token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT");
+    response.headers?.append(
+      "Set-Cookie",
+      "token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT",
+    );
     return "";
   }
 
@@ -56,7 +65,7 @@ export class UserController {
   async add(
     @QueryParam("name") name: string,
     @QueryParam("roleName") roleName: string,
-    @Cookie("token") @AuthorizationToken authorizationToken: string
+    @Cookie("token") @AuthorizationToken authorizationToken: string,
   ) {
     return Content(await this.userLogic.add(name, roleName));
   }
@@ -65,7 +74,7 @@ export class UserController {
   @Authorize([Role.Permission.Role_Read])
   async getRole(
     @QueryParam("id") id: string,
-    @Cookie("token") @AuthorizationToken authorizationToken: string
+    @Cookie("token") @AuthorizationToken authorizationToken: string,
   ) {
     return Content(await this.userLogic.getRole(id));
   }
@@ -76,7 +85,10 @@ export class UserController {
   }
 
   @Post("/role/add")
-  async addRole(@QueryParam("name") name: string, @QueryParam("token") token: string) {
+  async addRole(
+    @QueryParam("name") name: string,
+    @QueryParam("token") token: string,
+  ) {
     // TODO implement the logic
     return Content("");
   }
@@ -85,7 +97,7 @@ export class UserController {
   async modifyRole(
     @QueryParam("id") id: string,
     @QueryParam("name") name: string,
-    @QueryParam("token") token: string
+    @QueryParam("token") token: string,
   ) {
     // TODO implement the logic
     return Content("");

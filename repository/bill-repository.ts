@@ -12,15 +12,15 @@ export class BillRepository extends Repository<Bill> {
 
   private initializeQueryParameterConvertionList() {
     this.queryParameterConvertionList.push({
-      predicate: filter => filter.timeFrom || filter.timeTo,
-      convertor: filter => {
+      predicate: (filter) => filter.timeFrom || filter.timeTo,
+      convertor: (filter) => {
         filter.startTime = {
           $gte: filter.timeFrom ? new Date(filter.timeFrom) : undefined,
-          $lte: filter.timeTo ? new Date(filter.timeTo) : undefined
+          $lte: filter.timeTo ? new Date(filter.timeTo) : undefined,
         };
         delete filter.timeFrom;
         delete filter.timeTo;
-      }
+      },
     });
   }
 }

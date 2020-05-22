@@ -5,7 +5,6 @@ import { Role } from "../domain-model/role.ts";
 
 @Injectable()
 export class RoleRepository extends Repository<Role> {
-
   readonly defaultRoleList = [
     new Role(
       "Administrator",
@@ -17,9 +16,9 @@ export class RoleRepository extends Repository<Role> {
         Role.Permission.Bill_Write,
         Role.Permission.BillItem_Read,
         Role.Permission.BillItem_Write,
-        Role.Permission.Anouncement_Write
+        Role.Permission.Anouncement_Write,
       ],
-      true
+      true,
     ),
     new Role(
       "Manager",
@@ -31,9 +30,9 @@ export class RoleRepository extends Repository<Role> {
         Role.Permission.Bill_Write,
         Role.Permission.BillItem_Read,
         Role.Permission.BillItem_Write,
-        Role.Permission.Anouncement_Write
+        Role.Permission.Anouncement_Write,
       ],
-      true
+      true,
     ),
     new Role(
       "Staff",
@@ -41,20 +40,20 @@ export class RoleRepository extends Repository<Role> {
         Role.Permission.Bill_Read,
         Role.Permission.Bill_Write,
         Role.Permission.BillItem_Read,
-        Role.Permission.BillItem_Write
+        Role.Permission.BillItem_Write,
       ],
-      true
+      true,
     ),
     new Role(
       "Customer",
       [],
-      true
+      true,
     ),
     new Role(
       "Guest",
       [],
-      true
-    )
+      true,
+    ),
   ];
 
   constructor(private repoConnection: RepositoryConnection) {

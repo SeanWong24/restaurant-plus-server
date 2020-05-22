@@ -2,7 +2,7 @@ import { Injectable } from "../external-modules/alosaur.ts";
 import { MenuItem } from "../domain-model/menu-item.ts";
 import { MenuItemRepository } from "../repository/menu-item-repository.ts";
 import {
-  MenuCategoryRepository
+  MenuCategoryRepository,
 } from "../repository/menu-category-repository.ts";
 import { MenuCategory } from "../domain-model/menu-category.ts";
 
@@ -10,7 +10,7 @@ import { MenuCategory } from "../domain-model/menu-category.ts";
 export class MenuLogic {
   constructor(
     private menuItemRepository: MenuItemRepository,
-    private menuCategoryRepository: MenuCategoryRepository
+    private menuCategoryRepository: MenuCategoryRepository,
   ) {}
 
   async addMenuItem(
@@ -22,7 +22,7 @@ export class MenuLogic {
     gstRate?: number,
     pstRate?: number,
     lctRate?: number,
-    imageUrl?: string
+    imageUrl?: string,
   ) {
     const partialMenuItem: Partial<MenuItem> = {
       name,
@@ -33,9 +33,9 @@ export class MenuLogic {
       gstRate,
       pstRate,
       lctRate,
-      imageUrl
+      imageUrl,
     };
-    const newMenuItem = Object.assign(new MenuItem, partialMenuItem);
+    const newMenuItem = Object.assign(new MenuItem(), partialMenuItem);
     return await this.menuItemRepository.insert(newMenuItem) || "";
   }
 
@@ -54,8 +54,11 @@ export class MenuLogic {
   }
 
   async addMenuCategory(name: string) {
-    const partialMenuCategory: Partial<MenuCategory> = {name};
-    const newMenuCategory = Object.assign(new MenuCategory, partialMenuCategory);
+    const partialMenuCategory: Partial<MenuCategory> = { name };
+    const newMenuCategory = Object.assign(
+      new MenuCategory(),
+      partialMenuCategory,
+    );
     return await this.menuCategoryRepository.insert(newMenuCategory);
   }
 

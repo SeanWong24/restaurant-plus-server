@@ -4,15 +4,15 @@ import { Discount } from "../domain-model/discount.ts";
 
 @Injectable()
 export class DiscountLogic {
-  constructor(private discountRepository: DiscountRepository) { }
+  constructor(private discountRepository: DiscountRepository) {}
 
   async add(name: string, type: string, value: number) {
     const partialDiscount: Partial<Discount> = {
       name,
       type,
-      value
+      value,
     };
-    const newDiscount = Object.assign(new Discount, partialDiscount);
+    const newDiscount = Object.assign(new Discount(), partialDiscount);
     return await this.discountRepository.insert(newDiscount) || "";
   }
 
@@ -22,7 +22,7 @@ export class DiscountLogic {
 
   async modify(id: string, changeDefinition?: any) {
     if (id) {
-        return await this.discountRepository.update(id, changeDefinition) || "";
+      return await this.discountRepository.update(id, changeDefinition) || "";
     }
     return "";
   }

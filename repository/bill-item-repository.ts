@@ -16,17 +16,17 @@ export class BillItemRepository extends Repository<BillItem> {
           $group: {
             _id: null,
             max: {
-              $max: "$groupId"
-            }
-          }
+              $max: "$groupId",
+            },
+          },
         },
         {
           $project: {
             _id: 0,
-            max: 1
-          }
-        }
-      ]
+            max: 1,
+          },
+        },
+      ],
     ));
     if (maxQuery) {
       return maxQuery[0].max;

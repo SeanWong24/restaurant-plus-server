@@ -1,9 +1,9 @@
 export class Anouncement {
-    id?: string;
+  id?: string;
 
-    constructor(
-        public title: string,
-        public content: string,
-        public timeCreated: string
-    ) { }
+  constructor(
+    public title: string,
+    public content: string,
+    public timeCreated: string,
+  ) {}
 }

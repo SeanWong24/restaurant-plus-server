@@ -1,4 +1,4 @@
 export class MenuCategory {
   id?: string;
-  name: string = '';
+  name: string = "";
 }

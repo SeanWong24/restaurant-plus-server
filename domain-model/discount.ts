@@ -1,7 +1,7 @@
 export class Discount {
   static readonly type = {
     Amount: "amount",
-    Percentage: "percentage"
+    Percentage: "percentage",
   };
 
   id?: string;

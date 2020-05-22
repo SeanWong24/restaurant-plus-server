@@ -3,17 +3,20 @@ import { RepositoryConnection } from "./repository-connection.ts";
 import { UpdateResult } from "../external-modules/mongo.ts";
 
 export declare type QueryOptions = {
-  ignoredPropertyList: string[]
-}
+  ignoredPropertyList: string[];
+};
 
 export abstract class Repository<T> {
   readonly CollectionName: string;
   readonly queryParameterConvertionList: {
-    predicate: (filter: any) => boolean,
-    convertor: (filter: any) => void
+    predicate: (filter: any) => boolean;
+    convertor: (filter: any) => void;
   }[] = [];
 
-  constructor(private repoConnect: RepositoryConnection, collectionName: string) {
+  constructor(
+    private repoConnect: RepositoryConnection,
+    collectionName: string,
+  ) {
     this.CollectionName = collectionName;
   }
 
@@ -28,21 +31,24 @@ export abstract class Repository<T> {
       }
     }
 
-    const projectionEntries = options?.ignoredPropertyList?.map(ignoredPropertyName => [ignoredPropertyName, 0]) || [];
+    const projectionEntries =
+      options?.ignoredPropertyList?.map(
+        (ignoredPropertyName) => [ignoredPropertyName, 0]
+      ) || [];
     projectionEntries.unshift(["_id", 0]);
     const projection = Object.fromEntries(projectionEntries);
     return await this.collection?.aggregate([
       {
         $addFields: {
           id: {
-            $toString: "$_id"
-          }
-        }
+            $toString: "$_id",
+          },
+        },
       },
       { $match: filter },
       {
-        $project: projection
-      }
+        $project: projection,
+      },
     ]) || [];
   }
 
@@ -62,8 +68,14 @@ export abstract class Repository<T> {
     return await this.collection?.insertMany(objectList) as T;
   }
 
-  async update(id: string, changeDefinition: any): Promise<UpdateResult | undefined>;
-  async update(idList: string[], changeDefinition: any): Promise<UpdateResult | undefined>;
+  async update(
+    id: string,
+    changeDefinition: any,
+  ): Promise<UpdateResult | undefined>;
+  async update(
+    idList: string[],
+    changeDefinition: any,
+  ): Promise<UpdateResult | undefined>;
   async update(idOrIdList: string | string[], changeDefinition: any) {
     if (Array.isArray(idOrIdList)) {
       return this.updateMultiple(idOrIdList, changeDefinition);
@@ -74,13 +86,13 @@ export abstract class Repository<T> {
   private async updateSingle(id: string, changeDefinition: any) {
     return await this.collection?.updateOne(
       { _id: ObjectId(id) },
-      { $set: changeDefinition }
+      { $set: changeDefinition },
     );
   }
   private async updateMultiple(idList: string[], changeDefinition: any) {
     return await this.collection?.updateMany(
-      { _id: { $in: idList.map(id => ObjectId(id)) } },
-      { $set: changeDefinition }
+      { _id: { $in: idList.map((id) => ObjectId(id)) } },
+      { $set: changeDefinition },
     );
   }
 

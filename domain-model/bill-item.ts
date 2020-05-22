@@ -1,6 +1,6 @@
 export class BillItem {
   id?: string;
-  
+
   billId: string = "";
   menuItemId: string = "";
   quantity: number = 1;

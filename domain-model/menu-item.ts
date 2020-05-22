@@ -1,14 +1,14 @@
 export class MenuItem {
   static readonly Status = {
     Available: "Available",
-    Unavailable: "Unavailable"
+    Unavailable: "Unavailable",
   };
 
   id?: string;
-  name: string = '';
-  shortName: string = '';
+  name: string = "";
+  shortName: string = "";
   unitPrice: number = 1;
-  categoryId: string = '';
+  categoryId: string = "";
   status: string = MenuItem.Status.Unavailable;
   gstRate: number = 0;
   pstRate: number = 0;

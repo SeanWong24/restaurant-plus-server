@@ -5,11 +5,11 @@ export class Table {
     Reserved: "Reserved",
     Dirty: "Dirty",
     Unavailable: "Unavailable",
-    Togo: "Togo"
+    Togo: "Togo",
   };
 
   id?: string;
-  name: string = '';
+  name: string = "";
   capacity: number = 2;
   occupied: number = 0;
   status: string = Table.Status.Unavailable;
