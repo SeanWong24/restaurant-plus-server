@@ -1,6 +1,6 @@
 FROM debian:jessie-slim
 
-ARG DENO_VERSION=v1.0.0
+ARG DENO_VERSION=v1.0.2
 
 RUN apt-get update\
     && apt-get install -y curl unzip\
