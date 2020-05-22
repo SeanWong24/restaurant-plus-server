@@ -1,1 +1,1 @@
-export * from "https://deno.land/x/alosaur@v0.13.0/src/mod.ts";
+export * from "https://deno.land/x/alosaur@v0.14.0/src/mod.ts";
