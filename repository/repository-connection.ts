@@ -9,7 +9,6 @@ export class RepositoryConnection {
   }
 
   async connect(connectionString: string, databaseName: string) {
-    await init();
     const client = new MongoClient();
     client.connectWithUri(connectionString);
 
