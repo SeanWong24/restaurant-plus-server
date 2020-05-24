@@ -9,7 +9,7 @@ export class BillLogic {
   constructor(
     private billRepository: BillRepository,
     private billItemRepository: BillItemRepository,
-  ) {}
+  ) { }
 
   async addBill(tableId: string) {
     const startTime = new Date().toISOString();
@@ -145,15 +145,17 @@ export class BillLogic {
     return "";
   }
 
-  async addDiscountToBillItem(id?: string, discountId?: string) {
-    if (id) {
-      const billItem = (await this.getBillItem({ id }))[0] as BillItem;
-      if (billItem && discountId) {
-        billItem.discountIdList.push(discountId);
-        return await this.modifyItem(
-          id,
-          { discountIdList: billItem.discountIdList },
-        );
+  async addDiscountToBillItem(discountId: string, billItemList: string[]) {
+    if (discountId && billItemList) {
+      for (const id of billItemList) {
+        const billItem = (await this.getBillItem({ id }))[0] as BillItem;
+        if (billItem && discountId) {
+          billItem.discountIdList.push(discountId);
+          await this.modifyItem(
+            id,
+            { discountIdList: billItem.discountIdList },
+          );
+        }
       }
     }
     return "";

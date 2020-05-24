@@ -175,11 +175,11 @@ export class BillController {
   @Put("/item/discount")
   @Authorize([Role.Permission.BillItem_Write])
   async addDiscountToBillItem(
-    @QueryParam("id") id: string,
     @QueryParam("discountId") discountId: string,
+    @Body() billItemIdList: string[],
     @Cookie("token") @AuthorizationToken authorizationToken: string,
   ) {
-    return Content(await this.billLogic.addDiscountToBillItem(id, discountId));
+    return Content(await this.billLogic.addDiscountToBillItem(discountId, billItemIdList));
   }
 
   @Put("/item/remove/discount")
