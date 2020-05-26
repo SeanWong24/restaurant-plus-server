@@ -1,16 +1,21 @@
-FROM debian:jessie-slim
+FROM hayd/alpine-deno:1.0.2
 
-ARG DENO_VERSION=v1.0.2
+# The port that your application listens to.
+EXPOSE $PORT
 
-RUN apt-get update\
-    && apt-get install -y curl unzip\
-    && apt-get clean -y \
-    && rm -rf /var/lib/apt/lists/* \
-    && curl -fsSL https://deno.land/x/install/install.sh -s $DENO_VERSION | sh
+WORKDIR /app
 
-ENV DENO_INSTALL="/root/.deno"
-ENV PATH="$DENO_INSTALL/bin:$PATH"
+# Prefer not to run as root.
+USER deno
 
-COPY . .
+# Cache the dependencies as a layer (the following two steps are re-run only when deps.ts is modified).
+# Ideally cache deps.ts will download and compile _all_ external files used in main.ts.
+# COPY mod.ts .
+# RUN deno cache mod.ts
 
-CMD deno run -A --unstable --config ./tsconfig.json ./mod.ts $PORT
+# These steps will be re-run upon each file change in your working directory:
+ADD . .
+# Compile the main app so that it doesn't need to be compiled each startup/entry.
+# RUN deno cache -c tsconfig.json app/mod.ts
+
+CMD ["run", "-A", "--unstable", "-c", "tsconfig.json", "app/mod.ts", "$PORT"]
