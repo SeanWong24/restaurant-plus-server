@@ -248,13 +248,13 @@ export class BillController {
     return Content("");
   }
 
-  @Get("/discount")
+  @Post("/discount")
   @Authorize([Role.Permission.BillItem_Read])
   async getDiscount(
-    @QueryParam("id") id: string,
     @Cookie("token") @AuthorizationToken authorizationToken: string,
+    @Body() discountIdList?: string[],
   ) {
-    return Content(await this.discountLogic.get({ id }));
+    return Content(await this.discountLogic.get(discountIdList));
   }
 
   @Post("/discount/add")
