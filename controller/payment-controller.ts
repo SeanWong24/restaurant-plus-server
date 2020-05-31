@@ -6,10 +6,13 @@ import {
   QueryParam,
   Get,
   Injectable,
+  UseHook,
 } from "../deps/alosaur.ts";
 import { PaymentLogic } from "../logic/payment-logic.ts";
+import { LogHook } from "../utilities/log-hook.ts";
 
 @Injectable()
+@UseHook(LogHook)
 @Controller("/payment")
 export class PaymentController {
   constructor(private paymentLogic: PaymentLogic) {}

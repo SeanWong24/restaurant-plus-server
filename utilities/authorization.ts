@@ -1,4 +1,4 @@
-import { ForbiddenError,container } from "../deps/alosaur.ts";
+import { ForbiddenError, container } from "../deps/alosaur.ts";
 import { UserRepository } from "../repository/user-repository.ts";
 import { RoleRepository } from "../repository/role-repository.ts";
 import { User } from "../domain-model/user.ts";
@@ -98,10 +98,9 @@ function AuthorizeForParameter(
   index: number,
   permissionList?: string[],
 ) {
-  let parameterAuthorizationList =
-    target[
-      "#parameterAuthorizationList_" + propertyKey
-    ] as ParameterAuthorizationDefinition[];
+  let parameterAuthorizationList = target[
+    "#parameterAuthorizationList_" + propertyKey
+  ] as ParameterAuthorizationDefinition[];
   if (!parameterAuthorizationList) {
     parameterAuthorizationList = [];
     target["#parameterAuthorizationList_" + propertyKey] =

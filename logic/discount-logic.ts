@@ -5,7 +5,7 @@ import { ObjectId } from "../deps/mongo.ts";
 
 @Injectable()
 export class DiscountLogic {
-  constructor(private discountRepository: DiscountRepository) { }
+  constructor(private discountRepository: DiscountRepository) {}
 
   async add(name: string, type: string, value: number) {
     const partialDiscount: Partial<Discount> = {
@@ -20,8 +20,12 @@ export class DiscountLogic {
   async get(idList?: string[]) {
     if (idList && idList.length > 0) {
       console.log(idList);
-      var objectIdList = idList.map(function (myId) { return ObjectId(myId); });
-      return await this.discountRepository.find({ _id: { $in: objectIdList } }) || "";
+      var objectIdList = idList.map(function (myId) {
+        return ObjectId(myId);
+      });
+      return await this.discountRepository.find(
+        { _id: { $in: objectIdList } },
+      ) || "";
     } else {
       return await this.discountRepository.find({}) || "";
     }

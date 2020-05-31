@@ -9,13 +9,16 @@ import {
   Body,
   Cookie,
   Injectable,
+  UseHook,
 } from "../deps/alosaur.ts";
 import { Anouncement } from "../domain-model/anouncement.ts";
 import { AnouncementLogic } from "../logic/anouncement-logic.ts";
 import { Authorize, AuthorizationToken } from "../utilities/authorization.ts";
 import { Role } from "../domain-model/role.ts";
+import { LogHook } from "../utilities/log-hook.ts";
 
 @Injectable()
+@UseHook(LogHook)
 @Controller("/anouncement")
 export class AnouncementController {
   constructor(private anouncementLogic: AnouncementLogic) {}

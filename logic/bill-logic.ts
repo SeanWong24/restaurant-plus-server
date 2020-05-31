@@ -9,7 +9,7 @@ export class BillLogic {
   constructor(
     private billRepository: BillRepository,
     private billItemRepository: BillItemRepository,
-  ) { }
+  ) {}
 
   async addBill(tableId: string) {
     const startTime = new Date().toISOString();

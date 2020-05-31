@@ -9,14 +9,17 @@ import {
   Body,
   Cookie,
   Injectable,
+  UseHook,
 } from "../deps/alosaur.ts";
 import { BillLogic } from "../logic/bill-logic.ts";
 import { DiscountLogic } from "../logic/discount-logic.ts";
 import { Authorize, AuthorizationToken } from "../utilities/authorization.ts";
 import { Role } from "../domain-model/role.ts";
 import { Bill } from "../domain-model/bill.ts";
+import { LogHook } from "../utilities/log-hook.ts";
 
 @Injectable()
+@UseHook(LogHook)
 @Controller("/bill")
 export class BillController {
   constructor(
@@ -179,7 +182,9 @@ export class BillController {
     @Body() billItemIdList: string[],
     @Cookie("token") @AuthorizationToken authorizationToken: string,
   ) {
-    return Content(await this.billLogic.addDiscountToBillItem(discountId, billItemIdList));
+    return Content(
+      await this.billLogic.addDiscountToBillItem(discountId, billItemIdList),
+    );
   }
 
   @Put("/item/remove/discount")

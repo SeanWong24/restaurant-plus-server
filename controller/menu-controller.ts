@@ -6,10 +6,13 @@ import {
   Post,
   Put,
   Injectable,
+  UseHook,
 } from "../deps/alosaur.ts";
 import { MenuLogic } from "../logic/menu-logic.ts";
+import { LogHook } from "../utilities/log-hook.ts";
 
 @Injectable()
+@UseHook(LogHook)
 @Controller("/menu")
 export class MenuController {
   constructor(private menuLogic: MenuLogic) {}

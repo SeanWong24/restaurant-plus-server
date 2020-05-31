@@ -7,10 +7,13 @@ import {
   Put,
   Delete,
   Injectable,
+  UseHook,
 } from "../deps/alosaur.ts";
 import { TableLogic } from "../logic/table-logic.ts";
+import { LogHook } from "../utilities/log-hook.ts";
 
 @Injectable()
+@UseHook(LogHook)
 @Controller("/table")
 export class TableController {
   constructor(private tableLogic: TableLogic) {}

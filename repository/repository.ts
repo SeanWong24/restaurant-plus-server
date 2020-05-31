@@ -30,10 +30,9 @@ export abstract class Repository<T> {
       }
     }
 
-    const projectionEntries =
-      options?.ignoredPropertyList?.map(
-        (ignoredPropertyName) => [ignoredPropertyName, 0]
-      ) || [];
+    const projectionEntries = options?.ignoredPropertyList?.map(
+      (ignoredPropertyName) => [ignoredPropertyName, 0],
+    ) || [];
     projectionEntries.unshift(["_id", 0]);
     const projection = Object.fromEntries(projectionEntries);
     return await this.collection?.aggregate([
