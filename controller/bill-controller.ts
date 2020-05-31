@@ -48,6 +48,11 @@ export class BillController {
     }
   }
 
+  @Get("/togo")
+  async getTogo() {
+    return Content(await this.billLogic.getTogo());
+  }
+
   @Post("/add")
   @Authorize([Role.Permission.Bill_Write])
   async addBill(

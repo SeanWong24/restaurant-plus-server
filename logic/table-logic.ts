@@ -24,27 +24,6 @@ export class TableLogic {
     return await this.tableRepository.find(filter);
   }
 
-  async getTogo() {
-    const togoTableList = [];
-    const filter = {
-      tableId: { $regex: "^[pd][-][0-9]{13}$" },
-      status: Bill.Status.Open,
-    };
-    const togoBillList = await this.billLogic.getBill(filter) as Bill[];
-
-    for (const bill of togoBillList) {
-      const togoTable = {
-        id: bill.tableId,
-        capacity: 1,
-        occupied: 1,
-        status: Table.Status.Togo,
-        name: bill.tableId[0] === "p" ? "pickup" : "delivery",
-        startTime: bill.startTime,
-      };
-      togoTableList.push(togoTable);
-    }
-    return togoTableList;
-  }
   async open(id: string, occupied: number) {
     if (id && occupied) {
       const table = (await this.get({ id }))[0] as Table;

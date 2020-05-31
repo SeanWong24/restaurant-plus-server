@@ -3,6 +3,7 @@ import { BillRepository } from "../repository/bill-repository.ts";
 import { BillItemRepository } from "../repository/bill-item-repository.ts";
 import { Bill } from "../domain-model/bill.ts";
 import { BillItem } from "../domain-model/bill-item.ts";
+import { Table } from "../domain-model/table.ts";
 
 @Injectable()
 export class BillLogic {
@@ -31,6 +32,28 @@ export class BillLogic {
       return await this.billRepository.update(id, changeDefinition) || "";
     }
     return "";
+  }
+
+  async getTogo() {
+    const togoTableList = [];
+    const filter = {
+      tableId: { $regex: "^[pd][-][0-9]{13}$" },
+      status: Bill.Status.Open,
+    };
+    const togoBillList = await this.getBill(filter) as Bill[];
+
+    for (const bill of togoBillList) {
+      const togoTable = {
+        id: bill.tableId,
+        capacity: 1,
+        occupied: 1,
+        status: Table.Status.Togo,
+        name: bill.tableId[0] === "p" ? "pickup" : "delivery",
+        startTime: bill.startTime,
+      };
+      togoTableList.push(togoTable);
+    }
+    return togoTableList;
   }
 
   async addTogo(togoType: string) {

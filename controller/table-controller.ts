@@ -33,11 +33,6 @@ export class TableController {
     }
   }
 
-  @Get("/togo")
-  async getTogo() {
-    return Content(await this.tableLogic.getTogo());
-  }
-
   @Post("/add")
   async add(
     @QueryParam("name") name: string,
