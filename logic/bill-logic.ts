@@ -41,17 +41,20 @@ export class BillLogic {
       status: Bill.Status.Open,
     };
     const togoBillList = await this.getBill(filter) as Bill[];
-
+    let count = 1;
     for (const bill of togoBillList) {
       const togoTable = {
         id: bill.tableId,
         capacity: 1,
         occupied: 1,
         status: Table.Status.Togo,
-        name: bill.tableId[0] === "p" ? "pickup" : "delivery",
+        name: bill.tableId[0] === "p"
+          ? "pickup " + count.toString()
+          : "delivery " + count.toString(),
         startTime: bill.startTime,
       };
       togoTableList.push(togoTable);
+      count++;
     }
     return togoTableList;
   }

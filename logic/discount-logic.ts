@@ -19,7 +19,6 @@ export class DiscountLogic {
 
   async get(idList?: string[]) {
     if (idList && idList.length > 0) {
-      console.log(idList);
       var objectIdList = idList.map(function (myId) {
         return ObjectId(myId);
       });
