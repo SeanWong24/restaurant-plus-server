@@ -17,14 +17,14 @@ import {
 import { UserLogic } from "../logic/user-logic.ts";
 import { Authorize, AuthorizationToken } from "../utilities/authorization.ts";
 import { Role } from "../domain-model/role.ts";
-import { LogHook } from "../utilities/log-hook.ts";
+import { LogHook, LogOptions } from "../utilities/log-hook.ts";
 
 @Injectable()
-@UseHook(LogHook)
 @Controller("/user")
 export class UserController {
   constructor(private userLogic: UserLogic) {}
 
+  @UseHook(LogHook)
   @Get("")
   @Authorize([Role.Permission.User_Read])
   async get(
@@ -34,11 +34,13 @@ export class UserController {
     return Content(await this.userLogic.get(id));
   }
 
+  @UseHook(LogHook)
   @Get("/self")
   async getSelf(@Cookie("token") token: string) {
     return Content(await this.userLogic.getSelf(token));
   }
 
+  @UseHook(LogHook, { logBody: true })
   @Post("/login")
   async login(
     @Body() loginInfo: { type: string; message: string },
@@ -54,6 +56,7 @@ export class UserController {
     return "";
   }
 
+  @UseHook(LogHook)
   @Post("/logout")
   async logout(@Cookie("token") token: string, @Res() response: Response) {
     // delCookie(response, "token");
@@ -64,6 +67,7 @@ export class UserController {
     return "";
   }
 
+  @UseHook(LogHook)
   @Post("/add")
   @Authorize([Role.Permission.User_Write])
   async add(
@@ -74,6 +78,7 @@ export class UserController {
     return Content(await this.userLogic.add(name, roleName));
   }
 
+  @UseHook(LogHook)
   @Get("/role")
   @Authorize([Role.Permission.Role_Read])
   async getRole(
@@ -83,11 +88,13 @@ export class UserController {
     return Content(await this.userLogic.getRole(id));
   }
 
+  @UseHook(LogHook)
   @Get("/role/self")
   async getRoleSelf(@Cookie("token") token: string) {
     return Content(await this.userLogic.getRoleSelf(token));
   }
 
+  @UseHook(LogHook)
   @Post("/role/add")
   async addRole(
     @QueryParam("name") name: string,
@@ -97,6 +104,7 @@ export class UserController {
     return Content("");
   }
 
+  @UseHook(LogHook)
   @Put("/role/modify")
   async modifyRole(
     @QueryParam("id") id: string,
