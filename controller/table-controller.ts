@@ -7,7 +7,7 @@ import {
   Put,
   Delete,
   Injectable,
-} from "../external-modules/alosaur.ts";
+} from "../deps/alosaur.ts";
 import { TableLogic } from "../logic/table-logic.ts";
 
 @Injectable()

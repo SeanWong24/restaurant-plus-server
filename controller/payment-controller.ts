@@ -6,7 +6,7 @@ import {
   QueryParam,
   Get,
   Injectable,
-} from "../external-modules/alosaur.ts";
+} from "../deps/alosaur.ts";
 import { PaymentLogic } from "../logic/payment-logic.ts";
 
 @Injectable()

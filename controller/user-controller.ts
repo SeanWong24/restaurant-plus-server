@@ -10,16 +10,17 @@ import {
   Response,
   Cookie,
   Injectable,
-} from "../external-modules/alosaur.ts";
+  setCookie,
+  delCookie
+} from "../deps/alosaur.ts";
 import { UserLogic } from "../logic/user-logic.ts";
-import { setCookie, delCookie } from "../external-modules/cookie.ts";
 import { Authorize, AuthorizationToken } from "../utilities/authorization.ts";
 import { Role } from "../domain-model/role.ts";
 
 @Injectable()
 @Controller("/user")
 export class UserController {
-  constructor(private userLogic: UserLogic) {}
+  constructor(private userLogic: UserLogic) { }
 
   @Get("")
   @Authorize([Role.Permission.User_Read])

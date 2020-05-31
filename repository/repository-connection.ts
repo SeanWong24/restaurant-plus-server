@@ -1,4 +1,4 @@
-import { MongoClient, Database, init } from "../external-modules/mongo.ts";
+import { MongoClient, Database, init } from "../deps/mongo.ts";
 
 export class RepositoryConnection {
   client: MongoClient | undefined;

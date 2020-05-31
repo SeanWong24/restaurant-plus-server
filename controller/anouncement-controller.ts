@@ -9,7 +9,7 @@ import {
   Body,
   Cookie,
   Injectable,
-} from "../external-modules/alosaur.ts";
+} from "../deps/alosaur.ts";
 import { Anouncement } from "../domain-model/anouncement.ts";
 import { AnouncementLogic } from "../logic/anouncement-logic.ts";
 import { Authorize, AuthorizationToken } from "../utilities/authorization.ts";

@@ -1,6 +1,5 @@
-import { ObjectId } from "../external-modules/mongo-types.ts";
 import { RepositoryConnection } from "./repository-connection.ts";
-import { UpdateResult } from "../external-modules/mongo.ts";
+import { UpdateResult, ObjectId } from "../deps/mongo.ts";
 
 export declare type QueryOptions = {
   ignoredPropertyList: string[];

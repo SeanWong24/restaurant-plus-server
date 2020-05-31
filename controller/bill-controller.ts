@@ -9,7 +9,7 @@ import {
   Body,
   Cookie,
   Injectable,
-} from "../external-modules/alosaur.ts";
+} from "../deps/alosaur.ts";
 import { BillLogic } from "../logic/bill-logic.ts";
 import { DiscountLogic } from "../logic/discount-logic.ts";
 import { Authorize, AuthorizationToken } from "../utilities/authorization.ts";

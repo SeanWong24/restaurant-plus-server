@@ -6,7 +6,7 @@ import {
   Post,
   Put,
   Injectable,
-} from "../external-modules/alosaur.ts";
+} from "../deps/alosaur.ts";
 import { MenuLogic } from "../logic/menu-logic.ts";
 
 @Injectable()

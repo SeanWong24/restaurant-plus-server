@@ -1,4 +1,4 @@
-import { Injectable } from "../external-modules/alosaur.ts";
+import { Injectable } from "../deps/alosaur.ts";
 import { RoleRepository } from "../repository/role-repository.ts";
 import { UserRepository } from "../repository/user-repository.ts";
 import { User } from "../domain-model/user.ts";

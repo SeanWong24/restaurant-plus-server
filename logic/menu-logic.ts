@@ -1,4 +1,4 @@
-import { Injectable } from "../external-modules/alosaur.ts";
+import { Injectable } from "../deps/alosaur.ts";
 import { MenuItem } from "../domain-model/menu-item.ts";
 import { MenuItemRepository } from "../repository/menu-item-repository.ts";
 import {

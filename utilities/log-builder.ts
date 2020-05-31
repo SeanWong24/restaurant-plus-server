@@ -1,6 +1,5 @@
-import { MiddlewareTarget } from "../external-modules/alosaur-middleware-target.ts";
-import { ServerRequest } from "../external-modules/alosaur.ts";
-import { getCookies } from "../external-modules/cookie.ts";
+import { MiddlewareTarget, getCookies } from "../deps/alosaur.ts";
+import { ServerRequest } from "../deps/alosaur.ts";
 import { Log } from "../domain-model/log.ts";
 
 export class LogBuilder implements MiddlewareTarget {

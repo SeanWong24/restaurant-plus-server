@@ -1,7 +1,6 @@
-import { container } from "../external-modules/alosaur-injection.ts";
+import { ForbiddenError,container } from "../deps/alosaur.ts";
 import { UserRepository } from "../repository/user-repository.ts";
 import { RoleRepository } from "../repository/role-repository.ts";
-import { ForbiddenError } from "../external-modules/alosaur.ts";
 import { User } from "../domain-model/user.ts";
 import { Role } from "../domain-model/role.ts";
 

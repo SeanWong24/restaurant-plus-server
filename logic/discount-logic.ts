@@ -1,7 +1,7 @@
-import { Injectable } from "../external-modules/alosaur.ts";
+import { Injectable } from "../deps/alosaur.ts";
 import { DiscountRepository } from "../repository/discount-repository.ts";
 import { Discount } from "../domain-model/discount.ts";
-import { ObjectId } from "../external-modules/mongo-types.ts";
+import { ObjectId } from "../deps/mongo.ts";
 
 @Injectable()
 export class DiscountLogic {

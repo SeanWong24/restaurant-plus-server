@@ -1,4 +1,4 @@
-import { Injectable } from "../external-modules/alosaur.ts";
+import { Injectable } from "../deps/alosaur.ts";
 import { BillRepository } from "../repository/bill-repository.ts";
 import { BillItemRepository } from "../repository/bill-item-repository.ts";
 import { Bill } from "../domain-model/bill.ts";
