@@ -6,13 +6,13 @@ import {
   Post,
   Put,
   Delete,
-  Injectable,
+  Singleton,
   UseHook,
 } from "../deps/alosaur.ts";
 import { TableLogic } from "../logic/table-logic.ts";
 import { LogHook } from "../utilities/log-hook.ts";
 
-@Injectable()
+@Singleton()
 @UseHook(LogHook)
 @Controller("/table")
 export class TableController {

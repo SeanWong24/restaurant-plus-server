@@ -1,8 +1,8 @@
-import { Injectable } from "../deps/alosaur.ts";
+import { Singleton } from "../deps/alosaur.ts";
 import { AnouncementRepository } from "../repository/anouncement-repository.ts";
 import { Anouncement } from "../domain-model/anouncement.ts";
 
-@Injectable()
+@Singleton()
 export class AnouncementLogic {
   constructor(private anouncementRepository: AnouncementRepository) {}
 

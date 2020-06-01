@@ -1,10 +1,10 @@
-import { Injectable } from "../deps/alosaur.ts";
+import { Singleton } from "../deps/alosaur.ts";
 import { RoleRepository } from "../repository/role-repository.ts";
 import { UserRepository } from "../repository/user-repository.ts";
 import { User } from "../domain-model/user.ts";
 import { Role } from "../domain-model/role.ts";
 
-@Injectable()
+@Singleton()
 export class UserLogic {
   constructor(
     private roleRepository: RoleRepository,

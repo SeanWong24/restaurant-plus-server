@@ -5,13 +5,13 @@ import {
   Get,
   Post,
   Put,
-  Injectable,
+  Singleton,
   UseHook,
 } from "../deps/alosaur.ts";
 import { MenuLogic } from "../logic/menu-logic.ts";
 import { LogHook } from "../utilities/log-hook.ts";
 
-@Injectable()
+@Singleton()
 @UseHook(LogHook)
 @Controller("/menu")
 export class MenuController {

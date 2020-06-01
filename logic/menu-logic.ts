@@ -1,4 +1,4 @@
-import { Injectable } from "../deps/alosaur.ts";
+import { Singleton } from "../deps/alosaur.ts";
 import { MenuItem } from "../domain-model/menu-item.ts";
 import { MenuItemRepository } from "../repository/menu-item-repository.ts";
 import {
@@ -6,7 +6,7 @@ import {
 } from "../repository/menu-category-repository.ts";
 import { MenuCategory } from "../domain-model/menu-category.ts";
 
-@Injectable()
+@Singleton()
 export class MenuLogic {
   constructor(
     private menuItemRepository: MenuItemRepository,

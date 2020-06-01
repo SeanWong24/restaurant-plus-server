@@ -1,9 +1,9 @@
-import { Injectable } from "../deps/alosaur.ts";
+import { Singleton } from "../deps/alosaur.ts";
 import { RepositoryConnection } from "./repository-connection.ts";
 import { Repository } from "./repository.ts";
 import { Role } from "../domain-model/role.ts";
 
-@Injectable()
+@Singleton()
 export class RoleRepository extends Repository<Role> {
   readonly defaultRoleList = [
     new Role(

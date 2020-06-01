@@ -5,13 +5,13 @@ import {
   Post,
   QueryParam,
   Get,
-  Injectable,
+  Singleton,
   UseHook,
 } from "../deps/alosaur.ts";
 import { PaymentLogic } from "../logic/payment-logic.ts";
 import { LogHook } from "../utilities/log-hook.ts";
 
-@Injectable()
+@Singleton()
 @UseHook(LogHook)
 @Controller("/payment")
 export class PaymentController {

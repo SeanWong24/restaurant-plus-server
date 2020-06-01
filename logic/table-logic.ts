@@ -1,10 +1,10 @@
-import { Injectable } from "../deps/alosaur.ts";
+import { Singleton } from "../deps/alosaur.ts";
 import { TableRepository } from "../repository/table-repository.ts";
 import { Table } from "../domain-model/table.ts";
 import { BillLogic } from "./bill-logic.ts";
 import { Bill } from "../domain-model/bill.ts";
 
-@Injectable()
+@Singleton()
 export class TableLogic {
   constructor(
     private tableRepository: TableRepository,

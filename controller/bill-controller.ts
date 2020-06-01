@@ -8,7 +8,7 @@ import {
   Delete,
   Body,
   Cookie,
-  Injectable,
+  Singleton,
   UseHook,
 } from "../deps/alosaur.ts";
 import { BillLogic } from "../logic/bill-logic.ts";
@@ -21,7 +21,7 @@ import {
   AuthorizationOptions,
 } from "../utilities/authorization-hook.ts";
 
-@Injectable()
+@Singleton()
 @UseHook(LogHook)
 @Controller("/bill")
 export class BillController {

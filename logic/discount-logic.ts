@@ -1,9 +1,9 @@
-import { Injectable } from "../deps/alosaur.ts";
+import { Singleton } from "../deps/alosaur.ts";
 import { DiscountRepository } from "../repository/discount-repository.ts";
 import { Discount } from "../domain-model/discount.ts";
 import { ObjectId } from "../deps/mongo.ts";
 
-@Injectable()
+@Singleton()
 export class DiscountLogic {
   constructor(private discountRepository: DiscountRepository) {}
 

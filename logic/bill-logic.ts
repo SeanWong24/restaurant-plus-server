@@ -1,11 +1,11 @@
-import { Injectable } from "../deps/alosaur.ts";
+import { Singleton } from "../deps/alosaur.ts";
 import { BillRepository } from "../repository/bill-repository.ts";
 import { BillItemRepository } from "../repository/bill-item-repository.ts";
 import { Bill } from "../domain-model/bill.ts";
 import { BillItem } from "../domain-model/bill-item.ts";
 import { Table } from "../domain-model/table.ts";
 
-@Injectable()
+@Singleton()
 export class BillLogic {
   constructor(
     private billRepository: BillRepository,

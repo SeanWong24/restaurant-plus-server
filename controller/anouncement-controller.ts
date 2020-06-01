@@ -8,7 +8,7 @@ import {
   Delete,
   Body,
   Cookie,
-  Injectable,
+  Singleton,
   UseHook,
 } from "../deps/alosaur.ts";
 import { Anouncement } from "../domain-model/anouncement.ts";
@@ -20,7 +20,7 @@ import {
   AuthorizationOptions,
 } from "../utilities/authorization-hook.ts";
 
-@Injectable()
+@Singleton()
 @UseHook(LogHook)
 @Controller("/anouncement")
 export class AnouncementController {

@@ -1,9 +1,9 @@
-import { Injectable } from "../deps/alosaur.ts";
+import { Singleton } from "../deps/alosaur.ts";
 import { RepositoryConnection } from "./repository-connection.ts";
 import { Repository } from "./repository.ts";
 import { Discount } from "../domain-model/discount.ts";
 
-@Injectable()
+@Singleton()
 export class DiscountRepository extends Repository<Discount> {
   constructor(private repoConnection: RepositoryConnection) {
     super(repoConnection, "discounts");

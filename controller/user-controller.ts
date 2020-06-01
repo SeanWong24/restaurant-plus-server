@@ -9,7 +9,7 @@ import {
   Res,
   Response,
   Cookie,
-  Injectable,
+  Singleton,
   setCookie,
   delCookie,
   UseHook,
@@ -22,7 +22,7 @@ import {
   AuthorizationOptions,
 } from "../utilities/authorization-hook.ts";
 
-@Injectable()
+@Singleton()
 @Controller("/user")
 export class UserController {
   constructor(private userLogic: UserLogic) {}
