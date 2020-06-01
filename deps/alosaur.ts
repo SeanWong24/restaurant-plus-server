@@ -1,4 +1,4 @@
-export * from "https://deno.land/x/alosaur@v0.16.0/mod.ts";
+export * from "https://deno.land/x/alosaur@v0.16.2/mod.ts";
 export {
   getCookies,
   setCookie,
