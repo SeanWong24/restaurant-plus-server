@@ -13,9 +13,12 @@ import {
 } from "../deps/alosaur.ts";
 import { Anouncement } from "../domain-model/anouncement.ts";
 import { AnouncementLogic } from "../logic/anouncement-logic.ts";
-import { Authorize, AuthorizationToken } from "../utilities/authorization.ts";
 import { Role } from "../domain-model/role.ts";
 import { LogHook } from "../utilities/log-hook.ts";
+import {
+  AuthorizationHook,
+  AuthorizationOptions,
+} from "../utilities/authorization-hook.ts";
 
 @Injectable()
 @UseHook(LogHook)
@@ -28,32 +31,41 @@ export class AnouncementController {
     return Content(await this.anouncementLogic.get(id));
   }
 
+  @UseHook(
+    AuthorizationHook,
+    Object.assign(
+      new AuthorizationOptions(),
+      { permissionList: [Role.Permission.Anouncement_Write] },
+    ),
+  )
   @Post("/add")
-  @Authorize([Role.Permission.Anouncement_Write])
-  async add(
-    @Body() anouncement: Anouncement,
-    @Cookie("token") @AuthorizationToken authorizationToken: string,
-  ) {
+  async add(@Body() anouncement: Anouncement) {
     return Content(await this.anouncementLogic.add(anouncement));
   }
 
+  @UseHook(
+    AuthorizationHook,
+    Object.assign(
+      new AuthorizationOptions(),
+      { permissionList: [Role.Permission.Anouncement_Write] },
+    ),
+  )
   @Put("/modify")
-  @Authorize([Role.Permission.Anouncement_Write])
-  async modify(
-    @Body() anouncement: Anouncement,
-    @Cookie("token") @AuthorizationToken authorizationToken: string,
-  ) {
+  async modify(@Body() anouncement: Anouncement) {
     const id = anouncement.id as string;
     delete anouncement.id;
     return Content(await this.anouncementLogic.modify(id, anouncement));
   }
 
+  @UseHook(
+    AuthorizationHook,
+    Object.assign(
+      new AuthorizationOptions(),
+      { permissionList: [Role.Permission.Anouncement_Write] },
+    ),
+  )
   @Delete("")
-  @Authorize([Role.Permission.Anouncement_Write])
-  async delete(
-    @QueryParam("id") id: string,
-    @Cookie("token") @AuthorizationToken authorizationToken: string,
-  ) {
+  async delete(@QueryParam("id") id: string) {
     return Content(await this.anouncementLogic.delete(id));
   }
 }

@@ -15,9 +15,12 @@ import {
   UseHook,
 } from "../deps/alosaur.ts";
 import { UserLogic } from "../logic/user-logic.ts";
-import { Authorize, AuthorizationToken } from "../utilities/authorization.ts";
 import { Role } from "../domain-model/role.ts";
 import { LogHook, LogOptions } from "../utilities/log-hook.ts";
+import {
+  AuthorizationHook,
+  AuthorizationOptions,
+} from "../utilities/authorization-hook.ts";
 
 @Injectable()
 @Controller("/user")
@@ -25,12 +28,15 @@ export class UserController {
   constructor(private userLogic: UserLogic) {}
 
   @UseHook(LogHook)
+  @UseHook(
+    AuthorizationHook,
+    Object.assign(
+      new AuthorizationOptions(),
+      { permissionList: [Role.Permission.User_Read] },
+    ),
+  )
   @Get("")
-  @Authorize([Role.Permission.User_Read])
-  async get(
-    @QueryParam("id") id: string,
-    @Cookie("token") @AuthorizationToken authorizationToken: string,
-  ) {
+  async get(@QueryParam("id") id: string) {
     return Content(await this.userLogic.get(id));
   }
 
@@ -68,23 +74,31 @@ export class UserController {
   }
 
   @UseHook(LogHook)
+  @UseHook(
+    AuthorizationHook,
+    Object.assign(
+      new AuthorizationOptions(),
+      { permissionList: [Role.Permission.User_Write] },
+    ),
+  )
   @Post("/add")
-  @Authorize([Role.Permission.User_Write])
   async add(
     @QueryParam("name") name: string,
     @QueryParam("roleName") roleName: string,
-    @Cookie("token") @AuthorizationToken authorizationToken: string,
   ) {
     return Content(await this.userLogic.add(name, roleName));
   }
 
   @UseHook(LogHook)
+  @UseHook(
+    AuthorizationHook,
+    Object.assign(
+      new AuthorizationOptions(),
+      { permissionList: [Role.Permission.Role_Read] },
+    ),
+  )
   @Get("/role")
-  @Authorize([Role.Permission.Role_Read])
-  async getRole(
-    @QueryParam("id") id: string,
-    @Cookie("token") @AuthorizationToken authorizationToken: string,
-  ) {
+  async getRole(@QueryParam("id") id: string) {
     return Content(await this.userLogic.getRole(id));
   }
 
