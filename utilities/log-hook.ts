@@ -28,7 +28,7 @@ export class LogHook implements HookTarget<unknown, LogOptions> {
       user: cookies.token,
       url: serverRequest.url,
       body: options.logBody
-        ? await this.readBody(serverRequest.body)
+        ? await context.request.body()
         : undefined,
       error: error
         ? {
@@ -39,16 +39,5 @@ export class LogHook implements HookTarget<unknown, LogOptions> {
       time: new Date(),
     });
     console.log(log);
-  }
-
-  // TODO this does not work correctly
-  private async readBody(body: Deno.Reader) {
-    const utf8Decoder = new TextDecoder("utf-8");
-    let result = "";
-    let p = new Uint8Array(1024);
-    while (await body.read(p)) {
-      result += utf8Decoder.decode(p);
-    }
-    return result;
   }
 }
