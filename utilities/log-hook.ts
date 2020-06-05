@@ -1,11 +1,29 @@
-import { HookTarget, Context, getCookies, HttpError } from "../deps/alosaur.ts";
+import {
+  HookTarget,
+  Context,
+  getCookies,
+  HttpError,
+  Singleton,
+  container,
+} from "../deps/alosaur.ts";
 import { Log } from "../domain-model/log.ts";
+import { LogRepository } from "../repository/log-repository.ts";
 
 export class LogOptions {
   logBody: boolean = false;
 }
 
+@Singleton()
 export class LogHook implements HookTarget<unknown, LogOptions> {
+  private logRepository?: LogRepository;
+
+  constructor() {
+    // TODO use DI
+    setTimeout(() => {
+      this.logRepository = container.resolve(LogRepository);
+    }, 0);
+  }
+
   async onPostAction(
     context: Context<unknown>,
     options: LogOptions = new LogOptions(),
@@ -37,5 +55,6 @@ export class LogHook implements HookTarget<unknown, LogOptions> {
       time: new Date(),
     });
     console.log(log);
+    this.logRepository?.insert(log);
   }
 }
