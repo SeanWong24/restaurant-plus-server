@@ -74,6 +74,7 @@ export class AuthorizationHook
       const error = new ForbiddenError(
         "You do not have the permission to access this resource.",
       );
+      context.response.error = error;
       context.response.result = Content(error, error.httpCode || 500);
       context.response.setImmediately();
     }

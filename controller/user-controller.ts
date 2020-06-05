@@ -89,7 +89,6 @@ export class UserController {
     return Content(await this.userLogic.add(name, roleName));
   }
 
-  @UseHook(LogHook)
   @UseHook(
     AuthorizationHook,
     Object.assign(
@@ -97,6 +96,7 @@ export class UserController {
       { permissionList: [Role.Permission.Role_Read] },
     ),
   )
+  @UseHook(LogHook)
   @Get("/role")
   async getRole(@QueryParam("id") id: string) {
     return Content(await this.userLogic.getRole(id));

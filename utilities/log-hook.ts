@@ -27,9 +27,7 @@ export class LogHook implements HookTarget<unknown, LogOptions> {
     const log = Object.assign(new Log(), {
       user: cookies.token,
       url: serverRequest.url,
-      body: options.logBody
-        ? await context.request.body()
-        : undefined,
+      body: options.logBody ? await context.request.body() : undefined,
       error: error
         ? {
           name: error.name,
