@@ -12,12 +12,17 @@ import { BillController } from "./controller/bill-controller.ts";
 import { PaymentController } from "./controller/payment-controller.ts";
 import { AnouncementController } from "./controller/anouncement-controller.ts";
 
+const config: {
+  databaseConnectionString: string;
+  databaseName: string;
+} = JSON.parse(Deno.readTextFileSync("config.json"));
+
 container.register<RepositoryConnection>(
   RepositoryConnection,
   {
     useValue: new RepositoryConnection(
-      "mongodb+srv://ros:ros123456@cluster0-atpei.azure.mongodb.net",
-      "test",
+      config.databaseConnectionString,
+      config.databaseName,
     ),
   },
 );

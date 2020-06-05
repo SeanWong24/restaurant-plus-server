@@ -1,0 +1,4 @@
+{
+    "databaseConnectionString": "mongodb+srv://ros:ros123456@cluster0-atpei.azure.mongodb.net",
+    "databaseName": "test"
+}
