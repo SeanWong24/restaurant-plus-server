@@ -23,8 +23,8 @@ export class AuthorizationOptions {
 
 export class AuthorizationHook
   implements HookTarget<unknown, AuthorizationOptions> {
-  userRepository?: UserRepository;
-  roleRepository?: RoleRepository;
+  private userRepository?: UserRepository;
+  private roleRepository?: RoleRepository;
 
   constructor() {
     // TODO use DI
