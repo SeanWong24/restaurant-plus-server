@@ -1,10 +1,8 @@
-FROM hayd/alpine-deno:1.0.3
+FROM hayd/alpine-deno:1.0.5
 
 EXPOSE $PORT
 
 WORKDIR /app
-
-USER deno
 
 ADD . .
 
