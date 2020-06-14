@@ -11,7 +11,7 @@ import {
   Cookie,
   Singleton,
   setCookie,
-  delCookie,
+  deleteCookie,
   UseHook,
 } from "../deps/alosaur.ts";
 import { UserLogic } from "../logic/user-logic.ts";
@@ -65,7 +65,7 @@ export class UserController {
   @UseHook(LogHook)
   @Post("/logout")
   async logout(@Cookie("token") token: string, @Res() response: Response) {
-    // delCookie(response, "token");
+    // deleteCookie(response, "token");
     response.headers?.append(
       "Set-Cookie",
       "token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT",
