@@ -1,9 +1,16 @@
-FROM hayd/alpine-deno:1.1.0
+FROM debian:jessie-slim
 
-EXPOSE $PORT
+ARG DENO_VERSION=v1.1.0
 
-WORKDIR /app
+RUN apt-get update\
+    && apt-get install -y curl unzip\
+    && apt-get clean -y \
+    && rm -rf /var/lib/apt/lists/* \
+    && curl -fsSL https://deno.land/x/install/install.sh -s $DENO_VERSION | sh 
 
-ADD . .
+ENV DENO_INSTALL="/root/.deno"
+ENV PATH="$DENO_INSTALL/bin:$PATH"
 
-CMD ["run", "-A", "--unstable", "-c", "tsconfig.json", "mod.ts", "$PORT"]
+COPY . .
+
+CMD deno run -A --unstable -c ./tsconfig.json ./mod.ts $PORT
