@@ -357,4 +357,18 @@ export class BillController {
     }
     return Content(await this.discountLogic.modify(id, changeDefinition));
   }
+
+  @UseHook(
+    AuthorizationHook,
+    Object.assign(
+      new AuthorizationOptions(),
+      { permissionList: [Role.Permission.BillItem_Write] },
+    ),
+  )
+  @Put("/discount/toggle-availability")
+  async toggleAvailability(
+    @QueryParam("id") id: string,
+  ) {
+    return Content(await this.discountLogic.toggleAvailability(id));
+  }
 }
