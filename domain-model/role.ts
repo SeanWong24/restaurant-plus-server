@@ -8,6 +8,9 @@ export class Role {
     Bill_Write: "bill.write",
     BillItem_Read: "bill_item.read",
     BillItem_Write: "bill_item.write",
+    Table_Read: "table.read",
+    Table_Write: "table.write",
+    Table_Write_Advanced: "table.write.advanced",
   };
 
   id?: string;
