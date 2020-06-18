@@ -333,9 +333,10 @@ export class BillController {
   async createDiscount(
     @QueryParam("name") name: string,
     @QueryParam("type") type: string,
-    @QueryParam("amount") amount: number,
+    @QueryParam("value") value: number,
+    @QueryParam("status") status: string,
   ) {
-    return Content(await this.discountLogic.add(name, type, amount));
+    return Content(await this.discountLogic.add(name, type, value, status));
   }
 
   @UseHook(
@@ -349,18 +350,10 @@ export class BillController {
   async modifyDiscount(
     @QueryParam("id") id: string,
     @QueryParam("name") name: string,
-    @QueryParam("type") type: string,
-    @QueryParam("value") value: number,
   ) {
     const changeDefinition = {} as any;
     if (name) {
       changeDefinition["name"] = name;
-    }
-    if (type) {
-      changeDefinition["type"] = type;
-    }
-    if (value) {
-      changeDefinition["value"] = value;
     }
     return Content(await this.discountLogic.modify(id, changeDefinition));
   }
