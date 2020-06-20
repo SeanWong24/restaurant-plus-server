@@ -314,7 +314,7 @@ export class BillController {
     AuthorizationHook,
     Object.assign(
       new AuthorizationOptions(),
-      { permissionList: [Role.Permission.BillItem_Read] },
+      { permissionList: [Role.Permission.Discount_Read] },
     ),
   )
   @Post("/discount")
@@ -326,7 +326,7 @@ export class BillController {
     AuthorizationHook,
     Object.assign(
       new AuthorizationOptions(),
-      { permissionList: [Role.Permission.BillItem_Write] },
+      { permissionList: [Role.Permission.Discount_Write] },
     ),
   )
   @Post("/discount/add")
@@ -343,7 +343,7 @@ export class BillController {
     AuthorizationHook,
     Object.assign(
       new AuthorizationOptions(),
-      { permissionList: [Role.Permission.BillItem_Write] },
+      { permissionList: [Role.Permission.Discount_Write] },
     ),
   )
   @Put("/discount/modify")
