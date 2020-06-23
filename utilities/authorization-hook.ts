@@ -61,7 +61,7 @@ export class AuthorizationHook
       );
     const areParametersAuthorized = options.queryParameterPermissionList
       .every((definition) =>
-        new URLSearchParams(context.request.url).get(
+        !new URLSearchParams(context.request.url).get(
           definition.parameterName || "",
         ) ||
         !definition.permissionList ||
