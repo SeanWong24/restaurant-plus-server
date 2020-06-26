@@ -11,6 +11,8 @@ export class Role {
     Table_Read: "table.read",
     Table_Write: "table.write",
     Table_Write_Advanced: "table.write.advanced",
+    Menu_Read: "menu.read",
+    Menu_Write: "menu.write",
     Discount_Read: "discount.read",
     Discount_Write: "discount.write",
   };
