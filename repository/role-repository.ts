@@ -16,6 +16,7 @@ export class RoleRepository extends Repository<Role> {
         Role.Permission.Bill_Write,
         Role.Permission.BillItem_Read,
         Role.Permission.BillItem_Write,
+        Role.Permission.Anouncement_Read,
         Role.Permission.Anouncement_Write,
         Role.Permission.Table_Read,
         Role.Permission.Table_Write,
@@ -37,6 +38,7 @@ export class RoleRepository extends Repository<Role> {
         Role.Permission.Bill_Write,
         Role.Permission.BillItem_Read,
         Role.Permission.BillItem_Write,
+        Role.Permission.Anouncement_Read,
         Role.Permission.Anouncement_Write,
         Role.Permission.Table_Read,
         Role.Permission.Table_Write,
@@ -55,6 +57,7 @@ export class RoleRepository extends Repository<Role> {
         Role.Permission.Bill_Write,
         Role.Permission.BillItem_Read,
         Role.Permission.BillItem_Write,
+        Role.Permission.Anouncement_Read,
         Role.Permission.Table_Read,
         Role.Permission.Table_Write,
         Role.Permission.Menu_Read,
@@ -64,12 +67,16 @@ export class RoleRepository extends Repository<Role> {
     ),
     new Role(
       "Customer",
-      [],
+      [
+        Role.Permission.Anouncement_Read,
+      ],
       true,
     ),
     new Role(
       "Guest",
-      [],
+      [
+        Role.Permission.Anouncement_Read,
+      ],
       true,
     ),
   ];

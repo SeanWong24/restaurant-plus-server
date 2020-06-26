@@ -26,9 +26,16 @@ import {
 export class AnouncementController {
   constructor(private anouncementLogic: AnouncementLogic) {}
 
+  @UseHook(
+    AuthorizationHook,
+    Object.assign(
+      new AuthorizationOptions(),
+      { permissionList: [Role.Permission.Anouncement_Read] },
+    ),
+  )
   @Get("")
   async get(@QueryParam("id") id: string) {
-    return Content(await this.anouncementLogic.get(id));
+    return await this.anouncementLogic.get(id);
   }
 
   @UseHook(
@@ -40,7 +47,7 @@ export class AnouncementController {
   )
   @Post("/add")
   async add(@Body() anouncement: Anouncement) {
-    return Content(await this.anouncementLogic.add(anouncement));
+    return await this.anouncementLogic.add(anouncement);
   }
 
   @UseHook(
@@ -54,7 +61,7 @@ export class AnouncementController {
   async modify(@Body() anouncement: Anouncement) {
     const id = anouncement.id as string;
     delete anouncement.id;
-    return Content(await this.anouncementLogic.modify(id, anouncement));
+    return await this.anouncementLogic.modify(id, anouncement);
   }
 
   @UseHook(
@@ -66,6 +73,6 @@ export class AnouncementController {
   )
   @Delete("")
   async delete(@QueryParam("id") id: string) {
-    return Content(await this.anouncementLogic.delete(id));
+    return await this.anouncementLogic.delete(id);
   }
 }
