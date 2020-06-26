@@ -109,7 +109,15 @@ export class TableController {
     AuthorizationHook,
     Object.assign(
       new AuthorizationOptions(),
-      { permissionList: [Role.Permission.Table_Write] },
+      {
+        permissionList: [Role.Permission.Table_Write],
+        queryParameterPermissionList: [
+          {
+            parameterName: "name",
+            permissionList: [Role.Permission.Table_Write_Advanced],
+          },
+        ],
+      },
     ),
   )
   @Put("/modify")
