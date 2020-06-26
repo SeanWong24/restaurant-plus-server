@@ -1,6 +1,5 @@
 import {
   Controller,
-  Content,
   QueryParam,
   Get,
   Post,
@@ -39,7 +38,7 @@ export class BillController {
     @QueryParam("timeTo") timeTo: string,
   ) {
     if (id) {
-      return Content(await this.billLogic.getBill({ id }));
+      return await this.billLogic.getBill({ id });
     } else {
       const filter = {
         tableId,
@@ -47,13 +46,13 @@ export class BillController {
         timeFrom,
         timeTo,
       };
-      return Content(await this.billLogic.getBill(filter));
+      return await this.billLogic.getBill(filter);
     }
   }
 
   @Get("/togo")
   async getTogo() {
-    return Content(await this.billLogic.getTogo());
+    return await this.billLogic.getTogo();
   }
 
   @UseHook(
@@ -65,12 +64,12 @@ export class BillController {
   )
   @Post("/add")
   async addBill(@QueryParam("tableId") tableId: string) {
-    return Content(await this.billLogic.addBill(tableId));
+    return await this.billLogic.addBill(tableId);
   }
 
   @Post("/add/togo")
   async addTogo(@QueryParam("togoType") togoType: string) {
-    return Content(await this.billLogic.addTogo(togoType));
+    return await this.billLogic.addTogo(togoType);
   }
 
   @UseHook(
@@ -89,7 +88,7 @@ export class BillController {
     if (tableId) {
       changeDefinition.tableId = tableId;
     }
-    return Content(await this.billLogic.modify(id, changeDefinition));
+    return await this.billLogic.modify(id, changeDefinition);
   }
 
   @UseHook(
@@ -105,9 +104,7 @@ export class BillController {
     @QueryParam("discountId") discountId: string,
     @QueryParam("groupId") groupId: number,
   ) {
-    return Content(
-      await this.billLogic.addDiscountToBill(id, discountId, groupId),
-    );
+    return await this.billLogic.addDiscountToBill(id, discountId, groupId);
   }
 
   @Put("/remove/discount")
@@ -116,9 +113,7 @@ export class BillController {
     @QueryParam("discountId") discountId: string,
     @QueryParam("groupId") groupId: number,
   ) {
-    return Content(
-      await this.billLogic.removeDiscountFromBill(id, discountId, groupId),
-    );
+    return await this.billLogic.removeDiscountFromBill(id, discountId, groupId);
   }
 
   @UseHook(
@@ -130,7 +125,7 @@ export class BillController {
   )
   @Put("/close")
   async closeBill(@QueryParam("id") id: string) {
-    return Content(await this.billLogic.closeBill(id) || "");
+    return await this.billLogic.closeBill(id) || "";
   }
 
   @UseHook(
@@ -148,7 +143,7 @@ export class BillController {
     @QueryParam("groupId") groupId: number,
   ) {
     if (id) {
-      return Content(await this.billLogic.getBillItem({ id }));
+      return await this.billLogic.getBillItem({ id });
     } else {
       const filter = {} as any;
       if (billId) {
@@ -164,7 +159,7 @@ export class BillController {
       if (groupId) {
         filter["groupId"] = groupId;
       }
-      return Content(await this.billLogic.getBillItem(filter));
+      return await this.billLogic.getBillItem(filter);
     }
   }
 
@@ -184,14 +179,12 @@ export class BillController {
     @Body() selectedMenuItemInfoList: Map<string, string>[],
     @Cookie("token") authorizationToken: string,
   ) {
-    return Content(
-      await this.billLogic.addBillItem(
-        billId,
-        menuItemId,
-        quantity,
-        groupId,
-        1,
-      ),
+    return await this.billLogic.addBillItem(
+      billId,
+      menuItemId,
+      quantity,
+      groupId,
+      1,
     );
   }
 
@@ -209,7 +202,7 @@ export class BillController {
   ) {
     const changeDefinition = {} as any;
     if (quantity) changeDefinition["quantity"] = quantity;
-    return Content(await this.billLogic.modifyItem(id, changeDefinition));
+    return await this.billLogic.modifyItem(id, changeDefinition);
   }
 
   @UseHook(
@@ -224,8 +217,9 @@ export class BillController {
     @QueryParam("discountId") discountId: string,
     @Body() billItemIdList: string[],
   ) {
-    return Content(
-      await this.billLogic.addDiscountToBillItem(discountId, billItemIdList),
+    return await this.billLogic.addDiscountToBillItem(
+      discountId,
+      billItemIdList,
     );
   }
 
@@ -234,9 +228,7 @@ export class BillController {
     @QueryParam("id") id: string,
     @QueryParam("discountId") discountId: string,
   ) {
-    return Content(
-      await this.billLogic.removeDiscountFromBillItem(id, discountId),
-    );
+    return await this.billLogic.removeDiscountFromBillItem(id, discountId);
   }
 
   @UseHook(
@@ -252,11 +244,9 @@ export class BillController {
     @Body() billItemIdList: string[],
   ) {
     if (billItemIdList) {
-      return Content(
-        await this.billLogic.groupBillItem(billItemIdList, groupId),
-      );
+      return await this.billLogic.groupBillItem(billItemIdList, groupId);
     }
-    return Content("");
+    return "";
   }
 
   @UseHook(
@@ -269,9 +259,9 @@ export class BillController {
   @Delete("/item")
   async deleteItem(@Body() selectedItemIdList: string[]) {
     if (selectedItemIdList) {
-      return Content(await this.billLogic.deleteBillItem(selectedItemIdList));
+      return await this.billLogic.deleteBillItem(selectedItemIdList);
     } else {
-      return Content("");
+      return "";
     }
   }
 
@@ -288,11 +278,9 @@ export class BillController {
     @Body() billItemIdList: string[],
   ) {
     if (quantity && billItemIdList) {
-      return Content(
-        await this.billLogic.splitBillItem(billItemIdList, quantity),
-      );
+      return await this.billLogic.splitBillItem(billItemIdList, quantity);
     }
-    return Content("");
+    return "";
   }
 
   @UseHook(
@@ -305,9 +293,9 @@ export class BillController {
   @Put("/item/combine")
   async combineItem(@Body() billItemIdList: string[]) {
     if (billItemIdList) {
-      return Content(await this.billLogic.combineBillItems(billItemIdList));
+      return await this.billLogic.combineBillItems(billItemIdList);
     }
-    return Content("");
+    return "";
   }
 
   @UseHook(
@@ -319,7 +307,7 @@ export class BillController {
   )
   @Post("/discount")
   async getDiscount(@Body() discountIdList?: string[]) {
-    return Content(await this.discountLogic.get(discountIdList));
+    return await this.discountLogic.get(discountIdList);
   }
 
   @UseHook(
@@ -336,7 +324,7 @@ export class BillController {
     @QueryParam("value") value: number,
     @QueryParam("status") status: string,
   ) {
-    return Content(await this.discountLogic.add(name, type, value, status));
+    return await this.discountLogic.add(name, type, value, status);
   }
 
   @UseHook(
@@ -355,7 +343,7 @@ export class BillController {
     if (name) {
       changeDefinition["name"] = name;
     }
-    return Content(await this.discountLogic.modify(id, changeDefinition));
+    return await this.discountLogic.modify(id, changeDefinition);
   }
 
   @UseHook(
@@ -369,6 +357,6 @@ export class BillController {
   async toggleAvailability(
     @QueryParam("id") id: string,
   ) {
-    return Content(await this.discountLogic.toggleAvailability(id));
+    return await this.discountLogic.toggleAvailability(id);
   }
 }

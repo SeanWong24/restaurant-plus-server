@@ -1,6 +1,5 @@
 import {
   Controller,
-  Content,
   Body,
   Post,
   QueryParam,
@@ -16,7 +15,7 @@ import {
 } from "../deps/alosaur.ts";
 import { UserLogic } from "../logic/user-logic.ts";
 import { Role } from "../domain-model/role.ts";
-import { LogHook, LogOptions } from "../utilities/log-hook.ts";
+import { LogHook } from "../utilities/log-hook.ts";
 import {
   AuthorizationHook,
   AuthorizationOptions,
@@ -37,13 +36,13 @@ export class UserController {
   )
   @Get("")
   async get(@QueryParam("id") id: string) {
-    return Content(await this.userLogic.get(id));
+    return await this.userLogic.get(id);
   }
 
   @UseHook(LogHook)
   @Get("/self")
   async getSelf(@Cookie("token") token: string) {
-    return Content(await this.userLogic.getSelf(token));
+    return await this.userLogic.getSelf(token);
   }
 
   @UseHook(LogHook, { logBody: true })
@@ -86,7 +85,7 @@ export class UserController {
     @QueryParam("name") name: string,
     @QueryParam("roleName") roleName: string,
   ) {
-    return Content(await this.userLogic.add(name, roleName));
+    return await this.userLogic.add(name, roleName);
   }
 
   @UseHook(
@@ -99,13 +98,13 @@ export class UserController {
   @UseHook(LogHook)
   @Get("/role")
   async getRole(@QueryParam("id") id: string) {
-    return Content(await this.userLogic.getRole(id));
+    return await this.userLogic.getRole(id);
   }
 
   @UseHook(LogHook)
   @Get("/role/self")
   async getRoleSelf(@Cookie("token") token: string) {
-    return Content(await this.userLogic.getRoleSelf(token));
+    return await this.userLogic.getRoleSelf(token);
   }
 
   @UseHook(LogHook)
@@ -115,7 +114,7 @@ export class UserController {
     @QueryParam("token") token: string,
   ) {
     // TODO implement the logic
-    return Content("");
+    return "";
   }
 
   @UseHook(LogHook)
@@ -126,6 +125,6 @@ export class UserController {
     @QueryParam("token") token: string,
   ) {
     // TODO implement the logic
-    return Content("");
+    return "";
   }
 }

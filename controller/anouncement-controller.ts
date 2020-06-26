@@ -1,6 +1,5 @@
 import {
   Controller,
-  Content,
   QueryParam,
   Get,
   Post,

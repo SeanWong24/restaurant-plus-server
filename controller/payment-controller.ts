@@ -1,6 +1,5 @@
 import {
   Controller,
-  Content,
   Body,
   Post,
   QueryParam,
@@ -23,12 +22,12 @@ export class PaymentController {
     @QueryParam("billId") billId: string,
   ) {
     if (id) {
-      return Content(await this.paymentLogic.get({ id }));
+      return await this.paymentLogic.get({ id });
     } else {
       const filter = {
         billId: billId,
       };
-      return Content(await this.paymentLogic.get(filter));
+      return await this.paymentLogic.get(filter);
     }
   }
 
@@ -40,14 +39,12 @@ export class PaymentController {
     @QueryParam("changeGiven") changeGiven: number,
     @Body() billItemIdList: string[],
   ) {
-    return Content(
-      await this.paymentLogic.pay(
-        billId,
-        cashPayAmount,
-        cardPayAmount,
-        changeGiven,
-        billItemIdList,
-      ),
+    return await this.paymentLogic.pay(
+      billId,
+      cashPayAmount,
+      cardPayAmount,
+      changeGiven,
+      billItemIdList,
     );
   }
 }

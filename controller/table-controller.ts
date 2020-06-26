@@ -1,6 +1,5 @@
 import {
   Controller,
-  Content,
   QueryParam,
   Get,
   Post,
@@ -36,12 +35,12 @@ export class TableController {
     @QueryParam("status") status: string,
   ) {
     if (id) {
-      return Content(await this.tableLogic.get({ id }));
+      return await this.tableLogic.get({ id });
     } else {
       const filter = {
         status,
       };
-      return Content(await this.tableLogic.get(filter));
+      return await this.tableLogic.get(filter);
     }
   }
 
@@ -57,7 +56,7 @@ export class TableController {
     @QueryParam("name") name: string,
     @QueryParam("capacity") capacity: number,
   ) {
-    return Content(await this.tableLogic.add(name, capacity));
+    return await this.tableLogic.add(name, capacity);
   }
 
   @UseHook(
@@ -72,7 +71,7 @@ export class TableController {
     @QueryParam("id") id: string,
     @QueryParam("occupied") occupied: number,
   ) {
-    return Content(await this.tableLogic.open(id, occupied));
+    return await this.tableLogic.open(id, occupied);
   }
 
   @UseHook(
@@ -87,7 +86,7 @@ export class TableController {
     @QueryParam("id") id: string,
     @QueryParam("occupied") occupied: number,
   ) {
-    return Content(await this.tableLogic.reserve(id, occupied));
+    return await this.tableLogic.reserve(id, occupied);
   }
 
   @UseHook(
@@ -102,7 +101,7 @@ export class TableController {
     @QueryParam("id") id: string,
     @QueryParam("transferId") transferId: string,
   ) {
-    return Content(this.tableLogic.transfer(id, transferId));
+    return this.tableLogic.transfer(id, transferId);
   }
 
   @UseHook(
@@ -134,9 +133,9 @@ export class TableController {
       if (capacity) {
         changeDefinition["capacity"] = capacity;
       }
-      return Content(await this.tableLogic.modify(id, changeDefinition));
+      return await this.tableLogic.modify(id, changeDefinition);
     } else {
-      return Content("");
+      return "";
     }
   }
 
@@ -149,7 +148,7 @@ export class TableController {
   )
   @Put("/toggle-availability")
   async toggleAvailability(@QueryParam("id") id: string) {
-    return Content(await this.tableLogic.toggleAvailability(id));
+    return await this.tableLogic.toggleAvailability(id);
   }
 
   @UseHook(
@@ -169,9 +168,9 @@ export class TableController {
       if (occupied) {
         changeDefinition["occupied"] = occupied;
       }
-      return Content(await this.tableLogic.modify(id, changeDefinition));
+      return await this.tableLogic.modify(id, changeDefinition);
     } else {
-      return Content("");
+      return "";
     }
   }
 
@@ -184,7 +183,7 @@ export class TableController {
   )
   @Put("/close")
   async close(@QueryParam("id") id: string) {
-    return Content(await this.tableLogic.close(id));
+    return await this.tableLogic.close(id);
   }
 
   @UseHook(
@@ -196,7 +195,7 @@ export class TableController {
   )
   @Put("/free")
   async free(@QueryParam("id") id: string) {
-    return Content(await this.tableLogic.free(id));
+    return await this.tableLogic.free(id);
   }
 
   @UseHook(
@@ -208,7 +207,7 @@ export class TableController {
   )
   @Put("/disable")
   async disable(@QueryParam("id") id: string) {
-    return Content(await this.tableLogic.disable(id));
+    return await this.tableLogic.disable(id);
   }
 
   @UseHook(
@@ -220,6 +219,6 @@ export class TableController {
   )
   @Delete("")
   async delete(@QueryParam("id") id: string) {
-    return Content(await this.tableLogic.delete(id));
+    return await this.tableLogic.delete(id);
   }
 }

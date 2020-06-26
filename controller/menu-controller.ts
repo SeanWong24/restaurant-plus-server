@@ -1,6 +1,5 @@
 import {
   Controller,
-  Content,
   QueryParam,
   Get,
   Post,
@@ -31,7 +30,7 @@ export class MenuController {
   )
   @Get("/category")
   async getCategory(@QueryParam("id") id: string) {
-    return Content(await this.menuLogic.getMenuCategory({ id }));
+    return await this.menuLogic.getMenuCategory({ id });
   }
 
   @UseHook(
@@ -43,7 +42,7 @@ export class MenuController {
   )
   @Post("/category/add")
   async addCategory(@QueryParam("name") name: string) {
-    return Content(await this.menuLogic.addMenuCategory(name));
+    return await this.menuLogic.addMenuCategory(name);
   }
 
   @UseHook(
@@ -62,7 +61,7 @@ export class MenuController {
     if (name) {
       changeDefinition["name"] = name;
     }
-    return Content(await this.menuLogic.modifyCategory(id, changeDefinition));
+    return await this.menuLogic.modifyCategory(id, changeDefinition);
   }
 
   @UseHook(
@@ -74,7 +73,7 @@ export class MenuController {
   )
   @Get("/item")
   async getItem(@QueryParam("id") id: string) {
-    return Content(await this.menuLogic.getMenuItem({ id }));
+    return await this.menuLogic.getMenuItem({ id });
   }
 
   @UseHook(
@@ -96,18 +95,16 @@ export class MenuController {
     @QueryParam("lctRate") lctRate: number,
     @QueryParam("imageUrl") imageUrl: string,
   ) {
-    return Content(
-      await this.menuLogic.addMenuItem(
-        name,
-        shortName,
-        unitPrice,
-        categoryId,
-        status,
-        gstRate,
-        pstRate,
-        lctRate,
-        imageUrl,
-      ),
+    return await this.menuLogic.addMenuItem(
+      name,
+      shortName,
+      unitPrice,
+      categoryId,
+      status,
+      gstRate,
+      pstRate,
+      lctRate,
+      imageUrl,
     );
   }
 
@@ -161,6 +158,6 @@ export class MenuController {
         changeDefinition["imageUrl"] = (imageUrl === "(null)") ? "" : imageUrl;
       }
     }
-    return Content(await this.menuLogic.modifyItem(id, changeDefinition));
+    return await this.menuLogic.modifyItem(id, changeDefinition);
   }
 }
