@@ -21,7 +21,7 @@ export class RoleRepository extends Repository<Role> {
         Role.Permission.Table_Write,
         Role.Permission.Table_Write_Advanced,
         Role.Permission.Discount_Read,
-        Role.Permission.Discount_Write
+        Role.Permission.Discount_Write,
       ],
       true,
     ),
@@ -40,7 +40,7 @@ export class RoleRepository extends Repository<Role> {
         Role.Permission.Table_Write,
         Role.Permission.Table_Write_Advanced,
         Role.Permission.Discount_Read,
-        Role.Permission.Discount_Write
+        Role.Permission.Discount_Write,
       ],
       true,
     ),
@@ -54,7 +54,7 @@ export class RoleRepository extends Repository<Role> {
         Role.Permission.Table_Read,
         Role.Permission.Table_Write,
         Role.Permission.Discount_Read,
-        Role.Permission.Discount_Write
+        Role.Permission.Discount_Write,
       ],
       true,
     ),

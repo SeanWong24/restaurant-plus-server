@@ -12,7 +12,7 @@ export class Role {
     Table_Write: "table.write",
     Table_Write_Advanced: "table.write.advanced",
     Discount_Read: "discount.read",
-    Discount_Write: "discount.write"
+    Discount_Write: "discount.write",
   };
 
   id?: string;
