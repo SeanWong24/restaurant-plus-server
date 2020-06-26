@@ -362,7 +362,7 @@ export class BillController {
     AuthorizationHook,
     Object.assign(
       new AuthorizationOptions(),
-      { permissionList: [Role.Permission.BillItem_Write] },
+      { permissionList: [Role.Permission.Discount_Write] },
     ),
   )
   @Put("/discount/toggle-availability")
