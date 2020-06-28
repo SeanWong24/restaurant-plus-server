@@ -27,10 +27,7 @@ export class AnouncementController {
 
   @UseHook(
     AuthorizationHook,
-    Object.assign(
-      new AuthorizationOptions(),
-      { permissionList: [Role.Permission.Anouncement_Read] },
-    ),
+    { permissionList: [Role.Permission.Anouncement_Read] },
   )
   @Get("")
   async get(@QueryParam("id") id: string) {
@@ -39,10 +36,7 @@ export class AnouncementController {
 
   @UseHook(
     AuthorizationHook,
-    Object.assign(
-      new AuthorizationOptions(),
-      { permissionList: [Role.Permission.Anouncement_Write] },
-    ),
+    { permissionList: [Role.Permission.Anouncement_Write] },
   )
   @Post("/add")
   async add(@Body() anouncement: Anouncement) {
@@ -51,10 +45,7 @@ export class AnouncementController {
 
   @UseHook(
     AuthorizationHook,
-    Object.assign(
-      new AuthorizationOptions(),
-      { permissionList: [Role.Permission.Anouncement_Write] },
-    ),
+    { permissionList: [Role.Permission.Anouncement_Write] },
   )
   @Put("/modify")
   async modify(@Body() anouncement: Anouncement) {
@@ -65,10 +56,7 @@ export class AnouncementController {
 
   @UseHook(
     AuthorizationHook,
-    Object.assign(
-      new AuthorizationOptions(),
-      { permissionList: [Role.Permission.Anouncement_Write] },
-    ),
+    { permissionList: [Role.Permission.Anouncement_Write] },
   )
   @Delete("")
   async delete(@QueryParam("id") id: string) {

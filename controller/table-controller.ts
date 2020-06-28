@@ -24,10 +24,7 @@ export class TableController {
 
   @UseHook(
     AuthorizationHook,
-    Object.assign(
-      new AuthorizationOptions(),
-      { permissionList: [Role.Permission.Table_Read] },
-    ),
+    { permissionList: [Role.Permission.Table_Read] },
   )
   @Get("")
   async get(
@@ -46,10 +43,7 @@ export class TableController {
 
   @UseHook(
     AuthorizationHook,
-    Object.assign(
-      new AuthorizationOptions(),
-      { permissionList: [Role.Permission.Table_Write] },
-    ),
+    { permissionList: [Role.Permission.Table_Write] },
   )
   @Post("/add")
   async add(
@@ -61,10 +55,7 @@ export class TableController {
 
   @UseHook(
     AuthorizationHook,
-    Object.assign(
-      new AuthorizationOptions(),
-      { permissionList: [Role.Permission.Table_Write] },
-    ),
+    { permissionList: [Role.Permission.Table_Write] },
   )
   @Put("/open")
   async open(
@@ -76,10 +67,7 @@ export class TableController {
 
   @UseHook(
     AuthorizationHook,
-    Object.assign(
-      new AuthorizationOptions(),
-      { permissionList: [Role.Permission.Table_Write] },
-    ),
+    { permissionList: [Role.Permission.Table_Write] },
   )
   @Put("/reserve")
   async reserve(
@@ -91,10 +79,7 @@ export class TableController {
 
   @UseHook(
     AuthorizationHook,
-    Object.assign(
-      new AuthorizationOptions(),
-      { permissionList: [Role.Permission.Table_Write] },
-    ),
+    { permissionList: [Role.Permission.Table_Write] },
   )
   @Put("/transfer")
   async transfer(
@@ -106,18 +91,15 @@ export class TableController {
 
   @UseHook(
     AuthorizationHook,
-    Object.assign(
-      new AuthorizationOptions(),
-      {
-        permissionList: [Role.Permission.Table_Write],
-        queryParameterPermissionList: [
-          {
-            parameterName: "name",
-            permissionList: [Role.Permission.Table_Write_Advanced],
-          },
-        ],
-      },
-    ),
+    {
+      permissionList: [Role.Permission.Table_Write],
+      queryParameterPermissionList: [
+        {
+          parameterName: "name",
+          permissionList: [Role.Permission.Table_Write_Advanced],
+        },
+      ],
+    },
   )
   @Put("/modify")
   async modify(
@@ -141,10 +123,7 @@ export class TableController {
 
   @UseHook(
     AuthorizationHook,
-    Object.assign(
-      new AuthorizationOptions(),
-      { permissionList: [Role.Permission.Table_Write_Advanced] },
-    ),
+    { permissionList: [Role.Permission.Table_Write_Advanced] },
   )
   @Put("/toggle-availability")
   async toggleAvailability(@QueryParam("id") id: string) {
@@ -153,10 +132,7 @@ export class TableController {
 
   @UseHook(
     AuthorizationHook,
-    Object.assign(
-      new AuthorizationOptions(),
-      { permissionList: [Role.Permission.Table_Write] },
-    ),
+    { permissionList: [Role.Permission.Table_Write] },
   )
   @Put("/modify-occupied")
   async modifyOccupied(
@@ -176,10 +152,7 @@ export class TableController {
 
   @UseHook(
     AuthorizationHook,
-    Object.assign(
-      new AuthorizationOptions(),
-      { permissionList: [Role.Permission.Table_Write] },
-    ),
+    { permissionList: [Role.Permission.Table_Write] },
   )
   @Put("/close")
   async close(@QueryParam("id") id: string) {
@@ -188,10 +161,7 @@ export class TableController {
 
   @UseHook(
     AuthorizationHook,
-    Object.assign(
-      new AuthorizationOptions(),
-      { permissionList: [Role.Permission.Table_Write] },
-    ),
+    { permissionList: [Role.Permission.Table_Write] },
   )
   @Put("/free")
   async free(@QueryParam("id") id: string) {
@@ -200,10 +170,7 @@ export class TableController {
 
   @UseHook(
     AuthorizationHook,
-    Object.assign(
-      new AuthorizationOptions(),
-      { permissionList: [Role.Permission.Table_Write] },
-    ),
+    { permissionList: [Role.Permission.Table_Write] },
   )
   @Put("/disable")
   async disable(@QueryParam("id") id: string) {
@@ -212,10 +179,7 @@ export class TableController {
 
   @UseHook(
     AuthorizationHook,
-    Object.assign(
-      new AuthorizationOptions(),
-      { permissionList: [Role.Permission.Table_Write_Advanced] },
-    ),
+    { permissionList: [Role.Permission.Table_Write_Advanced] },
   )
   @Delete("")
   async delete(@QueryParam("id") id: string) {

@@ -29,10 +29,7 @@ export class UserController {
   @UseHook(LogHook)
   @UseHook(
     AuthorizationHook,
-    Object.assign(
-      new AuthorizationOptions(),
-      { permissionList: [Role.Permission.User_Read] },
-    ),
+    { permissionList: [Role.Permission.User_Read] },
   )
   @Get("")
   async get(@QueryParam("id") id: string) {
@@ -75,10 +72,7 @@ export class UserController {
   @UseHook(LogHook)
   @UseHook(
     AuthorizationHook,
-    Object.assign(
-      new AuthorizationOptions(),
-      { permissionList: [Role.Permission.User_Write] },
-    ),
+    { permissionList: [Role.Permission.User_Write] },
   )
   @Post("/add")
   async add(
@@ -90,10 +84,7 @@ export class UserController {
 
   @UseHook(
     AuthorizationHook,
-    Object.assign(
-      new AuthorizationOptions(),
-      { permissionList: [Role.Permission.Role_Read] },
-    ),
+    { permissionList: [Role.Permission.Role_Read] },
   )
   @UseHook(LogHook)
   @Get("/role")

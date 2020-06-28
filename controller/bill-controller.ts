@@ -57,10 +57,7 @@ export class BillController {
 
   @UseHook(
     AuthorizationHook,
-    Object.assign(
-      new AuthorizationOptions(),
-      { permissionList: [Role.Permission.Bill_Write] },
-    ),
+    { permissionList: [Role.Permission.Bill_Write] },
   )
   @Post("/add")
   async addBill(@QueryParam("tableId") tableId: string) {
@@ -74,10 +71,7 @@ export class BillController {
 
   @UseHook(
     AuthorizationHook,
-    Object.assign(
-      new AuthorizationOptions(),
-      { permissionList: [Role.Permission.Bill_Write] },
-    ),
+    { permissionList: [Role.Permission.Bill_Write] },
   )
   @Put("/modify")
   async modifyBill(
@@ -93,10 +87,7 @@ export class BillController {
 
   @UseHook(
     AuthorizationHook,
-    Object.assign(
-      new AuthorizationOptions(),
-      { permissionList: [Role.Permission.Bill_Write] },
-    ),
+    { permissionList: [Role.Permission.Bill_Write] },
   )
   @Put("/discount")
   async addDiscountToBill(
@@ -118,10 +109,7 @@ export class BillController {
 
   @UseHook(
     AuthorizationHook,
-    Object.assign(
-      new AuthorizationOptions(),
-      { permissionList: [Role.Permission.Bill_Write] },
-    ),
+    { permissionList: [Role.Permission.Bill_Write] },
   )
   @Put("/close")
   async closeBill(@QueryParam("id") id: string) {
@@ -130,10 +118,7 @@ export class BillController {
 
   @UseHook(
     AuthorizationHook,
-    Object.assign(
-      new AuthorizationOptions(),
-      { permissionList: [Role.Permission.BillItem_Read] },
-    ),
+    { permissionList: [Role.Permission.BillItem_Read] },
   )
   @Get("/item")
   async getItem(
@@ -165,10 +150,7 @@ export class BillController {
 
   @UseHook(
     AuthorizationHook,
-    Object.assign(
-      new AuthorizationOptions(),
-      { permissionList: [Role.Permission.BillItem_Write] },
-    ),
+    { permissionList: [Role.Permission.BillItem_Write] },
   )
   @Post("/item/add")
   async addItem(
@@ -190,10 +172,7 @@ export class BillController {
 
   @UseHook(
     AuthorizationHook,
-    Object.assign(
-      new AuthorizationOptions(),
-      { permissionList: [Role.Permission.BillItem_Write] },
-    ),
+    { permissionList: [Role.Permission.BillItem_Write] },
   )
   @Put("/item/modify")
   async modifyItem(
@@ -207,10 +186,7 @@ export class BillController {
 
   @UseHook(
     AuthorizationHook,
-    Object.assign(
-      new AuthorizationOptions(),
-      { permissionList: [Role.Permission.BillItem_Write] },
-    ),
+    { permissionList: [Role.Permission.BillItem_Write] },
   )
   @Put("/item/discount")
   async addDiscountToBillItem(
@@ -233,10 +209,7 @@ export class BillController {
 
   @UseHook(
     AuthorizationHook,
-    Object.assign(
-      new AuthorizationOptions(),
-      { permissionList: [Role.Permission.BillItem_Write] },
-    ),
+    { permissionList: [Role.Permission.BillItem_Write] },
   )
   @Put("/item/group")
   async groupItem(
@@ -251,10 +224,7 @@ export class BillController {
 
   @UseHook(
     AuthorizationHook,
-    Object.assign(
-      new AuthorizationOptions(),
-      { permissionList: [Role.Permission.BillItem_Write] },
-    ),
+    { permissionList: [Role.Permission.BillItem_Write] },
   )
   @Delete("/item")
   async deleteItem(@Body() selectedItemIdList: string[]) {
@@ -267,10 +237,7 @@ export class BillController {
 
   @UseHook(
     AuthorizationHook,
-    Object.assign(
-      new AuthorizationOptions(),
-      { permissionList: [Role.Permission.BillItem_Write] },
-    ),
+    { permissionList: [Role.Permission.BillItem_Write] },
   )
   @Put("/item/split")
   async splitItem(
@@ -285,10 +252,7 @@ export class BillController {
 
   @UseHook(
     AuthorizationHook,
-    Object.assign(
-      new AuthorizationOptions(),
-      { permissionList: [Role.Permission.BillItem_Write] },
-    ),
+    { permissionList: [Role.Permission.BillItem_Write] },
   )
   @Put("/item/combine")
   async combineItem(@Body() billItemIdList: string[]) {
@@ -300,10 +264,7 @@ export class BillController {
 
   @UseHook(
     AuthorizationHook,
-    Object.assign(
-      new AuthorizationOptions(),
-      { permissionList: [Role.Permission.Discount_Read] },
-    ),
+    { permissionList: [Role.Permission.Discount_Read] },
   )
   @Post("/discount")
   async getDiscount(@Body() discountIdList?: string[]) {
@@ -312,10 +273,7 @@ export class BillController {
 
   @UseHook(
     AuthorizationHook,
-    Object.assign(
-      new AuthorizationOptions(),
-      { permissionList: [Role.Permission.Discount_Write] },
-    ),
+    { permissionList: [Role.Permission.Discount_Write] },
   )
   @Post("/discount/add")
   async createDiscount(
@@ -329,10 +287,7 @@ export class BillController {
 
   @UseHook(
     AuthorizationHook,
-    Object.assign(
-      new AuthorizationOptions(),
-      { permissionList: [Role.Permission.Discount_Write] },
-    ),
+    { permissionList: [Role.Permission.Discount_Write] },
   )
   @Put("/discount/modify")
   async modifyDiscount(
@@ -348,10 +303,7 @@ export class BillController {
 
   @UseHook(
     AuthorizationHook,
-    Object.assign(
-      new AuthorizationOptions(),
-      { permissionList: [Role.Permission.Discount_Write] },
-    ),
+    { permissionList: [Role.Permission.Discount_Write] },
   )
   @Put("/discount/toggle-availability")
   async toggleAvailability(

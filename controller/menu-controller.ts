@@ -23,10 +23,7 @@ export class MenuController {
 
   @UseHook(
     AuthorizationHook,
-    Object.assign(
-      new AuthorizationOptions(),
-      { permissionList: [Role.Permission.Menu_Read] },
-    ),
+    { permissionList: [Role.Permission.Menu_Read] },
   )
   @Get("/category")
   async getCategory(@QueryParam("id") id: string) {
@@ -35,10 +32,7 @@ export class MenuController {
 
   @UseHook(
     AuthorizationHook,
-    Object.assign(
-      new AuthorizationOptions(),
-      { permissionList: [Role.Permission.Menu_Write] },
-    ),
+    { permissionList: [Role.Permission.Menu_Write] },
   )
   @Post("/category/add")
   async addCategory(@QueryParam("name") name: string) {
@@ -47,10 +41,7 @@ export class MenuController {
 
   @UseHook(
     AuthorizationHook,
-    Object.assign(
-      new AuthorizationOptions(),
-      { permissionList: [Role.Permission.Menu_Write] },
-    ),
+    { permissionList: [Role.Permission.Menu_Write] },
   )
   @Put("/category/modify")
   async modifyCategory(
@@ -66,10 +57,7 @@ export class MenuController {
 
   @UseHook(
     AuthorizationHook,
-    Object.assign(
-      new AuthorizationOptions(),
-      { permissionList: [Role.Permission.Menu_Read] },
-    ),
+    { permissionList: [Role.Permission.Menu_Read] },
   )
   @Get("/item")
   async getItem(@QueryParam("id") id: string) {
@@ -78,10 +66,7 @@ export class MenuController {
 
   @UseHook(
     AuthorizationHook,
-    Object.assign(
-      new AuthorizationOptions(),
-      { permissionList: [Role.Permission.Menu_Write] },
-    ),
+    { permissionList: [Role.Permission.Menu_Write] },
   )
   @Post("/item/add")
   async addItem(
@@ -110,10 +95,7 @@ export class MenuController {
 
   @UseHook(
     AuthorizationHook,
-    Object.assign(
-      new AuthorizationOptions(),
-      { permissionList: [Role.Permission.Menu_Write] },
-    ),
+    { permissionList: [Role.Permission.Menu_Write] },
   )
   @Put("/item/modify")
   async modifyItem(

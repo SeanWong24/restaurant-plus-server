@@ -11,14 +11,14 @@ import { RoleRepository } from "../repository/role-repository.ts";
 import { User } from "../domain-model/user.ts";
 import { Role } from "../domain-model/role.ts";
 
-declare type QueryParameterPermissionDefinition = {
+export interface QueryParameterPermissionDefinition {
   parameterName?: string;
   permissionList?: string[];
-};
+}
 
-export class AuthorizationOptions {
-  permissionList: string[] = [];
-  queryParameterPermissionList: QueryParameterPermissionDefinition[] = [];
+export interface AuthorizationOptions {
+  permissionList?: string[];
+  queryParameterPermissionList?: QueryParameterPermissionDefinition[];
 }
 
 export class AuthorizationHook
@@ -36,7 +36,7 @@ export class AuthorizationHook
 
   async onPreAction(
     context: Context<unknown>,
-    options: AuthorizationOptions = new AuthorizationOptions(),
+    options: AuthorizationOptions = {},
   ) {
     const serverRequest = context.request.serverRequest;
     const cookies = getCookies(serverRequest);
@@ -59,8 +59,8 @@ export class AuthorizationHook
       options.permissionList.every((permission) =>
         role.permissionList.includes(permission)
       );
-    const areParametersAuthorized = options.queryParameterPermissionList
-      .every((definition) =>
+    const areParametersAuthorized = !options.queryParameterPermissionList ||
+      options.queryParameterPermissionList.every((definition) =>
         !new URLSearchParams(context.request.url).get(
           definition.parameterName || "",
         ) ||
