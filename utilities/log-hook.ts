@@ -41,7 +41,8 @@ export class LogHook implements HookTarget<unknown, LogOptions> {
   private async log(context: Context<unknown>, options: LogOptions) {
     const serverRequest = context.request.serverRequest;
     const error = context.response.error;
-    const cookies = getCookies(serverRequest);
+    const cookies = getCookies(serverRequest) ||
+      context.response.headers.get("set-cookie")?.match(/token=([^;]*)/)?.[0];
     const log = Object.assign(new Log(), {
       user: cookies.token,
       url: serverRequest.url,

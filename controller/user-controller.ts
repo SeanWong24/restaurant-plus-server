@@ -22,11 +22,11 @@ import {
 } from "../utilities/authorization-hook.ts";
 
 @Singleton()
+@UseHook(LogHook)
 @Controller("/user")
 export class UserController {
   constructor(private userLogic: UserLogic) {}
 
-  @UseHook(LogHook)
   @UseHook(
     AuthorizationHook,
     { permissionList: [Role.Permission.User_Read] },
@@ -36,13 +36,11 @@ export class UserController {
     return await this.userLogic.get(id);
   }
 
-  @UseHook(LogHook)
   @Get("/self")
   async getSelf(@Cookie("token") token: string) {
     return await this.userLogic.getSelf(token);
   }
 
-  @UseHook(LogHook, { logBody: true })
   @Post("/login")
   async login(
     @Body() loginInfo: { type: string; message: string },
@@ -61,7 +59,6 @@ export class UserController {
     return "";
   }
 
-  @UseHook(LogHook)
   @Post("/logout")
   async logout(@Cookie("token") token: string, @Res() response: Response) {
     // deleteCookie(response, "token");
@@ -72,7 +69,6 @@ export class UserController {
     return "";
   }
 
-  @UseHook(LogHook)
   @UseHook(
     AuthorizationHook,
     { permissionList: [Role.Permission.User_Write] },
@@ -89,19 +85,16 @@ export class UserController {
     AuthorizationHook,
     { permissionList: [Role.Permission.Role_Read] },
   )
-  @UseHook(LogHook)
   @Get("/role")
   async getRole(@QueryParam("id") id: string) {
     return await this.userLogic.getRole(id);
   }
 
-  @UseHook(LogHook)
   @Get("/role/self")
   async getRoleSelf(@Cookie("token") token: string) {
     return await this.userLogic.getRoleSelf(token);
   }
 
-  @UseHook(LogHook)
   @Post("/role/add")
   async addRole(
     @QueryParam("name") name: string,
@@ -111,7 +104,6 @@ export class UserController {
     return "";
   }
 
-  @UseHook(LogHook)
   @Put("/role/modify")
   async modifyRole(
     @QueryParam("id") id: string,
