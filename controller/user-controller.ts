@@ -53,7 +53,10 @@ export class UserController {
       loginInfo?.message,
     );
     if (token) {
-      setCookie(response, { name: "token", value: token, path: "/" });
+      setCookie(
+        response,
+        { name: "token", value: token, path: "/", httpOnly: true },
+      );
     }
     return "";
   }
