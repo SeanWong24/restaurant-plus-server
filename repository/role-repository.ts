@@ -69,6 +69,7 @@ export class RoleRepository extends Repository<Role> {
       "Customer",
       [
         Role.Permission.Anouncement_Read,
+        Role.Permission.Menu_Read,
       ],
       true,
     ),
@@ -76,6 +77,7 @@ export class RoleRepository extends Repository<Role> {
       "Guest",
       [
         Role.Permission.Anouncement_Read,
+        Role.Permission.Menu_Read,
       ],
       true,
     ),
