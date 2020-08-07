@@ -80,6 +80,7 @@ export class RoleRepository extends Repository<Role> {
       "Guest",
       [
         Role.Permission.Anouncement_Read,
+        Role.Permission.Menu_Read,
       ],
       true,
     ),
