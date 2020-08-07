@@ -69,6 +69,10 @@ export class RoleRepository extends Repository<Role> {
       "Customer",
       [
         Role.Permission.Anouncement_Read,
+        Role.Permission.Table_Read,
+        Role.Permission.Menu_Read,
+        Role.Permission.Bill_Read,
+        Role.Permission.BillItem_Read,
       ],
       true,
     ),
