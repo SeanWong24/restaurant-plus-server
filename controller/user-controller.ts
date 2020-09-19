@@ -55,6 +55,7 @@ export class UserController {
         response,
         { name: "token", value: token, path: "/", httpOnly: true },
       );
+      return token;
     }
     return "";
   }
