@@ -43,7 +43,7 @@ export class UserController {
 
   @Post("/login")
   async login(
-    @Body() loginInfo: { type: string; message: string },
+    @Body() loginInfo: { type: string; message: string},
     @Res() response: Response,
   ) {
     const token = await this.userLogic.login(
@@ -76,9 +76,22 @@ export class UserController {
   @Post("/add")
   async add(
     @QueryParam("name") name: string,
-    @QueryParam("roleName") roleName: string,
+    @QueryParam("roleName") roleName: string
   ) {
     return await this.userLogic.add(name, roleName);
+  }
+
+  @UseHook(
+    AuthorizationHook,
+    { permissionList: [] },
+  )
+  @Post("/addThirdPartyUser")
+  async addThirdPartyUser(
+    @QueryParam("name") name: string,
+    @QueryParam("provider") provider: string,
+    @QueryParam("id") id: string
+  ) {
+    return await this.userLogic.add(name, "Customer", { provider, id });
   }
 
   @UseHook(

@@ -42,6 +42,52 @@ export class UserLogic {
             );
             return user.token;
           }
+          break;
+        case "Microsoft":
+          const user1 =
+            (await this.userRepository.find({ microsoftId: loginMessage }))[
+              0
+            ] as User;
+          if (user1) {
+            // TODO use a generated token instead
+            user1.token = user1.id as string;
+            this.userRepository.update(
+              user1.id as string,
+              { token: user1.token },
+            );
+            return user1.token;
+          }
+          break;
+          case "Google":
+          const user2 =
+            (await this.userRepository.find({ googleId: loginMessage }))[
+              0
+            ] as User;
+          if (user2) {
+            // TODO use a generated token instead
+            user2.token = user2.id as string;
+            this.userRepository.update(
+              user2.id as string,
+              { token: user2.token },
+            );
+            return user2.token;
+          }
+          break;
+          case "Facebook":
+          const user3 =
+            (await this.userRepository.find({ facebookId: loginMessage }))[
+              0
+            ] as User;
+          if (user3) {
+            // TODO use a generated token instead
+            user3.token = user3.id as string;
+            this.userRepository.update(
+              user3.id as string,
+              { token: user3.token },
+            );
+            return user3.token;
+          }
+          break;
       }
     }
     return "";
@@ -60,15 +106,30 @@ export class UserLogic {
     return "";
   }
 
-  async add(name: string, roleName: string) {
+  async add(name: string, roleName: string, thirdPartyInfo?: {provider: string, id: string}) {
     const newUserRole =
       (await this.roleRepository.find({ name: roleName }))[0] as Role;
-    if (newUserRole?.id) {
-      let accessCode;
-      do {
-        accessCode = Math.round(Math.random() * 1000000).toString();
-      } while ((await this.userRepository.find({ accessCode })).length > 0);
-      const user = new User(name, newUserRole.id, accessCode);
+      if (newUserRole?.id) {
+        const user = new User(name, newUserRole.id);
+      if (thirdPartyInfo) {
+        switch (thirdPartyInfo.provider) {
+          case "Facebook":
+            //TODO: implement when switch on https
+            break;
+          case "Google":
+            //TODO: implement when figure out the variable name google returns
+            break;
+          case "Microsoft":
+            user.microsoftId = thirdPartyInfo.id;
+            break;
+        }
+      } else {
+        let accessCode;
+        do {
+          accessCode = Math.round(Math.random() * 1000000).toString();
+        } while ((await this.userRepository.find({ accessCode })).length > 0);
+        user.accessCode = accessCode;
+      }
       return await this.userRepository.insert(user);
     }
     return "";
